@@ -57,15 +57,15 @@ public class MemberDaoImpl extends HibernateTools implements MemberDao {
     }
 
     @Override
-    public double sumCashIn(Integer id, Date time) {
+    public double sumCashIn(Integer id, Date startTime, Date endTime) {
         hql = "SELECT SUM(c.id.money) FROM CashInQuery c WHERE c.id.memberId = ? AND c.id.time BETWEEN ? AND ?";
-        return (double) getSession().createQuery(hql).setParameter(0, id).setParameter(1, time).list().get(0);
+        return (double) getSession().createQuery(hql).setParameter(0, id).setParameter(1, startTime).setParameter(2, endTime).list().get(0);
     }
 
     @Override
-    public double sumCashOut(Integer id, String time) {
+    public double sumCashOut(Integer id, Date startTime, Date endTime) {
         hql = "SELECT SUM(c.id.money) FROM CashOutQuery c WHERE c.id.memberId = ? AND c.id.time BETWEEN ? AND ?";
-        return (double) getSession().createQuery(hql).setParameter(0, id).setParameter(1, time).list().get(0);
+        return (double) getSession().createQuery(hql).setParameter(0, id).setParameter(1, startTime).setParameter(2, endTime).list().get(0);
     }
 
 }
