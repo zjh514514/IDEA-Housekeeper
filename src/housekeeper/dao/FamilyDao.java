@@ -41,7 +41,7 @@ public interface FamilyDao {
 	 * @param username
 	 * @return
 	 */
-	public List<Family> queryByUsername(String username);
+	public Family queryByUsername(String username);
 
 	/**
 	 * 查询某一家庭信息

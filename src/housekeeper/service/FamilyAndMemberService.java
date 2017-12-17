@@ -5,6 +5,7 @@ import java.util.List;
 
 import housekeeper.entities.Family;
 import housekeeper.entities.Member;
+import housekeeper.entities.MemberQuery;
 
 public interface FamilyAndMemberService {
 
@@ -15,7 +16,7 @@ public interface FamilyAndMemberService {
      * @param password
      * @return
      */
-    String familyLogin(String username, String password);
+    Family familyLogin(String username, String password);
 
     /**
      * 成员登陆
@@ -24,7 +25,7 @@ public interface FamilyAndMemberService {
      * @param password
      * @return
      */
-    String memberLogin(String username, String password);
+    MemberQuery memberLogin(String username, String password);
 
     /**
      * 家庭注册

@@ -174,7 +174,7 @@ public class DaoTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void testFamilyQueryByUsername() {
-        System.out.println(familyDao.queryByUsername("aa").size() == 1);
+        System.out.println(familyDao.queryByUsername("aa"));
     }
 
     @Test
@@ -228,7 +228,7 @@ public class DaoTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void testMemberQueryByUsername() {
-        System.out.println(memberDao.queryByUsername("bbb"));
+        System.out.println(memberDao.queryByUsername("bbb") == null);
     }
 
     @Test

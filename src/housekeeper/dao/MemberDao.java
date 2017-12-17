@@ -1,9 +1,10 @@
 package housekeeper.dao;
 
+import housekeeper.entities.Member;
+import housekeeper.entities.MemberQuery;
+
 import java.util.Date;
 import java.util.List;
-
-import housekeeper.entities.Member;
 
 public interface MemberDao {
 
@@ -41,7 +42,7 @@ public interface MemberDao {
      * @param username
      * @return
      */
-    public List<Member> queryByUsername(String username);
+    public MemberQuery queryByUsername(String username);
 
     /**
      * 查询某一成员

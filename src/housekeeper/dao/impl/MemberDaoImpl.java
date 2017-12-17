@@ -2,6 +2,7 @@ package housekeeper.dao.impl;
 
 import housekeeper.dao.MemberDao;
 import housekeeper.entities.Member;
+import housekeeper.entities.MemberQuery;
 import housekeeper.tools.HibernateTools;
 import org.springframework.stereotype.Repository;
 
@@ -39,9 +40,9 @@ public class MemberDaoImpl extends HibernateTools implements MemberDao {
     }
 
     @Override
-    public List<Member> queryByUsername(String username) {
-        hql = "FROM Member m WHERE m.username = ?";
-        return getSession().createQuery(hql).setParameter(0, username).list();
+    public MemberQuery queryByUsername(String username) {
+        hql = "FROM MemberQuery m WHERE m.id.username = ?";
+        return (MemberQuery) getSession().createQuery(hql).setParameter(0, username).uniqueResult();
     }
 
     @Override

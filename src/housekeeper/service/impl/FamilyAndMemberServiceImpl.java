@@ -1,18 +1,17 @@
 package housekeeper.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import housekeeper.dao.FamilyDao;
 import housekeeper.dao.MemberDao;
 import housekeeper.entities.Family;
 import housekeeper.entities.Member;
+import housekeeper.entities.MemberQuery;
 import housekeeper.service.FamilyAndMemberService;
 import housekeeper.tools.Sha256;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class FamilyAndMemberServiceImpl implements FamilyAndMemberService {
@@ -28,42 +27,41 @@ public class FamilyAndMemberServiceImpl implements FamilyAndMemberService {
     private Member member;
 
     @Override
-    public String familyLogin(String username, String password) {
+    public Family familyLogin(String username, String password) {
         try {
             if (username == null)
                 username = "";
-            List<Family> family = familyDao.queryByUsername(username);
-            Family familyGet = family.get(0);
-            if (familyGet.getPassword().equals(Sha256.getSHA256StrJava(password))) {
-                return "SUCCESS";
+            family = familyDao.queryByUsername(username);
+            System.out.println(family.getPassword());
+            if (family.getPassword().equals(Sha256.getSHA256StrJava(password))) {
+                return family;
             } else {
                 // 密码错误
-                return "ERROR";
+                return null;
             }
         } catch (Exception e) {
             e.printStackTrace();
             // 用户名不存在
-            return "ERROR";
+            return null;
         }
     }
 
     @Override
-    public String memberLogin(String username, String password) {
+    public MemberQuery memberLogin(String username, String password) {
         try {
             if (username == null)
                 username = "";
-            List<Member> member = memberDao.queryByUsername(username);
-            Member memberGet = member.get(0);
-            if (memberGet.getPassword().equals(Sha256.getSHA256StrJava(password))) {
-                return "SUCCESS";
+            MemberQuery member = memberDao.queryByUsername(username);
+            if (member.getId().getPassword().equals(Sha256.getSHA256StrJava(password))) {
+                return member;
             } else {
-                // 密码错误
-                return "ERROR";
+                //密码错误
+                return null;
             }
         } catch (Exception e) {
             e.printStackTrace();
             // 用户名不存在
-            return "ERROR";
+            return null;
         }
     }
 
@@ -77,7 +75,7 @@ public class FamilyAndMemberServiceImpl implements FamilyAndMemberService {
             if (familyName == null)
                 familyName = "";
             if (!username.equals("") && !password.equals("")
-                    && !familyName.equals("") & familyDao.queryByUsername(username).size() == 0) {
+                    && !familyName.equals("") & familyDao.queryByUsername(username) == null) {
                 family.setUsername(username);
                 family.setPassword(Sha256.getSHA256StrJava(password));
                 family.setFamilyName(familyName);
@@ -108,7 +106,7 @@ public class FamilyAndMemberServiceImpl implements FamilyAndMemberService {
             if (familyId <= 0)
                 familyId = -1;
             if (!username.equals("") && !password.equals("") && !name.equals("") && !role.equals("") && familyId != -1
-                    && memberDao.queryByUsername(username).size() == 0) {
+                    && memberDao.queryByUsername(username) == null) {
                 family.setFamilyId(familyId);
                 member.setUsername(username);
                 member.setPassword(Sha256.getSHA256StrJava(password));

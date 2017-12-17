@@ -25,7 +25,7 @@ import net.sf.json.JSONObject;
 public class CashInAndCashOutAction extends ActionSupport {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7498673228509628884L;
 
@@ -136,7 +136,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 
 	/**
 	 * 增加一条收支记录
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void save() throws Exception {
@@ -149,7 +149,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 		Map<String, String> results = new HashMap<>();
 		String json = getStrResponse.getStrResponse();
 		JSONObject jsonRequest;
-		if (json != "") {
+		if (!json.equals("")) {
 			jsonRequest = JSONObject.fromObject(json);
 			which = jsonRequest.getString("which");
 			time = jsonRequest.getString("time");
@@ -163,13 +163,13 @@ public class CashInAndCashOutAction extends ActionSupport {
 			accountId = jsonRequest.getInt("accountId");
 			System.out.println(time);
 		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Long date = new Long(time);
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		Long date = new Long(time);
 		if (which.equals("i")) {
-			result = cashInAndCashOutService.addCashIn(format.format(date * 1000L), site, people, money, remark,
+			result = cashInAndCashOutService.addCashIn(time, site, people, money, remark,
 					memberId, itemId, subItemId, accountId);
 		} else {
-			result = cashInAndCashOutService.addCashOut(format.format(date * 1000L), site, people, money, remark,
+			result = cashInAndCashOutService.addCashOut(time, site, people, money, remark,
 					memberId, itemId, subItemId, accountId);
 		}
 		results.put("result", result);
@@ -180,7 +180,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 
 	/**
 	 * 删除一条收支记录
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void delete() throws Exception {
@@ -193,7 +193,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 		Map<String, String> results = new HashMap<>();
 		String json = getStrResponse.getStrResponse();
 		JSONObject jsonRequest;
-		if (json != "") {
+		if (!json.equals("")) {
 			jsonRequest = JSONObject.fromObject(json);
 			which = jsonRequest.getString("which");
 			id = jsonRequest.getInt("id");
@@ -211,7 +211,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 
 	/**
 	 * 查询某一成员收支记录
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void memberQuery() throws Exception {
@@ -242,7 +242,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 
 	/**
 	 * 查询某一条收支记录
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void idQuery() throws Exception {
@@ -272,7 +272,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 
 	/**
 	 * 查询某一成员某一父类收支记录
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void itemQuery() throws Exception {
@@ -303,7 +303,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 
 	/**
 	 * 查询某一成员某一子类收支记录
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void subItemQuery() throws Exception {
@@ -334,7 +334,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 
 	/**
 	 * 修改一条收入记录
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void update() throws Exception {
@@ -377,7 +377,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 
 	/**
 	 * 查询某一成员下某一账户收支记录
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void accountQuery() throws Exception {

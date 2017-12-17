@@ -38,9 +38,9 @@ public class FamilyDaoImpl extends HibernateTools implements FamilyDao {
 	}
 
 	@Override
-	public List<Family> queryByUsername(String username) {
+	public Family queryByUsername(String username) {
 		hql = "FROM Family f WHERE f.username = ?";
-		return getSession().createQuery(hql).setParameter(0, username).list();
+		return (Family) getSession().createQuery(hql).setParameter(0, username).uniqueResult();
 	}
 
 	@Override

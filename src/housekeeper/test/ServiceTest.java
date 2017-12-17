@@ -67,7 +67,7 @@ public class ServiceTest {
 
 	@Test
 	public void testFamilyLogin() {
-		System.out.println(familyAndMemberService.familyLogin("abc", "abc123456"));
+		System.out.println(familyAndMemberService.familyLogin("abc123", "123456"));
 	}
 
 	@Test
