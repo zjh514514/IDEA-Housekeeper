@@ -60,7 +60,7 @@ public interface MemberDao {
     public List<Member> queryByFamily(Integer familyId);
 
     /**
-     * 计算某成员总收入
+     * 计算某成员某时间段总收入
      *
      * @param id
      * @return
@@ -68,7 +68,7 @@ public interface MemberDao {
     public double sumCashIn(Integer id, Date startTime, Date endTime);
 
     /**
-     * 计算某成员总支出
+     * 计算某成员某时间段总支出
      *
      * @param id
      * @return

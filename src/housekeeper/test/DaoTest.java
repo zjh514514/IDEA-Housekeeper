@@ -255,10 +255,12 @@ public class DaoTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void testMemberSumCashOut() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String str = "2017-01-01 10:00:00";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String str = "2017-12-01 00:00";
         Date date = sdf.parse(str);
-        System.out.println(memberDao.sumCashOut(3, "2017-10-10 10:00:00"));
+        str = "2017-12-31 00:00";
+        Date date2 = sdf.parse(str);
+        System.out.println(memberDao.sumCashOut(3, date, date2));
     }
 
     /**
