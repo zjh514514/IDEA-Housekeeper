@@ -250,17 +250,4 @@ public class FamilyAndMemberServiceImpl implements FamilyAndMemberService {
         }
     }
 
-    @Override
-    public double memberSumCash(Integer id, Date startTime, Date endTime, String which) {
-        if (id != null && startTime != null && endTime != null && which != null) {
-            if (which.equals("i")) {
-                return memberDao.sumCashIn(id, startTime, endTime);
-            } else {
-                return memberDao.sumCashOut(id, startTime, endTime);
-            }
-        } else {
-            return -1;
-        }
-    }
-
 }

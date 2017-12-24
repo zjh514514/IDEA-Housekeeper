@@ -316,17 +316,4 @@ public class LoginAction extends ActionSupport {
         writer.flush();
         writer.close();
     }
-
-    public void memberSumCash() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
-        String json = getStrResponse.getStrResponse();
-        if (json != "") {
-            JSONObject jsonObject = JSONObject.fromObject(json);
-
-        }
-    }
 }

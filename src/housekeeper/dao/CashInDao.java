@@ -69,7 +69,7 @@ public interface CashInDao {
      * @param memberId
      * @return
      */
-    public List<CashIn> queryByAccount(Integer accountId, Integer memberId);
+    public List queryByAccount(Integer accountId, Integer memberId);
 
     /**
      * 查询某一成员某一时间段收入记录
@@ -79,5 +79,15 @@ public interface CashInDao {
      * @param endTime
      * @return
      */
-    public List<CashIn> queryByTime(Integer memberId, Date startTime, Date endTime);
+    public List queryByTime(Integer memberId, Date startTime, Date endTime);
+
+    /**
+     * 计算某成员某时间段总收入
+     *
+     * @param memberId
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public double sumCashIn(Integer memberId, Date startTime, Date endTime);
 }

@@ -228,4 +228,22 @@ public class CashOutQueryId implements java.io.Serializable {
 		return result;
 	}
 
+	@Override
+	public String toString() {
+		return "CashOutQueryId{" +
+				"cashoutId=" + cashoutId +
+				", time=" + time +
+				", site='" + site + '\'' +
+				", people='" + people + '\'' +
+				", money=" + money +
+				", remark='" + remark + '\'' +
+				", memberId=" + memberId +
+				", itemId=" + itemId +
+				", subitemId=" + subitemId +
+				", accountId=" + accountId +
+				", itemName='" + itemName + '\'' +
+				", subitemName='" + subitemName + '\'' +
+				", accountName='" + accountName + '\'' +
+				'}';
+	}
 }

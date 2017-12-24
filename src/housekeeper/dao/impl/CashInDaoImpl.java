@@ -60,15 +60,21 @@ public class CashInDaoImpl extends HibernateTools implements CashInDao {
     }
 
     @Override
-    public List<CashIn> queryByAccount(Integer accountId, Integer memberId) {
+    public List queryByAccount(Integer accountId, Integer memberId) {
         hql = "FROM CashInQuery c WHERE c.id.accountId = ? AND c.id.memberId = ?";
         return getSession().createQuery(hql).setParameter(0, accountId).setParameter(1, memberId).list();
     }
 
     @Override
-    public List<CashIn> queryByTime(Integer memberId, Date startTime, Date endTime) {
+    public List queryByTime(Integer memberId, Date startTime, Date endTime) {
         hql = "FROM CashInQuery c WHERE c.id.memberId = ? AND c.id.time BETWEEN ? AND ?";
         return getSession().createQuery(hql).setParameter(0, memberId).setParameter(1, startTime).setParameter(2, endTime).list();
+    }
+
+    @Override
+    public double sumCashIn(Integer memberId, Date startTime, Date endTime) {
+        hql = "SELECT SUM(c.id.money) FROM CashInQuery c WHERE c.id.memberId = ? AND c.id.time BETWEEN ? AND ?";
+        return (double) getSession().createQuery(hql).setParameter(0, memberId).setParameter(1, startTime).setParameter(2, endTime).list().get(0);
     }
 
 }

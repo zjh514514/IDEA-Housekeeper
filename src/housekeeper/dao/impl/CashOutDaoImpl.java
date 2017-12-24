@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import housekeeper.dao.CashOutDao;
-import housekeeper.entities.CashIn;
 import housekeeper.entities.CashOut;
 import housekeeper.tools.HibernateTools;
 
@@ -67,9 +66,14 @@ public class CashOutDaoImpl extends HibernateTools implements CashOutDao {
     }
 
     @Override
-    public List<CashOut> queryByTime(Integer memberId, Date startTime, Date endTime) {
+    public List queryByTime(Integer memberId, Date startTime, Date endTime) {
         hql = "FROM CashOutQuery c WHERE c.id.memberId = ? AND c.id.time BETWEEN ? AND ?";
         return getSession().createQuery(hql).setParameter(0, memberId).setParameter(1, startTime).setParameter(2, endTime).list();
     }
 
+    @Override
+    public Double sumCashOut(Integer memberId, Date startTime, Date endTime) {
+        hql = "SELECT SUM(c.id.money) FROM CashOutQuery c WHERE c.id.memberId = ? AND c.id.time BETWEEN ? AND ?";
+        return (double) getSession().createQuery(hql).setParameter(0, memberId).setParameter(1, startTime).setParameter(2, endTime).list().get(0);
+    }
 }

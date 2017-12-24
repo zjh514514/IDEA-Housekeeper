@@ -3,7 +3,6 @@ package housekeeper.dao;
 import java.util.Date;
 import java.util.List;
 
-import housekeeper.entities.CashIn;
 import housekeeper.entities.CashOut;
 
 public interface CashOutDao {
@@ -80,5 +79,13 @@ public interface CashOutDao {
      * @param endTime
      * @return
      */
-    public List<CashOut> queryByTime(Integer memberId, Date startTime, Date endTime);
+    public List queryByTime(Integer memberId, Date startTime, Date endTime);
+
+    /**
+     * 计算某成员某时间段总支出
+     *
+     * @param id
+     * @return
+     */
+    public Double sumCashOut(Integer memberId, Date startTime, Date endTime);
 }

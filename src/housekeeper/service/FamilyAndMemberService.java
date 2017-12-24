@@ -111,13 +111,4 @@ public interface FamilyAndMemberService {
      */
     List<Member> memberGet(Integer id);
 
-    /**
-     * 查询某一成员某一时间段收支总和
-     *
-     * @param id
-     * @param startTime
-     * @param endTime
-     * @return
-     */
-    double memberSumCash(Integer id, Date startTime, Date endTime, String which);
 }

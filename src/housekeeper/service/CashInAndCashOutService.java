@@ -2,6 +2,7 @@ package housekeeper.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import housekeeper.entities.CashIn;
 import housekeeper.entities.CashOut;
@@ -186,5 +187,24 @@ public interface CashInAndCashOutService {
      * @param endTime
      * @return
      */
-    public List<?> queryByTime(Integer memberId, Date startTime, Date endTime,String which);
+    public List queryByTime(Integer memberId, Date startTime, Date endTime, String which);
+
+    /**
+     * 查询某一成员某一时间段收支总和
+     *
+     * @param id
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    double memberSumCash(Integer memberId, Date startTime, Date endTime, String which);
+
+    /**
+     * 获取某一年每月总收支记录
+     *
+     * @param memberId
+     * @param year
+     * @return
+     */
+    Map<Object, Object> yearSum(Integer memberId, String year, String which);
 }

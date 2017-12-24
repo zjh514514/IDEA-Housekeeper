@@ -1,8 +1,11 @@
 package housekeeper.service.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -412,23 +415,82 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<?> queryByTime(Integer memberId, Date startTime, Date endTime, String which) {
+    public List queryByTime(Integer memberId, Date startTime, Date endTime, String which) {
         if (memberId != null && startTime != null && endTime != null && which != null) {
             if (which.equals("i")) {
-                List<CashIn> cashIns = cashInDao.queryByTime(memberId, startTime, endTime);
+                List cashIns = cashInDao.queryByTime(memberId, startTime, endTime);
                 if (cashIns.size() != 0) {
                     return cashIns;
                 } else {
                     return null;
                 }
             } else {
-                List<CashOut> cashOuts = cashOutDao.queryByTime(memberId, startTime, endTime);
+                List cashOuts = cashOutDao.queryByTime(memberId, startTime, endTime);
                 if (cashOuts.size() != 0) {
                     return cashOuts;
                 } else {
                     return null;
                 }
             }
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public double memberSumCash(Integer memberId, Date startTime, Date endTime, String which) {
+        if (memberId != null && startTime != null && endTime != null && which != null) {
+            switch (which) {
+                case "i":
+                    if (cashInDao.queryByTime(memberId, startTime, endTime).size() != 0) {
+                        return cashInDao.sumCashIn(memberId, startTime, endTime);
+                    } else {
+                        return 0;
+                    }
+                default:
+                    if (cashOutDao.queryByTime(memberId, startTime, endTime).size() != 0) {
+                        return cashOutDao.sumCashOut(memberId, startTime, endTime);
+                    } else {
+                        return 0;
+                    }
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public Map<Object, Object> yearSum(Integer memberId, String year, String which) {
+        Map<Object, Object> map = new HashMap<>();
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        if (memberId != null && year != null) {
+            for (Integer month = 1; month < 13; month++) {
+                String startTime = year + "-" + month + "-01 00:00";
+                String endTime = year + "-" + month + "-31 23:59";
+                System.out.println(startTime + "," + endTime);
+                try {
+                    switch (which) {
+                        case "i":
+                            if (cashInDao.queryByTime(memberId, f.parse(startTime), f.parse(endTime)).size() != 0) {
+                                map.put(month.toString(), Double.toString(cashInDao.sumCashIn(memberId, f.parse(startTime), f.parse(endTime))));
+                            } else {
+                                map.put(month.toString(), "0");
+                            }
+                            break;
+                        default:
+                            if (cashOutDao.queryByTime(memberId, f.parse(startTime), f.parse(endTime)).size() != 0) {
+                                map.put(month.toString(), Double.toString(cashOutDao.sumCashOut(memberId, f.parse(startTime), f.parse(endTime))));
+                            } else {
+                                map.put(month.toString(), "0");
+                            }
+                            break;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            return map;
         } else {
             return null;
         }

@@ -243,26 +243,6 @@ public class DaoTest extends AbstractJUnit4SpringContextTests {
         System.out.println(memberDao.queryByFamily(1));
     }
 
-    @Test
-    public void testMemberSumCashIn() throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String str = "2017-12-01 00:00";
-        Date date = sdf.parse(str);
-        str = "2017-12-31 00:00";
-        Date date2 = sdf.parse(str);
-        System.out.println(memberDao.sumCashIn(3, date, date2));
-    }
-
-    @Test
-    public void testMemberSumCashOut() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String str = "2017-12-01 00:00";
-        Date date = sdf.parse(str);
-        str = "2017-12-31 00:00";
-        Date date2 = sdf.parse(str);
-        System.out.println(memberDao.sumCashOut(3, date, date2));
-    }
-
     /**
      * 测试CardDao
      */
