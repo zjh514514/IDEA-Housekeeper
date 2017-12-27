@@ -11,7 +11,7 @@ import housekeeper.tools.HibernateTools;
 @Repository
 public class CardDaoImpl extends HibernateTools implements CardDao {
 
-	private String hql = null;
+	private String hql;
 
 	@Override
 	public void save(Card card) {
@@ -33,13 +33,13 @@ public class CardDaoImpl extends HibernateTools implements CardDao {
 	}
 
 	@Override
-	public List<Card> queryByMember(Integer memberId) {
+	public List queryByMember(Integer memberId) {
 		hql = "FROM CardQuery c WHERE c.id.memberId = ?";
 		return getSession().createQuery(hql).setParameter(0, memberId).list();
 	}
 
 	@Override
-	public List<Card> queryById(Integer id) {
+	public List queryById(Integer id) {
 		hql = "FROM Card c WHERE c.cardId = ?";
 		return getSession().createQuery(hql).setParameter(0, id).list();
 	}

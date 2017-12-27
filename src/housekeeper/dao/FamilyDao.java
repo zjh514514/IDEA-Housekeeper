@@ -11,29 +11,29 @@ public interface FamilyDao {
 	 * 
 	 * @param family
 	 */
-	public void save(Family family);
+	void save(Family family);
 
 	/**
 	 * 删除某一家庭
 	 * 
 	 * @param id
 	 */
-	public void delete(Integer id);
+	void delete(Integer id);
 
 	/**
 	 * 修改某一家庭信息
 	 * 
 	 * @param family
 	 */
-	public void update(Family family);
+	void update(Family family);
 
 	/**
 	 * 通过家庭名称查询某一家庭信息
 	 * 
-	 * @param username
+	 * @param familyName
 	 * @return
 	 */
-	public List<Family> query(String familyName);
+	List query(String familyName);
 
 	/**
 	 * 通过用户名查询家庭信息
@@ -41,7 +41,7 @@ public interface FamilyDao {
 	 * @param username
 	 * @return
 	 */
-	public Family queryByUsername(String username);
+	Family queryByUsername(String username);
 
 	/**
 	 * 查询某一家庭信息
@@ -49,6 +49,6 @@ public interface FamilyDao {
 	 * @param id
 	 * @return
 	 */
-	public List<Family> queryById(Integer id);
+	List queryById(Integer id);
 
 }

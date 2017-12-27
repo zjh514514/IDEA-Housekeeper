@@ -1,11 +1,9 @@
 package housekeeper.service;
 
-import java.util.Date;
-import java.util.List;
-
 import housekeeper.entities.Family;
-import housekeeper.entities.Member;
 import housekeeper.entities.MemberQuery;
+
+import java.util.List;
 
 public interface FamilyAndMemberService {
 
@@ -93,7 +91,7 @@ public interface FamilyAndMemberService {
      * @param id
      * @return
      */
-    List<Family> familyGet(Integer id);
+    List familyGet(Integer id);
 
     /**
      * 获取某一家庭下所有成员
@@ -101,7 +99,7 @@ public interface FamilyAndMemberService {
      * @param familyId
      * @return
      */
-    List<Member> memberFamilyGet(Integer familyId);
+    List memberFamilyGet(Integer familyId);
 
     /**
      * 获取某一成员信息
@@ -109,6 +107,6 @@ public interface FamilyAndMemberService {
      * @param id
      * @return
      */
-    List<Member> memberGet(Integer id);
+    List memberGet(Integer id);
 
 }

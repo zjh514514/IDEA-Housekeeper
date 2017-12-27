@@ -102,11 +102,11 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public List<Card> queryByMember(Integer memberId) {
+	public List queryByMember(Integer memberId) {
 		if (memberId != null) {
 			if (memberId > 0 && memberDao.queryById(memberId).size() != 0) {
 				// member.setMemberId(memberId);
-				List<Card> cards = cardDao.queryByMember(memberId);
+				List cards = cardDao.queryByMember(memberId);
 				if (cards.size() != 0) {
 					return cards;
 				} else {
@@ -121,10 +121,10 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public List<Card> queryById(Integer id) {
+	public List queryById(Integer id) {
 		if (id != null) {
 			if (id > 0) {
-				List<Card> cards = cardDao.queryById(id);
+				List cards = cardDao.queryById(id);
 				if (cards.size() != 0) {
 					return cards;
 				} else {

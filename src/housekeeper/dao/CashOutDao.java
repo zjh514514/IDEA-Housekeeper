@@ -12,21 +12,21 @@ public interface CashOutDao {
      *
      * @param cashOut
      */
-    public void save(CashOut cashOut);
+    void save(CashOut cashOut);
 
     /**
      * 删除一条支出记录
      *
      * @param id
      */
-    public void delete(Integer id);
+    void delete(Integer id);
 
     /**
      * 修改一条支出记录信息
      *
      * @param cashOut
      */
-    public void update(CashOut cashOut);
+    void update(CashOut cashOut);
 
     /**
      * 查询某一成员支出记录
@@ -34,7 +34,7 @@ public interface CashOutDao {
      * @param memberId
      * @return
      */
-    public List<CashOut> queryByMember(Integer memberId);
+    List queryByMember(Integer memberId);
 
     /**
      * 查询某一成员某一父类支出记录
@@ -43,7 +43,7 @@ public interface CashOutDao {
      * @param memberId
      * @return
      */
-    public List<CashOut> queryByItem(Integer ItemId, Integer memberId);
+    List queryByItem(Integer ItemId, Integer memberId);
 
     /**
      * 查询某一成员某一子类支出记录
@@ -52,7 +52,7 @@ public interface CashOutDao {
      * @param memberId
      * @return
      */
-    public List<CashOut> queryBySubItem(Integer subItemId, Integer memberId);
+    List queryBySubItem(Integer subItemId, Integer memberId);
 
     /**
      * 查询一条支出记录
@@ -60,7 +60,7 @@ public interface CashOutDao {
      * @param id
      * @return
      */
-    public List<CashOut> queryById(Integer id);
+    List queryById(Integer id);
 
     /**
      * 查询某一成员某账户支出记录
@@ -69,7 +69,7 @@ public interface CashOutDao {
      * @param memberId
      * @return
      */
-    public List<CashOut> queryByAccount(Integer accountId, Integer memberId);
+    List queryByAccount(Integer accountId, Integer memberId);
 
     /**
      * 查询某成员某时间段支出记录
@@ -79,13 +79,12 @@ public interface CashOutDao {
      * @param endTime
      * @return
      */
-    public List queryByTime(Integer memberId, Date startTime, Date endTime);
+    List queryByTime(Integer memberId, Date startTime, Date endTime);
 
     /**
      * 计算某成员某时间段总支出
      *
-     * @param id
      * @return
      */
-    public Double sumCashOut(Integer memberId, Date startTime, Date endTime);
+    Double sumCashOut(Integer memberId, Date startTime, Date endTime);
 }

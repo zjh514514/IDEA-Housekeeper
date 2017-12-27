@@ -11,7 +11,7 @@ import housekeeper.tools.HibernateTools;
 @Repository
 public class FamilyDaoImpl extends HibernateTools implements FamilyDao {
 
-	private String hql = null;
+	private String hql;
 
 	@Override
 	public void save(Family family) {
@@ -32,7 +32,7 @@ public class FamilyDaoImpl extends HibernateTools implements FamilyDao {
 	}
 
 	@Override
-	public List<Family> query(String familyName) {
+	public List query(String familyName) {
 		hql = "FROM Family f WHERE f.familyName = ?";
 		return getSession().createQuery(hql).setParameter(0, familyName).list();
 	}
@@ -44,7 +44,7 @@ public class FamilyDaoImpl extends HibernateTools implements FamilyDao {
 	}
 
 	@Override
-	public List<Family> queryById(Integer id) {
+	public List queryById(Integer id) {
 		hql = "FROM Family f WHERE f.familyId = ?";
 		return getSession().createQuery(hql).setParameter(0, id).list();
 	}

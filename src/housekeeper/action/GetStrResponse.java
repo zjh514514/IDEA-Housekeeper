@@ -25,21 +25,21 @@ public class GetStrResponse {
 		ActionContext ctx = ActionContext.getContext();
 		HttpServletRequest request = (HttpServletRequest) ctx.get(ServletActionContext.HTTP_REQUEST);
 		InputStream inputStream;
-		String strResponse = "";
+		StringBuilder strResponse = new StringBuilder();
 		try {
 			inputStream = request.getInputStream();
-			String strMessage = "";
+			String strMessage;
 			BufferedReader reader;
 			reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
 			while ((strMessage = reader.readLine()) != null) {
-				strResponse += strMessage;
+				strResponse.append(strMessage);
 			}
 			reader.close();
 			inputStream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return strResponse;
+		return strResponse.toString();
 	}
 
 }

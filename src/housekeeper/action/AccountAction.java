@@ -1,22 +1,18 @@
 package housekeeper.action;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONWriter;
+import com.opensymphony.xwork2.ActionSupport;
+import housekeeper.service.AccountService;
+import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.alibaba.fastjson.JSONWriter;
-import com.opensymphony.xwork2.ActionSupport;
-
-import housekeeper.entities.Account;
-import housekeeper.service.AccountService;
-import net.sf.json.JSONObject;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Scope("prototype")
@@ -63,7 +59,7 @@ public class AccountAction extends ActionSupport {
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
 		String json = getStrResponse.getStrResponse();
-		if (json != "") {
+		if (!json.equals("")) {
 			JSONObject jsonRequest = JSONObject.fromObject(json);
 			accountName = jsonRequest.getString("accountName");
 		}
@@ -87,7 +83,7 @@ public class AccountAction extends ActionSupport {
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
 		String json = getStrResponse.getStrResponse();
-		if (json != "") {
+		if (!json.equals("")) {
 			JSONObject jsonRequest = JSONObject.fromObject(json);
 			id = jsonRequest.getInt("id");
 		}
@@ -111,7 +107,7 @@ public class AccountAction extends ActionSupport {
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
 		String json = getStrResponse.getStrResponse();
-		if (json != "") {
+		if (!json.equals("")) {
 			JSONObject jsonRequest = JSONObject.fromObject(json);
 			id = jsonRequest.getInt("id");
 			accountName = jsonRequest.getString("accountName");
@@ -135,7 +131,7 @@ public class AccountAction extends ActionSupport {
 		response.setContentType("application/json;charset=utf-8");
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
-		List<Account> accounts = accountService.query();
+		List accounts = accountService.query();
 		writer.writeObject(accounts);
 		writer.flush();
 		writer.close();

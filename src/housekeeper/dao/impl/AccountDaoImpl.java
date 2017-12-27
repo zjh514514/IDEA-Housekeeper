@@ -11,7 +11,7 @@ import housekeeper.tools.HibernateTools;
 @Repository
 public class AccountDaoImpl extends HibernateTools implements AccountDao {
 
-	String hql = null;
+	private String hql;
 
 	@Override
 	public void save(Account account) {
@@ -32,13 +32,13 @@ public class AccountDaoImpl extends HibernateTools implements AccountDao {
 	}
 
 	@Override
-	public List<Account> getAll() {
+	public List getAll() {
 		hql = "FROM Account";
 		return getSession().createQuery(hql).list();
 	}
 
 	@Override
-	public List<Account> queryByName(String name) {
+	public List queryByName(String name) {
 		hql = "FROM Account a WHERE a.accountName= ? ";
 		return getSession().createQuery(hql).setParameter(0, name).list();
 	}

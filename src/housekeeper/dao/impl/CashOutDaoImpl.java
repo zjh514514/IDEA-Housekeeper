@@ -12,7 +12,7 @@ import housekeeper.tools.HibernateTools;
 @Repository
 public class CashOutDaoImpl extends HibernateTools implements CashOutDao {
 
-    private String hql = null;
+    private String hql;
 
     @Override
     public void save(CashOut cashOut) {
@@ -36,31 +36,31 @@ public class CashOutDaoImpl extends HibernateTools implements CashOutDao {
     }
 
     @Override
-    public List<CashOut> queryByMember(Integer memberId) {
+    public List queryByMember(Integer memberId) {
         hql = "FROM CashOutQuery c WHERE c.id.memberId = ?";
         return getSession().createQuery(hql).setParameter(0, memberId).list();
     }
 
     @Override
-    public List<CashOut> queryByItem(Integer itemId, Integer memberId) {
+    public List queryByItem(Integer itemId, Integer memberId) {
         hql = "FROM CashOutQuery c WHERE c.id.itemId = ? AND c.id.memberId = ? ";
         return getSession().createQuery(hql).setParameter(0, itemId).setParameter(1, memberId).list();
     }
 
     @Override
-    public List<CashOut> queryBySubItem(Integer subItemId, Integer memberId) {
+    public List queryBySubItem(Integer subItemId, Integer memberId) {
         hql = "FROM CashOutQuery c WHERE c.id.subitemId = ? AND c.id.memberId = ? ";
         return getSession().createQuery(hql).setParameter(0, subItemId).setParameter(1, memberId).list();
     }
 
     @Override
-    public List<CashOut> queryById(Integer id) {
+    public List queryById(Integer id) {
         hql = "FROM CashOutQuery c WHERE c.id.cashoutId = ?";
         return getSession().createQuery(hql).setParameter(0, id).list();
     }
 
     @Override
-    public List<CashOut> queryByAccount(Integer accountId, Integer memberId) {
+    public List queryByAccount(Integer accountId, Integer memberId) {
         hql = "FROM CashOutQuery c WHERE c.id.accountId = ? AND c.id.memberId = ?";
         return getSession().createQuery(hql).setParameter(0, accountId).setParameter(1, memberId).list();
     }

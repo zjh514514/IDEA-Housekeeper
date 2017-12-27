@@ -2,7 +2,6 @@ package housekeeper.action;
 
 import com.alibaba.fastjson.JSONWriter;
 import com.opensymphony.xwork2.ActionSupport;
-import housekeeper.entities.Card;
 import housekeeper.service.CardService;
 import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
@@ -97,7 +96,7 @@ public class CardAction extends ActionSupport {
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
 		String json = getStrResponse.getStrResponse();
-		if (json != "") {
+		if (!json.equals("")) {
 			JSONObject jsonRequest = JSONObject.fromObject(json);
 			name = jsonRequest.getString("name");
 			number = jsonRequest.getString("number");
@@ -126,7 +125,7 @@ public class CardAction extends ActionSupport {
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
 		String json = getStrResponse.getStrResponse();
-		if (json != "") {
+		if (!json.equals("")) {
 			JSONObject jsonRequest = JSONObject.fromObject(json);
 			id = jsonRequest.getInt("id");
 		}
@@ -151,7 +150,7 @@ public class CardAction extends ActionSupport {
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
 		String json = getStrResponse.getStrResponse();
-		if (json != "") {
+		if (!json.equals("")) {
 			JSONObject jsonRequest = JSONObject.fromObject(json);
 			name = jsonRequest.getString("name");
 			number = jsonRequest.getString("number");
@@ -180,11 +179,11 @@ public class CardAction extends ActionSupport {
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
 		String json = getStrResponse.getStrResponse();
-		if (json != "") {
+		if (!json.equals("")) {
 			JSONObject jsonRequest = JSONObject.fromObject(json);
 			memberId = jsonRequest.getInt("memberId");
 		}
-		List<Card> cards = cardService.queryByMember(memberId);
+		List cards = cardService.queryByMember(memberId);
 
 		writer.writeObject(cards);
 		writer.flush();
@@ -203,11 +202,11 @@ public class CardAction extends ActionSupport {
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
 		String json = getStrResponse.getStrResponse();
-		if (json != "") {
+		if (!json.equals("")) {
 			JSONObject jsonRequest = JSONObject.fromObject(json);
 			id = jsonRequest.getInt("id");
 		}
-		List<Card> cards = cardService.queryById(id);
+		List cards = cardService.queryById(id);
 
 		writer.writeObject(cards);
 		writer.flush();

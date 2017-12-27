@@ -11,29 +11,29 @@ public interface CardDao {
 	 * 
 	 * @param card
 	 */
-	public void save(Card card);
+	void save(Card card);
 
 	/**
 	 * 删除一张银行卡
 	 * 
 	 * @param id
 	 */
-	public void delete(Integer id);
+	void delete(Integer id);
 
 	/**
 	 * 修改一张银行卡的信息
 	 * 
 	 * @param card
 	 */
-	public void update(Card card);
+	void update(Card card);
 
 	/**
 	 * 查询某一成员的所有银行卡
 	 * 
-	 * @param member
+	 * @param memberId
 	 * @return
 	 */
-	public List<Card> queryByMember(Integer memberId);
+    List queryByMember(Integer memberId);
 
 	/**
 	 * 查询某一张银行卡
@@ -41,5 +41,5 @@ public interface CardDao {
 	 * @param id
 	 * @return
 	 */
-	public List<Card> queryById(Integer id);
+    List queryById(Integer id);
 }

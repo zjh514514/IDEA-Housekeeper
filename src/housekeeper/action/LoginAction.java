@@ -1,26 +1,20 @@
 package housekeeper.action;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONWriter;
+import com.opensymphony.xwork2.ActionSupport;
+import housekeeper.entities.Family;
 import housekeeper.entities.MemberQuery;
+import housekeeper.service.FamilyAndMemberService;
+import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.alibaba.fastjson.JSONWriter;
-import com.opensymphony.xwork2.ActionSupport;
-
-import housekeeper.entities.Family;
-import housekeeper.entities.Member;
-import housekeeper.service.FamilyAndMemberService;
-import net.sf.json.JSONObject;
-import housekeeper.action.GetStrResponse;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Scope("prototype")
@@ -120,9 +114,9 @@ public class LoginAction extends ActionSupport {
         response.setContentType("application/json;charset=utf-8");
         JSONWriter writer = new JSONWriter(response.getWriter());
 
-        Map results = new HashMap();
+        Map<String, Object> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             username = jsonRequest.getString("username");
@@ -157,10 +151,10 @@ public class LoginAction extends ActionSupport {
         response.setContentType("application/json;charset=utf-8");
         JSONWriter writer = new JSONWriter(response.getWriter());
 
-        String result = "";
+        String result;
         JSONObject jsonRequest;
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             if (which.equals("m")) {
@@ -202,9 +196,9 @@ public class LoginAction extends ActionSupport {
         response.setContentType("application/json;charset=utf-8");
         JSONWriter writer = new JSONWriter(response.getWriter());
 
-        String result = "";
+        String result;
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             id = jsonRequest.getInt("id");
@@ -232,10 +226,10 @@ public class LoginAction extends ActionSupport {
         response.setContentType("application/json;charset=utf-8");
         JSONWriter writer = new JSONWriter(response.getWriter());
 
-        String result = "";
+        String result;
         String json = getStrResponse.getStrResponse();
         JSONObject jsonRequest;
-        if (json != "") {
+        if (!json.equals("")) {
             jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             if (which.equals("m")) {
@@ -277,18 +271,18 @@ public class LoginAction extends ActionSupport {
         JSONWriter writer = new JSONWriter(response.getWriter());
 
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             id = jsonRequest.getInt("id");
         }
         if (which.equals("m")) {
-            List<Member> members = familyAndMemberService.memberGet(id);
+            List members = familyAndMemberService.memberGet(id);
             writer.writeObject(members);
             writer.flush();
             writer.close();
         } else {
-            List<Family> families = familyAndMemberService.familyGet(id);
+            List families = familyAndMemberService.familyGet(id);
             writer.writeObject(families);
             writer.flush();
             writer.close();
@@ -307,11 +301,11 @@ public class LoginAction extends ActionSupport {
         JSONWriter writer = new JSONWriter(response.getWriter());
 
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             id = jsonRequest.getInt("id");
         }
-        List<Member> members = familyAndMemberService.memberFamilyGet(id);
+        List members = familyAndMemberService.memberFamilyGet(id);
         writer.writeObject(members);
         writer.flush();
         writer.close();

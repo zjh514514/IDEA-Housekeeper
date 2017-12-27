@@ -11,10 +11,10 @@ import housekeeper.tools.HibernateTools;
 @Repository
 public class ItemDaoImpl extends HibernateTools implements ItemDao {
 
-	private String hql = null;
+	private String hql;
 
 	@Override
-	public List<Item> getAll() {
+	public List getAll() {
 		hql = "FROM Item";
 		return getSession().createQuery(hql).list();
 	}
@@ -37,19 +37,19 @@ public class ItemDaoImpl extends HibernateTools implements ItemDao {
 	}
 
 	@Override
-	public List<Item> queryByType(Integer type) {
+	public List queryByType(Integer type) {
 		hql = "FROM Item i WHERE i.type= ?";
 		return getSession().createQuery(hql).setParameter(0, type).list();
 	}
 
 	@Override
-	public List<Item> queryByName(String name) {
+	public List queryByName(String name) {
 		hql = "FROM Item i WHERE i.itemName= ?";
 		return getSession().createQuery(hql).setParameter(0, name).list();
 	}
 
 	@Override
-	public List<Item> queryById(Integer id) {
+	public List queryById(Integer id) {
 		hql = "FROM Item i WHERE i.itemId= ?";
 		return getSession().createQuery(hql).setParameter(0, id).list();
 	}

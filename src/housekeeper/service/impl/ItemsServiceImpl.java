@@ -33,7 +33,7 @@ public class ItemsServiceImpl implements ItemsService {
 			if (type != null) {
 				if (type != 0 && type != 1)
 					type = -1;
-				if (itemName != "" && type != -1 && itemDao.queryByName(itemName).size() == 0) {
+				if (!itemName.equals("") && type != -1 && itemDao.queryByName(itemName).size() == 0) {
 					item.setItemName(itemName);
 					item.setType(type);
 					itemDao.save(item);
@@ -56,7 +56,7 @@ public class ItemsServiceImpl implements ItemsService {
 		try {
 			if (subItemName == null)
 				subItemName = "";
-			if (subItemName != "" && itemId != null && subItemDao.queryByName(subItemName).size() == 0
+			if (!subItemName.equals("") && itemId != null && subItemDao.queryByName(subItemName).size() == 0
 					&& itemDao.queryById(itemId).size() != 0) {
 				item.setItemId(itemId);
 				subItem.setSubItemName(subItemName);
@@ -109,7 +109,7 @@ public class ItemsServiceImpl implements ItemsService {
 		try {
 			if (itemName == null)
 				itemName = "";
-			if (id != null && itemName != "" && itemDao.queryByName(itemName).size() == 0
+			if (id != null && !itemName.equals("") && itemDao.queryByName(itemName).size() == 0
 					&& itemDao.queryById(id).size() != 0) {
 				System.out.println("1");
 				itemDao.update(id, itemName);
@@ -128,7 +128,7 @@ public class ItemsServiceImpl implements ItemsService {
 		try {
 			if (subItemName == null)
 				subItemName = "";
-			if (id != null && subItemName != "" && subItemDao.queryByName(subItemName).size() == 0
+			if (id != null && !subItemName.equals("") && subItemDao.queryByName(subItemName).size() == 0
 					&& subItemDao.queryById(id).size() != 0) {
 				subItemDao.update(id, subItemName);
 				return "SUCCESS";
@@ -142,12 +142,12 @@ public class ItemsServiceImpl implements ItemsService {
 	}
 
 	@Override
-	public List<Item> queryItem(Integer type) {
+	public List queryItem(Integer type) {
 		if (type != null) {
 			if (type != 0 && type != 1)
 				type = -1;
 			if (type != -1) {
-				List<Item> items = itemDao.queryByType(type);
+				List items = itemDao.queryByType(type);
 				if (items.size() != 0) {
 					return items;
 				} else {
@@ -162,10 +162,10 @@ public class ItemsServiceImpl implements ItemsService {
 	}
 
 	@Override
-	public List<SubItem> querySubItem(Integer itemId) {
+	public List querySubItem(Integer itemId) {
 		if (itemId != null) {
 //			item.setItemId(itemId);
-			List<SubItem> subItems = subItemDao.queryByItem(itemId);
+			List subItems = subItemDao.queryByItem(itemId);
 			if (subItems.size() != 0) {
 				return subItems;
 			} else {

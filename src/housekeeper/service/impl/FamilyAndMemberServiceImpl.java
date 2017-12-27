@@ -10,7 +10,6 @@ import housekeeper.tools.Sha256;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -208,9 +207,9 @@ public class FamilyAndMemberServiceImpl implements FamilyAndMemberService {
     }
 
     @Override
-    public List<Family> familyGet(Integer id) {
+    public List familyGet(Integer id) {
         if (id != null) {
-            List<Family> families = familyDao.queryById(id);
+            List families = familyDao.queryById(id);
             if (families.size() != 0) {
                 return families;
             } else {
@@ -222,10 +221,10 @@ public class FamilyAndMemberServiceImpl implements FamilyAndMemberService {
     }
 
     @Override
-    public List<Member> memberFamilyGet(Integer familyId) {
+    public List memberFamilyGet(Integer familyId) {
         if (familyId != null && familyDao.queryById(familyId).size() != 0) {
             // family.setFamilyId(familyId);
-            List<Member> members = memberDao.queryByFamily(familyId);
+            List members = memberDao.queryByFamily(familyId);
             if (members.size() != 0) {
                 return members;
             } else {
@@ -237,9 +236,9 @@ public class FamilyAndMemberServiceImpl implements FamilyAndMemberService {
     }
 
     @Override
-    public List<Member> memberGet(Integer id) {
+    public List memberGet(Integer id) {
         if (id != null) {
-            List<Member> members = memberDao.queryById(id);
+            List members = memberDao.queryById(id);
             if (members.size() != 0) {
                 return members;
             } else {

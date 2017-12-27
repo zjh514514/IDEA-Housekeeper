@@ -11,10 +11,10 @@ import housekeeper.tools.HibernateTools;
 @Repository
 public class SubItemDaoImpl extends HibernateTools implements SubItemDao {
 
-	private String hql = null;
+	private String hql;
 
 	@Override
-	public List<SubItem> getAll() {
+	public List getAll() {
 		hql = "FROM SubItem";
 		return getSession().createQuery(hql).list();
 	}
@@ -37,19 +37,19 @@ public class SubItemDaoImpl extends HibernateTools implements SubItemDao {
 	}
 
 	@Override
-	public List<SubItem> queryByItem(Integer itemId) {
+	public List queryByItem(Integer itemId) {
 		hql = "FROM SubItemQuery s WHERE s.id.itemId = ?";
 		return getSession().createQuery(hql).setParameter(0, itemId).list();
 	}
 
 	@Override
-	public List<SubItem> queryByName(String name) {
+	public List queryByName(String name) {
 		hql = "FROM SubItem s WHERE s.subItemName= ?";
 		return getSession().createQuery(hql).setParameter(0, name).list();
 	}
 
 	@Override
-	public List<SubItem> queryById(Integer id) {
+	public List queryById(Integer id) {
 		hql = "FROM SubItem s WHERE s.subItemId= ?";
 		return getSession().createQuery(hql).setParameter(0, id).list();
 	}

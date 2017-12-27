@@ -2,8 +2,6 @@ package housekeeper.service;
 
 import java.util.List;
 
-import housekeeper.entities.Card;
-
 public interface CardService {
 
 	/**
@@ -16,7 +14,7 @@ public interface CardService {
 	 * @param memberId
 	 * @return
 	 */
-	public String addCard(String name, String number, Double money, String remark, Integer memberId);
+	String addCard(String name, String number, Double money, String remark, Integer memberId);
 
 	/**
 	 * 删除一张银行卡
@@ -24,7 +22,7 @@ public interface CardService {
 	 * @param id
 	 * @return
 	 */
-	public String deleteCard(Integer id);
+	String deleteCard(Integer id);
 
 	/**
 	 * 修改某一银行卡信息
@@ -36,7 +34,7 @@ public interface CardService {
 	 * @param id
 	 * @return
 	 */
-	public String updateCard(String name, String number, Double money, String remark, Integer id);
+	String updateCard(String name, String number, Double money, String remark, Integer id);
 
 	/**
 	 * 查询某一成员下所有的银行卡
@@ -44,7 +42,7 @@ public interface CardService {
 	 * @param memberId
 	 * @return
 	 */
-	public List<Card> queryByMember(Integer memberId);
+	List queryByMember(Integer memberId);
 
 	/**
 	 * 查询某一银行卡信息
@@ -52,5 +50,5 @@ public interface CardService {
 	 * @param id
 	 * @return
 	 */
-	public List<Card> queryById(Integer id);
+	List queryById(Integer id);
 }

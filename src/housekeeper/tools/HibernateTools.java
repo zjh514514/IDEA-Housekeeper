@@ -14,7 +14,7 @@ public class HibernateTools {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public Session getSession() {
+	protected Session getSession() {
 		return this.sessionFactory.getCurrentSession();
 	}
 }

@@ -55,7 +55,7 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
                             Integer itemId, Integer subItemId, Integer accountId) {
         try {
             Date date;
-            if (time == null || time == "") {
+            if (time == null || time.equals("")) {
                 date = new Date();
             } else {
                 date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time);
@@ -265,10 +265,10 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashIn> queryCashInByMember(Integer memberId) {
+    public List queryCashInByMember(Integer memberId) {
         if (memberId != null && memberDao.queryById(memberId).size() != 0) {
             // member.setMemberId(memberId);
-            List<CashIn> cashIns = cashInDao.queryByMember(memberId);
+            List cashIns = cashInDao.queryByMember(memberId);
             if (cashIns.size() != 0) {
                 return cashIns;
             } else {
@@ -280,10 +280,10 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashOut> queryCashOutByMember(Integer memberId) {
+    public List queryCashOutByMember(Integer memberId) {
         if (memberId != null && memberDao.queryById(memberId).size() != 0) {
             // member.setMemberId(memberId);
-            List<CashOut> cashOuts = cashOutDao.queryByMember(memberId);
+            List cashOuts = cashOutDao.queryByMember(memberId);
             if (cashOuts.size() != 0) {
                 return cashOuts;
             } else {
@@ -295,11 +295,11 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashIn> queryCashInByItem(Integer itemId, Integer memberId) {
+    public List queryCashInByItem(Integer itemId, Integer memberId) {
         if (itemId != null && memberId != null) {
             // item.setItemId(itemId);
             // member.setMemberId(memberId);
-            List<CashIn> cashIns = cashInDao.queryByItem(itemId, memberId);
+            List cashIns = cashInDao.queryByItem(itemId, memberId);
             if (cashIns.size() != 0) {
                 return cashIns;
             } else {
@@ -311,11 +311,11 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashOut> queryCashOutByItem(Integer itemId, Integer memberId) {
+    public List queryCashOutByItem(Integer itemId, Integer memberId) {
         if (itemId != null && memberId != null) {
             // item.setItemId(itemId);
             // member.setMemberId(memberId);
-            List<CashOut> cashOuts = cashOutDao.queryByItem(itemId, memberId);
+            List cashOuts = cashOutDao.queryByItem(itemId, memberId);
             if (cashOuts.size() != 0) {
                 return cashOuts;
             } else {
@@ -327,11 +327,11 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashIn> queryCashInBySubItem(Integer subItemId, Integer memberId) {
+    public List queryCashInBySubItem(Integer subItemId, Integer memberId) {
         if (subItemId != null && memberId != null) {
             subItem.setSubItemId(subItemId);
             member.setMemberId(memberId);
-            List<CashIn> cashIns = cashInDao.queryBySubItem(subItemId, memberId);
+            List cashIns = cashInDao.queryBySubItem(subItemId, memberId);
             if (cashIns.size() != 0) {
                 return cashIns;
             } else {
@@ -343,11 +343,11 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashOut> queryCashOutBySubItem(Integer subItemId, Integer memberId) {
+    public List queryCashOutBySubItem(Integer subItemId, Integer memberId) {
         if (subItemId != null && memberId != null) {
             // subItem.setSubItemId(subItemId);
             // member.setMemberId(memberId);
-            List<CashOut> cashOuts = cashOutDao.queryBySubItem(subItemId, memberId);
+            List cashOuts = cashOutDao.queryBySubItem(subItemId, memberId);
             if (cashOuts.size() != 0) {
                 return cashOuts;
             } else {
@@ -359,9 +359,9 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashIn> queryCashInById(Integer id) {
+    public List queryCashInById(Integer id) {
         if (id != null) {
-            List<CashIn> cashIns = cashInDao.queryById(id);
+            List cashIns = cashInDao.queryById(id);
             if (cashIns.size() != 0) {
                 return cashIns;
             } else {
@@ -373,9 +373,9 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashOut> queryCashOutById(Integer id) {
+    public List queryCashOutById(Integer id) {
         if (id != null) {
-            List<CashOut> cashOuts = cashOutDao.queryById(id);
+            List cashOuts = cashOutDao.queryById(id);
             if (cashOuts.size() != 0) {
                 return cashOuts;
             } else {
@@ -387,9 +387,9 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashIn> queryCashInByAccount(Integer accountId, Integer memberId) {
+    public List queryCashInByAccount(Integer accountId, Integer memberId) {
         if (accountId != null && memberId != null) {
-            List<CashIn> cashIns = cashInDao.queryByAccount(accountId, memberId);
+            List cashIns = cashInDao.queryByAccount(accountId, memberId);
             if (cashIns.size() != 0) {
                 return cashIns;
             } else {
@@ -401,9 +401,9 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public List<CashOut> queryCashOutByAccount(Integer accountId, Integer memberId) {
+    public List queryCashOutByAccount(Integer accountId, Integer memberId) {
         if (accountId != null && memberId != null) {
-            List<CashOut> cashOuts = cashOutDao.queryByAccount(accountId, memberId);
+            List cashOuts = cashOutDao.queryByAccount(accountId, memberId);
             if (cashOuts.size() != 0) {
                 return cashOuts;
             } else {

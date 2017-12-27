@@ -12,21 +12,21 @@ public interface CashInDao {
      *
      * @param cashIn
      */
-    public void save(CashIn cashIn);
+    void save(CashIn cashIn);
 
     /**
      * 删除一条收入记录
      *
      * @param id
      */
-    public void delete(Integer id);
+    void delete(Integer id);
 
     /**
      * 修改一条收入记录信息
      *
      * @param cashIn
      */
-    public void update(CashIn cashIn);
+    void update(CashIn cashIn);
 
     /**
      * 查询某一成员的收入记录
@@ -34,7 +34,7 @@ public interface CashInDao {
      * @param memberId
      * @return
      */
-    public List<CashIn> queryByMember(Integer memberId);
+    List queryByMember(Integer memberId);
 
     /**
      * 查询某一成员某一父类收入记录
@@ -43,7 +43,7 @@ public interface CashInDao {
      * @param memberId
      * @return
      */
-    public List<CashIn> queryByItem(Integer ItemId, Integer memberId);
+    List queryByItem(Integer ItemId, Integer memberId);
 
     /**
      * 查询某一成员某一子类收入记录
@@ -52,7 +52,7 @@ public interface CashInDao {
      * @param memberId
      * @return
      */
-    public List<CashIn> queryBySubItem(Integer subItemId, Integer memberId);
+    List queryBySubItem(Integer subItemId, Integer memberId);
 
     /**
      * 查询某一条收入记录
@@ -60,7 +60,7 @@ public interface CashInDao {
      * @param id
      * @return
      */
-    public List<CashIn> queryById(Integer id);
+    List queryById(Integer id);
 
     /**
      * 查询某一成员某账户收入记录
@@ -69,7 +69,7 @@ public interface CashInDao {
      * @param memberId
      * @return
      */
-    public List queryByAccount(Integer accountId, Integer memberId);
+    List queryByAccount(Integer accountId, Integer memberId);
 
     /**
      * 查询某一成员某一时间段收入记录
@@ -79,7 +79,7 @@ public interface CashInDao {
      * @param endTime
      * @return
      */
-    public List queryByTime(Integer memberId, Date startTime, Date endTime);
+    List queryByTime(Integer memberId, Date startTime, Date endTime);
 
     /**
      * 计算某成员某时间段总收入
@@ -89,5 +89,5 @@ public interface CashInDao {
      * @param endTime
      * @return
      */
-    public double sumCashIn(Integer memberId, Date startTime, Date endTime);
+    double sumCashIn(Integer memberId, Date startTime, Date endTime);
 }

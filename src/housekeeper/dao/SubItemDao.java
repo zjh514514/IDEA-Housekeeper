@@ -11,21 +11,21 @@ public interface SubItemDao {
 	 * 
 	 * @return
 	 */
-	public List<SubItem> getAll();
+	List getAll();
 
 	/**
 	 * 增加一条子类信息
 	 * 
 	 * @param subItem
 	 */
-	public void save(SubItem subItem);
+	void save(SubItem subItem);
 
 	/**
 	 * 删除一条子类信息
 	 * 
 	 * @param id
 	 */
-	public void delete(Integer id);
+	void delete(Integer id);
 
 	/**
 	 * 修改一条子类信息
@@ -33,15 +33,15 @@ public interface SubItemDao {
 	 * @param id
 	 * @param name
 	 */
-	public void update(Integer id, String name);
+	void update(Integer id, String name);
 
 	/**
 	 * 查询某一父类下所有子类
 	 * 
-	 * @param item
+	 * @param itemId
 	 * @return
 	 */
-	public List<SubItem> queryByItem(Integer itemId);
+	List queryByItem(Integer itemId);
 
 	/**
 	 * 通过子类名查询子类
@@ -49,7 +49,7 @@ public interface SubItemDao {
 	 * @param name
 	 * @return
 	 */
-	public List<SubItem> queryByName(String name);
+	List queryByName(String name);
 
 	/**
 	 * 查询一条子类信息
@@ -57,5 +57,5 @@ public interface SubItemDao {
 	 * @param id
 	 * @return
 	 */
-	public List<SubItem> queryById(Integer id);
+	List queryById(Integer id);
 }

@@ -71,8 +71,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<Account> query() {
-		List<Account> accounts = accountDao.getAll();
+	public List query() {
+		List accounts = accountDao.getAll();
 		if (accounts.size() != 0)
 			return accounts;
 		else {

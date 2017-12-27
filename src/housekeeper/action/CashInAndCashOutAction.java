@@ -1,26 +1,20 @@
 package housekeeper.action;
 
+import com.alibaba.fastjson.JSONWriter;
+import com.opensymphony.xwork2.ActionSupport;
+import housekeeper.service.CashInAndCashOutService;
+import net.sf.json.JSONObject;
+import org.apache.struts2.ServletActionContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
-import com.alibaba.fastjson.JSON;
-import org.apache.struts2.ServletActionContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-
-import com.alibaba.fastjson.JSONWriter;
-import com.opensymphony.xwork2.ActionSupport;
-
-import housekeeper.entities.CashIn;
-import housekeeper.entities.CashOut;
-import housekeeper.service.CashInAndCashOutService;
-import net.sf.json.JSONObject;
 
 @Controller("cashInAndCashOutAction")
 @Scope("prototype")
@@ -174,7 +168,7 @@ public class CashInAndCashOutAction extends ActionSupport {
         response.setContentType("application/json;charset=utf-8");
         JSONWriter writer = new JSONWriter(response.getWriter());
 
-        String result = "";
+        String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         JSONObject jsonRequest;
@@ -218,7 +212,7 @@ public class CashInAndCashOutAction extends ActionSupport {
         response.setContentType("application/json;charset=utf-8");
         JSONWriter writer = new JSONWriter(response.getWriter());
 
-        String result = "";
+        String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         JSONObject jsonRequest;
@@ -251,18 +245,18 @@ public class CashInAndCashOutAction extends ActionSupport {
 
         String json = getStrResponse.getStrResponse();
         JSONObject jsonRequest;
-        if (json != "") {
+        if (!json.equals("")) {
             jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             memberId = jsonRequest.getInt("memberId");
         }
         if (which.equals("i")) {
-            List<CashIn> cashIns = cashInAndCashOutService.queryCashInByMember(memberId);
+            List cashIns = cashInAndCashOutService.queryCashInByMember(memberId);
             writer.writeObject(cashIns);
             writer.flush();
             writer.close();
         } else {
-            List<CashOut> cashOuts = cashInAndCashOutService.queryCashOutByMember(memberId);
+            List cashOuts = cashInAndCashOutService.queryCashOutByMember(memberId);
             writer.writeObject(cashOuts);
             writer.flush();
             writer.close();
@@ -281,18 +275,18 @@ public class CashInAndCashOutAction extends ActionSupport {
         JSONWriter writer = new JSONWriter(response.getWriter());
 
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             id = jsonRequest.getInt("id");
         }
         if (which.equals("i")) {
-            List<CashIn> cashIns = cashInAndCashOutService.queryCashInById(id);
+            List cashIns = cashInAndCashOutService.queryCashInById(id);
             writer.writeObject(cashIns);
             writer.flush();
             writer.close();
         } else {
-            List<CashOut> cashOuts = cashInAndCashOutService.queryCashOutById(id);
+            List cashOuts = cashInAndCashOutService.queryCashOutById(id);
             writer.writeObject(cashOuts);
             writer.flush();
             writer.close();
@@ -311,19 +305,19 @@ public class CashInAndCashOutAction extends ActionSupport {
         JSONWriter writer = new JSONWriter(response.getWriter());
 
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             itemId = jsonRequest.getInt("itemId");
             memberId = jsonRequest.getInt("memberId");
         }
         if (which.equals("i")) {
-            List<CashIn> cashIns = cashInAndCashOutService.queryCashInByItem(itemId, memberId);
+            List cashIns = cashInAndCashOutService.queryCashInByItem(itemId, memberId);
             writer.writeObject(cashIns);
             writer.flush();
             writer.close();
         } else {
-            List<CashOut> cashOuts = cashInAndCashOutService.queryCashOutByItem(itemId, memberId);
+            List cashOuts = cashInAndCashOutService.queryCashOutByItem(itemId, memberId);
             writer.writeObject(cashOuts);
             writer.flush();
             writer.close();
@@ -342,19 +336,19 @@ public class CashInAndCashOutAction extends ActionSupport {
         JSONWriter writer = new JSONWriter(response.getWriter());
 
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             subItemId = jsonRequest.getInt("subItemId");
             memberId = jsonRequest.getInt("memberId");
         }
         if (which.equals("i")) {
-            List<CashIn> cashIns = cashInAndCashOutService.queryCashInBySubItem(subItemId, memberId);
+            List cashIns = cashInAndCashOutService.queryCashInBySubItem(subItemId, memberId);
             writer.writeObject(cashIns);
             writer.flush();
             writer.close();
         } else {
-            List<CashOut> cashOuts = cashInAndCashOutService.queryCashOutBySubItem(subItemId, memberId);
+            List cashOuts = cashInAndCashOutService.queryCashOutBySubItem(subItemId, memberId);
             writer.writeObject(cashOuts);
             writer.flush();
             writer.close();
@@ -372,11 +366,11 @@ public class CashInAndCashOutAction extends ActionSupport {
         response.setContentType("application/json;charset=utf-8");
         JSONWriter writer = new JSONWriter(response.getWriter());
 
-        String result = "";
+        String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         JSONObject jsonRequest;
-        if (json != "") {
+        if (!json.equals("")) {
             jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             time = jsonRequest.getString("time");
@@ -416,19 +410,19 @@ public class CashInAndCashOutAction extends ActionSupport {
         JSONWriter writer = new JSONWriter(response.getWriter());
 
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             accountId = jsonRequest.getInt("accountId");
             memberId = jsonRequest.getInt("memberId");
         }
         if (which.equals("i")) {
-            List<CashIn> cashIns = cashInAndCashOutService.queryCashInByAccount(accountId, memberId);
+            List cashIns = cashInAndCashOutService.queryCashInByAccount(accountId, memberId);
             writer.writeObject(cashIns);
             writer.flush();
             writer.close();
         } else {
-            List<CashOut> cashOuts = cashInAndCashOutService.queryCashOutByAccount(accountId, memberId);
+            List cashOuts = cashInAndCashOutService.queryCashOutByAccount(accountId, memberId);
             writer.writeObject(cashOuts);
             writer.flush();
             writer.close();
@@ -448,7 +442,7 @@ public class CashInAndCashOutAction extends ActionSupport {
 
         String json = getStrResponse.getStrResponse();
         List<Object> results = new ArrayList<>();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             memberId = jsonRequest.getInt("memberId");
@@ -482,7 +476,7 @@ public class CashInAndCashOutAction extends ActionSupport {
         JSONWriter writer = new JSONWriter(response.getWriter());
 
         String json = getStrResponse.getStrResponse();
-        if (json != "") {
+        if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
             memberId = jsonRequest.getInt("memberId");

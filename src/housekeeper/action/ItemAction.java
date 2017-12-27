@@ -1,23 +1,18 @@
 package housekeeper.action;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONWriter;
+import com.opensymphony.xwork2.ActionSupport;
+import housekeeper.service.ItemsService;
+import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.alibaba.fastjson.JSONWriter;
-import com.opensymphony.xwork2.ActionSupport;
-
-import housekeeper.entities.Item;
-import housekeeper.entities.SubItem;
-import housekeeper.service.ItemsService;
-import net.sf.json.JSONObject;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Scope("prototype")
@@ -101,7 +96,7 @@ public class ItemAction extends ActionSupport {
 
 		String json = getStrResponse.getStrResponse();
 		JSONObject jsonRequest;
-		if (json != "") {
+		if (!json.equals("")) {
 			jsonRequest = JSONObject.fromObject(json);
 			System.out.println(jsonRequest);
 			which = jsonRequest.getString("which");
@@ -109,13 +104,13 @@ public class ItemAction extends ActionSupport {
 			// which是i时查询父类，否则查询子类
 			if (which.equals("i")) {
 				type = jsonRequest.getInt("type");
-				List<Item> items = itemsService.queryItem(type);
+				List items = itemsService.queryItem(type);
 				writer.writeObject(items);
 				writer.flush();
 				writer.close();
 			} else {
 				itemId = jsonRequest.getInt("itemId");
-				List<SubItem> subItems = itemsService.querySubItem(itemId);
+				List subItems = itemsService.querySubItem(itemId);
 				writer.writeObject(subItems);
 				writer.flush();
 				writer.close();
@@ -123,12 +118,12 @@ public class ItemAction extends ActionSupport {
 		} else {
 			// which是i时查询父类，否则查询子类
 			if (which.equals("i")) {
-				List<Item> items = itemsService.queryItem(type);
+				List items = itemsService.queryItem(type);
 				writer.writeObject(items);
 				writer.flush();
 				writer.close();
 			} else {
-				List<SubItem> subItems = itemsService.querySubItem(itemId);
+				List subItems = itemsService.querySubItem(itemId);
 				writer.writeObject(subItems);
 				writer.flush();
 				writer.close();
@@ -147,11 +142,11 @@ public class ItemAction extends ActionSupport {
 		response.setContentType("application/json;charset=utf-8");
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
-		String result = "";
+		String result;
 		Map<String, String> results = new HashMap<>();
 		String json = getStrResponse.getStrResponse();
 		JSONObject jsonRequest;
-		if (json != "") {
+		if (!json.equals("")) {
 			jsonRequest = JSONObject.fromObject(json);
 			which = jsonRequest.getString("which");
 			// which为i时修改父类，否则修改子类
@@ -189,11 +184,11 @@ public class ItemAction extends ActionSupport {
 		response.setContentType("application/json;charset=utf-8");
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
-		String result = "";
+		String result;
 		Map<String, String> results = new HashMap<>();
 		String json = getStrResponse.getStrResponse();
 		JSONObject jsonRequest;
-		if (json != "") {
+		if (!json.equals("")) {
 			jsonRequest = JSONObject.fromObject(json);
 			which = jsonRequest.getString("which");
 			id = jsonRequest.getInt("id");
@@ -221,11 +216,11 @@ public class ItemAction extends ActionSupport {
 		response.setContentType("application/json;charset=utf-8");
 		JSONWriter writer = new JSONWriter(response.getWriter());
 
-		String result = "";
+		String result;
 		Map<String, String> results = new HashMap<>();
 		String json = getStrResponse.getStrResponse();
 		JSONObject jsonRequest;
-		if (json != "") {
+		if (!json.equals("")) {
 			jsonRequest = JSONObject.fromObject(json);
 			which = jsonRequest.getString("which");
 			// which为i时增加父类，否则增加子类

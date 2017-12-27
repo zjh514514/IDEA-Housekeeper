@@ -11,21 +11,21 @@ public interface ItemDao {
 	 * 
 	 * @return
 	 */
-	public List<Item> getAll();
+	List getAll();
 
 	/**
 	 * 保存一条父类信息
 	 * 
 	 * @param item
 	 */
-	public void save(Item item);
+	void save(Item item);
 
 	/**
 	 * 删除一条父类
 	 * 
 	 * @param id
 	 */
-	public void delete(Integer id);
+	void delete(Integer id);
 
 	/**
 	 * 修改一条父类信息
@@ -33,14 +33,14 @@ public interface ItemDao {
 	 * @param id
 	 * @param name
 	 */
-	public void update(Integer id, String name);
+	void update(Integer id, String name);
 
 	/**
 	 * 查询收入或支出的父类
-	 * 
+	 *
 	 * @param type
 	 */
-	public List<Item> queryByType(Integer type);
+	List queryByType(Integer type);
 
 	/**
 	 * 通过父类名查询父类信息
@@ -48,7 +48,7 @@ public interface ItemDao {
 	 * @param name
 	 * @return
 	 */
-	public List<Item> queryByName(String name);
+	List queryByName(String name);
 
 	/**
 	 * 查询某一父类信息
@@ -56,6 +56,6 @@ public interface ItemDao {
 	 * @param id
 	 * @return
 	 */
-	public List<Item> queryById(Integer id);
+	List queryById(Integer id);
 
 }

@@ -6,13 +6,12 @@ import housekeeper.entities.MemberQuery;
 import housekeeper.tools.HibernateTools;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository
 public class MemberDaoImpl extends HibernateTools implements MemberDao {
 
-    private String hql = null;
+    private String hql;
 
     @Override
     public void save(Member member) {
@@ -34,7 +33,7 @@ public class MemberDaoImpl extends HibernateTools implements MemberDao {
     }
 
     @Override
-    public List<Member> getAll() {
+    public List getAll() {
         hql = "FROM MemberQuery";
         return getSession().createQuery(hql).list();
     }
@@ -46,13 +45,13 @@ public class MemberDaoImpl extends HibernateTools implements MemberDao {
     }
 
     @Override
-    public List<Member> queryById(Integer id) {
+    public List queryById(Integer id) {
         hql = "FROM MemberQuery m WHERE m.id.memberId = ?";
         return getSession().createQuery(hql).setParameter(0, id).list();
     }
 
     @Override
-    public List<Member> queryByFamily(Integer familyId) {
+    public List queryByFamily(Integer familyId) {
         hql = "FROM MemberQuery m WHERE m.id.familyId = ?";
         return getSession().createQuery(hql).setParameter(0, familyId).list();
     }

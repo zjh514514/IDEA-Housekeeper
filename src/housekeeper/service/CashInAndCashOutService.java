@@ -4,9 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import housekeeper.entities.CashIn;
-import housekeeper.entities.CashOut;
-
 public interface CashInAndCashOutService {
 
     /**
@@ -23,8 +20,8 @@ public interface CashInAndCashOutService {
      * @param accountId
      * @return
      */
-    public String addCashIn(String time, String site, String people, Double money, String remark, Integer memberId,
-                            Integer itemId, Integer subItemId, Integer accountId);
+    String addCashIn(String time, String site, String people, Double money, String remark, Integer memberId,
+                     Integer itemId, Integer subItemId, Integer accountId);
 
     /**
      * 增加一条支出记录
@@ -40,8 +37,8 @@ public interface CashInAndCashOutService {
      * @param accountId
      * @return
      */
-    public String addCashOut(String time, String site, String people, Double money, String remark, Integer memberId,
-                             Integer itemId, Integer subItemId, Integer accountId);
+    String addCashOut(String time, String site, String people, Double money, String remark, Integer memberId,
+                      Integer itemId, Integer subItemId, Integer accountId);
 
     /**
      * 删除某一收入记录
@@ -49,7 +46,7 @@ public interface CashInAndCashOutService {
      * @param id
      * @return
      */
-    public String deleteCashIn(Integer id);
+    String deleteCashIn(Integer id);
 
     /**
      * 删除某一支出记录
@@ -57,7 +54,7 @@ public interface CashInAndCashOutService {
      * @param id
      * @return
      */
-    public String deleteCashOut(Integer id);
+    String deleteCashOut(Integer id);
 
     /**
      * 修改某一收入记录信息
@@ -73,8 +70,8 @@ public interface CashInAndCashOutService {
      * @param accountId
      * @return
      */
-    public String updateCashIn(String time, String site, String people, Double money, String remark, Integer itemId,
-                               Integer subItemId, Integer id, Integer accountId);
+    String updateCashIn(String time, String site, String people, Double money, String remark, Integer itemId,
+                        Integer subItemId, Integer id, Integer accountId);
 
     /**
      * 修改某一支出记录信息
@@ -90,8 +87,8 @@ public interface CashInAndCashOutService {
      * @param accountId
      * @return
      */
-    public String updateCashOut(String time, String site, String people, Double money, String remark, Integer itemId,
-                                Integer subItemId, Integer id, Integer accountId);
+    String updateCashOut(String time, String site, String people, Double money, String remark, Integer itemId,
+                         Integer subItemId, Integer id, Integer accountId);
 
     /**
      * 查询某一成员下所有的收入信息
@@ -99,7 +96,7 @@ public interface CashInAndCashOutService {
      * @param memberId
      * @return
      */
-    public List<CashIn> queryCashInByMember(Integer memberId);
+    List queryCashInByMember(Integer memberId);
 
     /**
      * 查询某一成员下所有的支出信息
@@ -107,7 +104,7 @@ public interface CashInAndCashOutService {
      * @param memberId
      * @return
      */
-    public List<CashOut> queryCashOutByMember(Integer memberId);
+    List queryCashOutByMember(Integer memberId);
 
     /**
      * 查询某一成员下某一父类的收入记录
@@ -116,7 +113,7 @@ public interface CashInAndCashOutService {
      * @param memberId
      * @return
      */
-    public List<CashIn> queryCashInByItem(Integer itemId, Integer memberId);
+    List queryCashInByItem(Integer itemId, Integer memberId);
 
     /**
      * 查询某一成员下某一父类的支出记录
@@ -125,7 +122,7 @@ public interface CashInAndCashOutService {
      * @param memberId
      * @return
      */
-    public List<CashOut> queryCashOutByItem(Integer itemId, Integer memberId);
+    List queryCashOutByItem(Integer itemId, Integer memberId);
 
     /**
      * 查询某一成员下某一子类的收入记录
@@ -134,7 +131,7 @@ public interface CashInAndCashOutService {
      * @param memberId
      * @return
      */
-    public List<CashIn> queryCashInBySubItem(Integer subItemId, Integer memberId);
+    List queryCashInBySubItem(Integer subItemId, Integer memberId);
 
     /**
      * 查询某一成员下某一子类的支出记录
@@ -143,7 +140,7 @@ public interface CashInAndCashOutService {
      * @param memberId
      * @return
      */
-    public List<CashOut> queryCashOutBySubItem(Integer subItemId, Integer memberId);
+    List queryCashOutBySubItem(Integer subItemId, Integer memberId);
 
     /**
      * 查询某一条收入记录
@@ -151,7 +148,7 @@ public interface CashInAndCashOutService {
      * @param id
      * @return
      */
-    public List<CashIn> queryCashInById(Integer id);
+    List queryCashInById(Integer id);
 
     /**
      * 查询某一条支出记录
@@ -159,7 +156,7 @@ public interface CashInAndCashOutService {
      * @param id
      * @return
      */
-    public List<CashOut> queryCashOutById(Integer id);
+    List queryCashOutById(Integer id);
 
     /**
      * 查询某一成员下某账户的收入记录
@@ -168,7 +165,7 @@ public interface CashInAndCashOutService {
      * @param memberId
      * @return
      */
-    public List<CashIn> queryCashInByAccount(Integer accountId, Integer memberId);
+    List queryCashInByAccount(Integer accountId, Integer memberId);
 
     /**
      * 查询某一成员下某账户的支出记录
@@ -177,7 +174,7 @@ public interface CashInAndCashOutService {
      * @param memberId
      * @return
      */
-    public List<CashOut> queryCashOutByAccount(Integer accountId, Integer memberId);
+    List queryCashOutByAccount(Integer accountId, Integer memberId);
 
     /**
      * 查询某一成员某一时间段收支记录
@@ -187,14 +184,15 @@ public interface CashInAndCashOutService {
      * @param endTime
      * @return
      */
-    public List queryByTime(Integer memberId, Date startTime, Date endTime, String which);
+    List queryByTime(Integer memberId, Date startTime, Date endTime, String which);
 
     /**
      * 查询某一成员某一时间段收支总和
      *
-     * @param id
+     * @param memberId
      * @param startTime
      * @param endTime
+     * @param which
      * @return
      */
     double memberSumCash(Integer memberId, Date startTime, Date endTime, String which);
