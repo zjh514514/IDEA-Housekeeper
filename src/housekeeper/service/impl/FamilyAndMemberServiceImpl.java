@@ -7,59 +7,48 @@ import housekeeper.entities.Member;
 import housekeeper.entities.MemberQuery;
 import housekeeper.service.FamilyAndMemberService;
 import housekeeper.tools.Sha256;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class FamilyAndMemberServiceImpl implements FamilyAndMemberService {
+public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> {
 
-    @Resource
+    @Autowired
     private FamilyDao familyDao;
-    @Resource
+    @Autowired
     private MemberDao memberDao;
 
-    @Resource(name = "family")
+    @Autowired
     private Family family;
-    @Resource(name = "member")
+    @Autowired
     private Member member;
+    @Autowired
+    private MemberQuery memberQuery;
 
     @Override
-    public Family familyLogin(String username, String password) {
+    public E login(String username, String password, String which) {
         try {
             if (username == null)
                 username = "";
-            family = familyDao.queryByUsername(username);
-            System.out.println(family.getPassword());
-            if (family.getPassword().equals(Sha256.getSHA256StrJava(password))) {
-                return family;
+            if (which.equals("f")) {
+                family = familyDao.queryByUsername(username);
+                if (family.getPassword().equals(Sha256.getSHA256StrJava(password))) {
+                    return (E) family;
+                } else {
+                    return null;
+                }
             } else {
-                // 密码错误
-                return null;
+                memberQuery = memberDao.queryByUsername(username);
+                if (memberQuery.getId().getPassword().equals(Sha256.getSHA256StrJava(password))) {
+                    return (E) memberQuery;
+                } else {
+                    return null;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // 用户名不存在
-            return null;
-        }
-    }
-
-    @Override
-    public MemberQuery memberLogin(String username, String password) {
-        try {
-            if (username == null)
-                username = "";
-            MemberQuery member = memberDao.queryByUsername(username);
-            if (member.getId().getPassword().equals(Sha256.getSHA256StrJava(password))) {
-                return member;
-            } else {
-                //密码错误
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // 用户名不存在
             return null;
         }
     }

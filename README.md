@@ -487,7 +487,14 @@ url:zjh.hduzjh.cn/HouseKeeper/login-login
 }
 返回结果：
 {
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
+    "data":
+        {   
+            "familyId":1,
+            "familyName":"老张家",
+            "password":"8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+            "username":"zjh123"
+        },
+    "status":200
 }
 ```
 - 注册

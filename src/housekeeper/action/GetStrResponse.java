@@ -18,7 +18,7 @@ import com.opensymphony.xwork2.ActionContext;
  * @author zjh514514
  *
  */
-@Component("getStrResponse")
+@Component
 public class GetStrResponse {
 
 	public String getStrResponse() {

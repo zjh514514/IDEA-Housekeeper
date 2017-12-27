@@ -1,11 +1,10 @@
 package housekeeper.service;
 
-import housekeeper.entities.Family;
 import housekeeper.entities.MemberQuery;
 
 import java.util.List;
 
-public interface FamilyAndMemberService {
+public interface FamilyAndMemberService<E> {
 
     /**
      * 家庭登陆
@@ -14,16 +13,7 @@ public interface FamilyAndMemberService {
      * @param password
      * @return
      */
-    Family familyLogin(String username, String password);
-
-    /**
-     * 成员登陆
-     *
-     * @param username：长度三位
-     * @param password
-     * @return
-     */
-    MemberQuery memberLogin(String username, String password);
+    E login(String username, String password, String which);
 
     /**
      * 家庭注册

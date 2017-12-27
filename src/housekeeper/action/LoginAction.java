@@ -2,15 +2,13 @@ package housekeeper.action;
 
 import com.alibaba.fastjson.JSONWriter;
 import com.opensymphony.xwork2.ActionSupport;
-import housekeeper.entities.Family;
-import housekeeper.entities.MemberQuery;
 import housekeeper.service.FamilyAndMemberService;
 import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +23,9 @@ public class LoginAction extends ActionSupport {
      */
     private static final long serialVersionUID = -743176005568741483L;
 
-    @Resource
+    @Autowired
     private FamilyAndMemberService familyAndMemberService;
-    @Resource(name = "getStrResponse")
+    @Autowired
     private GetStrResponse getStrResponse;
 
     private String username;
@@ -122,14 +120,8 @@ public class LoginAction extends ActionSupport {
             username = jsonRequest.getString("username");
             password = jsonRequest.getString("password");
         }
-        if (which.equals("m")) {
-            MemberQuery member = familyAndMemberService.memberLogin(username, password);
-            results.put("data", member);
-        } else {
-            Family family = familyAndMemberService.familyLogin(username, password);
-            results.put("data", family);
-        }
-        if (results.get("date") != null) {
+        results.put("data", familyAndMemberService.login(username, password, which) == null ? "" : familyAndMemberService.login(username, password, which));
+        if (results.get("data") != "") {
             results.put("status", 200);
         } else {
             results.put("status", 201);
