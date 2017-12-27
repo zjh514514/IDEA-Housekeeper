@@ -1,22 +1,18 @@
 package housekeeper.test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import housekeeper.service.CardService;
+import housekeeper.service.CashInAndCashOutService;
+import housekeeper.service.FamilyAndMemberService;
+import housekeeper.service.ItemsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import housekeeper.entities.Card;
-import housekeeper.service.CardService;
-import housekeeper.service.CashInAndCashOutService;
-import housekeeper.service.FamilyAndMemberService;
-import housekeeper.service.ItemsService;
+import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
@@ -115,7 +111,7 @@ public class ServiceTest {
      */
     @Test
     public void testItemsAddItems() {
-        System.out.println(itemsService.addItems("bb", null));
+        System.out.println(itemsService.addItems("bb", 1));
     }
 
     @Test
@@ -125,13 +121,9 @@ public class ServiceTest {
 
     @Test
     public void testDeleteItem() {
-        System.out.println(itemsService.deleteItem(4));
+        System.out.println(itemsService.delete(18,"i"));
     }
 
-    @Test
-    public void testDeleteSubItem() {
-        System.out.println(itemsService.deleteSubItem(12));
-    }
 
     @Test
     public void testUpdateItem() {
@@ -178,7 +170,7 @@ public class ServiceTest {
 
     @Test
     public void testQueryById() {
-        List<Card> cards = cardService.queryById(null);
+        List cards = cardService.queryById(null);
         System.out.println(cards);
     }
 

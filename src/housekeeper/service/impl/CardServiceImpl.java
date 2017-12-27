@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import housekeeper.service.OperatorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import housekeeper.dao.CardDao;
@@ -15,10 +17,12 @@ import housekeeper.service.CardService;
 @Service
 public class CardServiceImpl implements CardService {
 
-	@Resource
+	@Autowired
 	private CardDao cardDao;
-	@Resource
+	@Autowired
 	private MemberDao memberDao;
+	@Autowired
+    private OperatorService operatorService;
 
 	@Resource(name = "card")
 	private Card card;
@@ -51,22 +55,8 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public String deleteCard(Integer id) {
-		try {
-			if (id != null) {
-				if (id > 0 && cardDao.queryById(id).size() != 0) {
-					cardDao.delete(id);
-					return "SUCCESS";
-				} else {
-					return "FAILED";
-				}
-			} else {
-				return "FAILED";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "ERROR";
-		}
+	public String delete(Integer id) {
+		return operatorService.delete(id,cardDao.queryById(id).size(),"c");
 	}
 
 	@Override

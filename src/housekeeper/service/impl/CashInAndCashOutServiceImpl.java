@@ -1,5 +1,12 @@
 package housekeeper.service.impl;
 
+import housekeeper.dao.*;
+import housekeeper.entities.*;
+import housekeeper.service.CashInAndCashOutService;
+import housekeeper.service.OperatorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,47 +14,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
-import housekeeper.dao.CashInDao;
-import housekeeper.dao.CashOutDao;
-import housekeeper.dao.ItemDao;
-import housekeeper.dao.MemberDao;
-import housekeeper.dao.SubItemDao;
-import housekeeper.entities.Account;
-import housekeeper.entities.CashIn;
-import housekeeper.entities.CashOut;
-import housekeeper.entities.Item;
-import housekeeper.entities.Member;
-import housekeeper.entities.SubItem;
-
 @Service
-public class CashInAndCashOutService implements housekeeper.service.CashInAndCashOutService {
+public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
 
-    @Resource
+    @Autowired
     private CashInDao cashInDao;
-    @Resource
+    @Autowired
     private CashOutDao cashOutDao;
-    @Resource
+    @Autowired
     private CashIn cashIn;
-    @Resource
+    @Autowired
     private CashOut cashOut;
-    @Resource
+    @Autowired
     private MemberDao memberDao;
-    @Resource
+    @Autowired
     private ItemDao itemDao;
-    @Resource
+    @Autowired
     private SubItemDao subItemDao;
-    @Resource
+    @Autowired
     private Account account;
+    @Autowired
+    private OperatorService operatorService;
 
-    @Resource(name = "member")
+    @Autowired
     private Member member;
-    @Resource(name = "item")
+    @Autowired
     private Item item;
-    @Resource(name = "subItem")
+    @Autowired
     private SubItem subItem;
 
     @Override
@@ -141,33 +134,8 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
     }
 
     @Override
-    public String deleteCashIn(Integer id) {
-        try {
-            if (id != null && cashInDao.queryById(id).size() != 0) {
-                cashInDao.delete(id);
-                return "SUCCESS";
-            } else {
-                return "FAILED";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "ERROR";
-        }
-    }
-
-    @Override
-    public String deleteCashOut(Integer id) {
-        try {
-            if (id != null && cashOutDao.queryById(id).size() != 0) {
-                cashOutDao.delete(id);
-                return "SUCCESS";
-            } else {
-                return "FAILED";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "ERROR";
-        }
+    public String delete(Integer id, String which) {
+        return operatorService.delete(id, cashInDao.queryById(id).size(), which);
     }
 
     @Override
@@ -360,30 +328,12 @@ public class CashInAndCashOutService implements housekeeper.service.CashInAndCas
 
     @Override
     public List queryCashInById(Integer id) {
-        if (id != null) {
-            List cashIns = cashInDao.queryById(id);
-            if (cashIns.size() != 0) {
-                return cashIns;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return operatorService.getList(id, cashInDao.queryById(id));
     }
 
     @Override
     public List queryCashOutById(Integer id) {
-        if (id != null) {
-            List cashOuts = cashOutDao.queryById(id);
-            if (cashOuts.size() != 0) {
-                return cashOuts;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return operatorService.getList(id, cashOutDao.queryById(id));
     }
 
     @Override

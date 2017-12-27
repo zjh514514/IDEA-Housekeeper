@@ -39,4 +39,6 @@ public interface AccountDao {
      * @return
      */
     List queryByName(String name);
+
+    List queryById(Integer id);
 }

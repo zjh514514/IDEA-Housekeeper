@@ -6,6 +6,7 @@ import housekeeper.entities.Family;
 import housekeeper.entities.Member;
 import housekeeper.entities.MemberQuery;
 import housekeeper.service.FamilyAndMemberService;
+import housekeeper.service.OperatorService;
 import housekeeper.tools.Sha256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
     private FamilyDao familyDao;
     @Autowired
     private MemberDao memberDao;
+    @Autowired
+    private OperatorService operatorService;
 
     @Autowired
     private Family family;
@@ -116,33 +119,8 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
     }
 
     @Override
-    public String familyDelete(Integer id) {
-        try {
-            if (id != null && familyDao.queryById(id).size() != 0) {
-                familyDao.delete(id);
-                return "SUCCESS";
-            } else {
-                return "FAILED";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "ERROR";
-        }
-    }
-
-    @Override
-    public String memberDelete(Integer id) {
-        try {
-            if (id != null && memberDao.queryById(id).size() != 0) {
-                memberDao.delete(id);
-                return "SUCCESS";
-            } else {
-                return "FAILED";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "ERROR";
-        }
+    public String delete(Integer id, String which) {
+        return operatorService.delete(id, memberDao.queryById(id).size(), which);
     }
 
     @Override
@@ -197,16 +175,12 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
 
     @Override
     public List familyGet(Integer id) {
-        if (id != null) {
-            List families = familyDao.queryById(id);
-            if (families.size() != 0) {
-                return families;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return operatorService.getList(id, familyDao.queryById(id));
+    }
+
+    @Override
+    public List memberGet(Integer id) {
+        return operatorService.getList(id, memberDao.queryById(id));
     }
 
     @Override
@@ -224,18 +198,5 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
         }
     }
 
-    @Override
-    public List memberGet(Integer id) {
-        if (id != null) {
-            List members = memberDao.queryById(id);
-            if (members.size() != 0) {
-                return members;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
 
 }

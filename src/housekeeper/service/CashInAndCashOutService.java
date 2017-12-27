@@ -41,20 +41,12 @@ public interface CashInAndCashOutService {
                       Integer itemId, Integer subItemId, Integer accountId);
 
     /**
-     * 删除某一收入记录
+     * 删除某一收支记录
      *
      * @param id
      * @return
      */
-    String deleteCashIn(Integer id);
-
-    /**
-     * 删除某一支出记录
-     *
-     * @param id
-     * @return
-     */
-    String deleteCashOut(Integer id);
+    String delete(Integer id,String which);
 
     /**
      * 修改某一收入记录信息

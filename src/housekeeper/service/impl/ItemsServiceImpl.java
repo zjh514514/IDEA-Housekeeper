@@ -1,28 +1,29 @@
 package housekeeper.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import housekeeper.dao.ItemDao;
 import housekeeper.dao.SubItemDao;
 import housekeeper.entities.Item;
 import housekeeper.entities.SubItem;
 import housekeeper.service.ItemsService;
+import housekeeper.service.OperatorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ItemsServiceImpl implements ItemsService {
 
-	@Resource
+	@Autowired
 	private ItemDao itemDao;
-	@Resource
+	@Autowired
 	private SubItemDao subItemDao;
+	@Autowired
+    private OperatorService operatorService;
 
-	@Resource(name = "item")
+	@Autowired
 	private Item item;
-	@Resource(name = "subItem")
+	@Autowired
 	private SubItem subItem;
 
 	@Override
@@ -75,33 +76,8 @@ public class ItemsServiceImpl implements ItemsService {
 	}
 
 	@Override
-	public String deleteItem(Integer id) {
-		try {
-			if (id != null && itemDao.queryById(id).size() != 0) {
-				itemDao.delete(id);
-				return "SUCCESS";
-			} else {
-				return "FAILED";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "ERROR";
-		}
-	}
-
-	@Override
-	public String deleteSubItem(Integer id) {
-		try {
-			if (id != null && subItemDao.queryById(id).size() != 0) {
-				subItemDao.delete(id);
-				return "SUCCESS";
-			} else {
-				return "FAILED";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "ERROR";
-		}
+	public String delete(Integer id,String which) {
+		return operatorService.delete(id,itemDao.queryById(id).size(),which);
 	}
 
 	@Override

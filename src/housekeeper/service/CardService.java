@@ -22,7 +22,7 @@ public interface CardService {
 	 * @param id
 	 * @return
 	 */
-	String deleteCard(Integer id);
+	String delete(Integer id);
 
 	/**
 	 * 修改某一银行卡信息

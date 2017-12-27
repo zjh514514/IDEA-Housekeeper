@@ -38,20 +38,12 @@ public interface FamilyAndMemberService<E> {
     String memberSign(String username, String password, String name, String role, Integer familyId);
 
     /**
-     * 删除某一家庭
+     * 删除
      *
      * @param id
      * @return
      */
-    String familyDelete(Integer id);
-
-    /**
-     * 删除某一成员
-     *
-     * @param id
-     * @return
-     */
-    String memberDelete(Integer id);
+    String delete(Integer id,String which);
 
     /**
      * 修改某一家庭信息

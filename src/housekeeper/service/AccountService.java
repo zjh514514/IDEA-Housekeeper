@@ -18,7 +18,7 @@ public interface AccountService {
 	 * @param id
 	 * @return
 	 */
-	String deleteAccount(Integer id);
+	String delete(Integer id);
 
 	/**
 	 * 修改账户选项
