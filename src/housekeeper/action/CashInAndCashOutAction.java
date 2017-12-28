@@ -1,15 +1,12 @@
 package housekeeper.action;
 
-import com.alibaba.fastjson.JSONWriter;
 import com.opensymphony.xwork2.ActionSupport;
 import housekeeper.service.CashInAndCashOutService;
 import net.sf.json.JSONObject;
-import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,9 +22,9 @@ public class CashInAndCashOutAction extends ActionSupport {
      */
     private static final long serialVersionUID = -7498673228509628884L;
 
-    @Resource
+    @Autowired
     private CashInAndCashOutService cashInAndCashOutService;
-    @Resource
+    @Autowired
     private GetStrResponse getStrResponse;
 
     private String time;
@@ -163,11 +160,6 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void save() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
@@ -196,40 +188,7 @@ public class CashInAndCashOutAction extends ActionSupport {
                     memberId, itemId, subItemId, accountId);
         }
         results.put("result", result);
-        writer.writeObject(results);
-        writer.flush();
-        writer.close();
-    }
-
-    /**
-     * 删除一条收支记录
-     *
-     * @throws Exception
-     */
-    public void delete() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
-        String result;
-        Map<String, String> results = new HashMap<>();
-        String json = getStrResponse.getStrResponse();
-        JSONObject jsonRequest;
-        if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            id = jsonRequest.getInt("id");
-        }
-        if (which.equals("i")) {
-            result = cashInAndCashOutService.deleteCashIn(id);
-        } else {
-            result = cashInAndCashOutService.deleteCashOut(id);
-        }
-        results.put("result", result);
-        writer.writeObject(results);
-        writer.flush();
-        writer.close();
+        getStrResponse.writer(results);
     }
 
     /**
@@ -238,11 +197,6 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void memberQuery() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String json = getStrResponse.getStrResponse();
         JSONObject jsonRequest;
         if (!json.equals("")) {
@@ -252,14 +206,10 @@ public class CashInAndCashOutAction extends ActionSupport {
         }
         if (which.equals("i")) {
             List cashIns = cashInAndCashOutService.queryCashInByMember(memberId);
-            writer.writeObject(cashIns);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashIns);
         } else {
             List cashOuts = cashInAndCashOutService.queryCashOutByMember(memberId);
-            writer.writeObject(cashOuts);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashOuts);
         }
     }
 
@@ -269,11 +219,6 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void idQuery() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
@@ -282,14 +227,10 @@ public class CashInAndCashOutAction extends ActionSupport {
         }
         if (which.equals("i")) {
             List cashIns = cashInAndCashOutService.queryCashInById(id);
-            writer.writeObject(cashIns);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashIns);
         } else {
             List cashOuts = cashInAndCashOutService.queryCashOutById(id);
-            writer.writeObject(cashOuts);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashOuts);
         }
     }
 
@@ -299,11 +240,6 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void itemQuery() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
@@ -313,14 +249,10 @@ public class CashInAndCashOutAction extends ActionSupport {
         }
         if (which.equals("i")) {
             List cashIns = cashInAndCashOutService.queryCashInByItem(itemId, memberId);
-            writer.writeObject(cashIns);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashIns);
         } else {
             List cashOuts = cashInAndCashOutService.queryCashOutByItem(itemId, memberId);
-            writer.writeObject(cashOuts);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashOuts);
         }
     }
 
@@ -330,11 +262,6 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void subItemQuery() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
@@ -344,14 +271,10 @@ public class CashInAndCashOutAction extends ActionSupport {
         }
         if (which.equals("i")) {
             List cashIns = cashInAndCashOutService.queryCashInBySubItem(subItemId, memberId);
-            writer.writeObject(cashIns);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashIns);
         } else {
             List cashOuts = cashInAndCashOutService.queryCashOutBySubItem(subItemId, memberId);
-            writer.writeObject(cashOuts);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashOuts);
         }
     }
 
@@ -361,11 +284,6 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void update() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
@@ -393,9 +311,7 @@ public class CashInAndCashOutAction extends ActionSupport {
                     itemId, subItemId, id, accountId);
         }
         results.put("result", result);
-        writer.writeObject(results);
-        writer.flush();
-        writer.close();
+        getStrResponse.writer(results);
     }
 
     /**
@@ -404,11 +320,6 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void accountQuery() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
@@ -417,15 +328,9 @@ public class CashInAndCashOutAction extends ActionSupport {
             memberId = jsonRequest.getInt("memberId");
         }
         if (which.equals("i")) {
-            List cashIns = cashInAndCashOutService.queryCashInByAccount(accountId, memberId);
-            writer.writeObject(cashIns);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashInAndCashOutService.queryCashInByAccount(accountId, memberId));
         } else {
-            List cashOuts = cashInAndCashOutService.queryCashOutByAccount(accountId, memberId);
-            writer.writeObject(cashOuts);
-            writer.flush();
-            writer.close();
+            getStrResponse.writer(cashInAndCashOutService.queryCashOutByAccount(accountId, memberId));
         }
     }
 
@@ -435,11 +340,6 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void timeQuery() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String json = getStrResponse.getStrResponse();
         List<Object> results = new ArrayList<>();
         if (!json.equals("")) {
@@ -459,9 +359,7 @@ public class CashInAndCashOutAction extends ActionSupport {
         map.put("sum", sum);
         results.add(lists);
         results.add(map);
-        writer.writeObject(results);
-        writer.flush();
-        writer.close();
+        getStrResponse.writer(results);
     }
 
     /**
@@ -470,11 +368,6 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void yearSum() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
@@ -482,8 +375,6 @@ public class CashInAndCashOutAction extends ActionSupport {
             memberId = jsonRequest.getInt("memberId");
             year = jsonRequest.getString("year");
         }
-        writer.writeObject(cashInAndCashOutService.yearSum(memberId, year, which));
-        writer.flush();
-        writer.close();
+        getStrResponse.writer(cashInAndCashOutService.yearSum(memberId, year, which));
     }
 }

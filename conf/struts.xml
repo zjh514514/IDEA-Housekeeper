@@ -15,24 +15,22 @@
         <global-allowed-methods>regex:.*</global-allowed-methods>
 
         <action name="cash-*" class="cashInAndCashOutAction"
-                method="{1}">
-        </action>
+                method="{1}"/>
 
         <action name="item-*" class="itemAction"
-                method="{1}">
-        </action>
+                method="{1}"/>
 
         <action name="login-*" class="loginAction"
-                method="{1}">
-        </action>
+                method="{1}"/>
 
         <action name="card-*" class="cardAction"
-                method="{1}">
-        </action>
+                method="{1}"/>
 
         <action name="account-*" class="accountAction"
-                method="{1}">
-        </action>
+                method="{1}"/>
+
+        <action name="operator-*" class="operatorAction"
+                method="{1}"/>
 
     </package>
 

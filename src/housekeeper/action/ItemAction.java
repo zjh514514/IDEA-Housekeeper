@@ -89,11 +89,6 @@ public class ItemAction extends ActionSupport {
      * @throws Exception
      */
     public void get() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String json = getStrResponse.getStrResponse();
         JSONObject jsonRequest;
         if (!json.equals("")) {
@@ -105,28 +100,20 @@ public class ItemAction extends ActionSupport {
             if (which.equals("i")) {
                 type = jsonRequest.getInt("type");
                 List items = itemsService.queryItem(type);
-                writer.writeObject(items);
-                writer.flush();
-                writer.close();
+                getStrResponse.writer(items);
             } else {
                 itemId = jsonRequest.getInt("itemId");
                 List subItems = itemsService.querySubItem(itemId);
-                writer.writeObject(subItems);
-                writer.flush();
-                writer.close();
+                getStrResponse.writer(subItems);
             }
         } else {
             // which是i时查询父类，否则查询子类
             if (which.equals("i")) {
                 List items = itemsService.queryItem(type);
-                writer.writeObject(items);
-                writer.flush();
-                writer.close();
+                getStrResponse.writer(items);
             } else {
                 List subItems = itemsService.querySubItem(itemId);
-                writer.writeObject(subItems);
-                writer.flush();
-                writer.close();
+                getStrResponse.writer(subItems);
             }
         }
     }
@@ -137,11 +124,6 @@ public class ItemAction extends ActionSupport {
      * @throws Exception
      */
     public void update() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
@@ -168,38 +150,7 @@ public class ItemAction extends ActionSupport {
             }
             results.put("result", result);
         }
-        writer.writeObject(results);
-        writer.flush();
-        writer.close();
-    }
-
-    /**
-     * 删除父类或子类
-     *
-     * @throws Exception
-     */
-    public void delete() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
-        String result;
-        Map<String, String> results = new HashMap<>();
-        String json = getStrResponse.getStrResponse();
-        JSONObject jsonRequest;
-        if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            id = jsonRequest.getInt("id");
-        }
-        // which为i时删除父类，否则删除子类
-        result = itemsService.delete(id, which);
-
-        results.put("result", result);
-        writer.writeObject(results);
-        writer.flush();
-        writer.close();
+        getStrResponse.writer(results);
     }
 
     /**
@@ -208,11 +159,6 @@ public class ItemAction extends ActionSupport {
      * @throws Exception
      */
     public void add() throws Exception {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=utf-8");
-        JSONWriter writer = new JSONWriter(response.getWriter());
-
         String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
@@ -239,9 +185,7 @@ public class ItemAction extends ActionSupport {
             }
             results.put("result", result);
         }
-        writer.writeObject(results);
-        writer.flush();
-        writer.close();
+        getStrResponse.writer(results);
     }
 
 }

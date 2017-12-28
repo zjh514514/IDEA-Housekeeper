@@ -98,12 +98,12 @@ public class ServiceTest {
 
     @Test
     public void testMemberDelete() {
-        System.out.println(familyAndMemberService.memberDelete(2));
+        System.out.println(familyAndMemberService.delete(2,"m"));
     }
 
     @Test
     public void testFamilyDelete() {
-        System.out.println(familyAndMemberService.familyDelete(1));
+        System.out.println(familyAndMemberService.delete(1,"f"));
     }
 
     /**
@@ -155,7 +155,7 @@ public class ServiceTest {
 
     @Test
     public void testDeleteCard() {
-        System.out.println(cardService.deleteCard(-1));
+        System.out.println(cardService.delete(-1));
     }
 
     @Test
@@ -184,7 +184,7 @@ public class ServiceTest {
 
     @Test
     public void testDeleteCashIn() {
-        System.out.println(cashInAndCashOutServoice.deleteCashIn(null));
+        System.out.println(cashInAndCashOutServoice.delete(6,"ci"));
     }
 
     @Test

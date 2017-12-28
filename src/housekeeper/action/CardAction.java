@@ -1,215 +1,151 @@
 package housekeeper.action;
 
-import com.alibaba.fastjson.JSONWriter;
 import com.opensymphony.xwork2.ActionSupport;
 import housekeeper.service.CardService;
 import net.sf.json.JSONObject;
-import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
 @Scope("prototype")
 public class CardAction extends ActionSupport {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4550468265979662129L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4550468265979662129L;
 
-	@Resource
-	private CardService cardService;
-	@Resource
-	private GetStrResponse getStrResponse;
+    @Autowired
+    private CardService cardService;
+    @Autowired
+    private GetStrResponse getStrResponse;
 
-	private String name;
-	private String number;
-	private Double money;
-	private String remark;
-	private Integer memberId;
-	private Integer id;
+    private String name;
+    private String number;
+    private Double money;
+    private String remark;
+    private Integer memberId;
+    private Integer id;
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getNumber() {
-		return number;
-	}
+    public String getNumber() {
+        return number;
+    }
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-	public Double getMoney() {
-		return money;
-	}
+    public Double getMoney() {
+        return money;
+    }
 
-	public void setMoney(Double money) {
-		this.money = money;
-	}
+    public void setMoney(Double money) {
+        this.money = money;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public Integer getMemberId() {
-		return memberId;
-	}
+    public Integer getMemberId() {
+        return memberId;
+    }
 
-	public void setMemberId(Integer memberId) {
-		this.memberId = memberId;
-	}
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	/**
-	 * 保存银行卡
-	 * 
-	 * @throws Exception 
-	 * 对对对
-	 */
-	public void save() throws Exception { 
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setContentType("application/json;charset=utf-8");
-		JSONWriter writer = new JSONWriter(response.getWriter());
+    /**
+     * 保存银行卡
+     *
+     * @throws Exception
+     */
+    public void save() throws Exception {
+        String json = getStrResponse.getStrResponse();
+        if (!json.equals("")) {
+            JSONObject jsonRequest = JSONObject.fromObject(json);
+            name = jsonRequest.getString("name");
+            number = jsonRequest.getString("number");
+            money = jsonRequest.getDouble("money");
+            remark = jsonRequest.getString("remark");
+            memberId = jsonRequest.getInt("memberId");
+        }
+        String result = cardService.addCard(name, number, money, remark, memberId);
+        Map<String, String> results = new HashMap<>();
+        results.put("result", result);
+        getStrResponse.writer(results);
+    }
 
-		String json = getStrResponse.getStrResponse();
-		if (!json.equals("")) {
-			JSONObject jsonRequest = JSONObject.fromObject(json);
-			name = jsonRequest.getString("name");
-			number = jsonRequest.getString("number");
-			money = jsonRequest.getDouble("money");
-			remark = jsonRequest.getString("remark");
-			memberId = jsonRequest.getInt("memberId");
-		}
-		String result = cardService.addCard(name, number, money, remark, memberId);
-		Map<String, String> results = new HashMap<>();
-		results.put("result", result);
+    /**
+     * 修改银行卡信息
+     *
+     * @throws Exception
+     */
+    public void update() throws Exception {
+        String json = getStrResponse.getStrResponse();
+        if (!json.equals("")) {
+            JSONObject jsonRequest = JSONObject.fromObject(json);
+            name = jsonRequest.getString("name");
+            number = jsonRequest.getString("number");
+            money = jsonRequest.getDouble("money");
+            remark = jsonRequest.getString("remark");
+            id = jsonRequest.getInt("id");
+        }
+        String result = cardService.updateCard(name, number, money, remark, id);
+        Map<String, String> results = new HashMap<>();
+        results.put("result", result);
+        getStrResponse.writer(results);
+    }
 
-		writer.writeObject(results);
-		writer.flush();
-		writer.close();
-	}
+    /**
+     * 查询某一成员的银行卡
+     *
+     * @throws Exception
+     */
+    public void memberQuery() throws Exception {
+        String json = getStrResponse.getStrResponse();
+        if (!json.equals("")) {
+            JSONObject jsonRequest = JSONObject.fromObject(json);
+            memberId = jsonRequest.getInt("memberId");
+        }
+        getStrResponse.writer(cardService.queryByMember(memberId));
+    }
 
-	/**
-	 * 删除银行卡
-	 * 
-	 * @throws Exception
-	 */
-	public void delete() throws Exception {
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setContentType("application/json;charset=utf-8");
-		JSONWriter writer = new JSONWriter(response.getWriter());
-
-		String json = getStrResponse.getStrResponse();
-		if (!json.equals("")) {
-			JSONObject jsonRequest = JSONObject.fromObject(json);
-			id = jsonRequest.getInt("id");
-		}
-		String result = cardService.deleteCard(id);
-		Map<String, String> results = new HashMap<>();
-		results.put("result", result);
-
-		writer.writeObject(results);
-		writer.flush();
-		writer.close();
-	}
-
-	/**
-	 * 修改银行卡信息
-	 * 
-	 * @throws Exception
-	 */
-	public void update() throws Exception {
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setContentType("application/json;charset=utf-8");
-		JSONWriter writer = new JSONWriter(response.getWriter());
-
-		String json = getStrResponse.getStrResponse();
-		if (!json.equals("")) {
-			JSONObject jsonRequest = JSONObject.fromObject(json);
-			name = jsonRequest.getString("name");
-			number = jsonRequest.getString("number");
-			money = jsonRequest.getDouble("money");
-			remark = jsonRequest.getString("remark");
-			id = jsonRequest.getInt("id");
-		}
-		String result = cardService.updateCard(name, number, money, remark, id);
-		Map<String, String> results = new HashMap<>();
-		results.put("result", result);
-
-		writer.writeObject(results);
-		writer.flush();
-		writer.close();
-	}
-
-	/**
-	 * 查询某一成员的银行卡
-	 * 
-	 * @throws Exception
-	 */
-	public void memberQuery() throws Exception {
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setContentType("application/json;charset=utf-8");
-		JSONWriter writer = new JSONWriter(response.getWriter());
-
-		String json = getStrResponse.getStrResponse();
-		if (!json.equals("")) {
-			JSONObject jsonRequest = JSONObject.fromObject(json);
-			memberId = jsonRequest.getInt("memberId");
-		}
-		List cards = cardService.queryByMember(memberId);
-
-		writer.writeObject(cards);
-		writer.flush();
-		writer.close();
-	}
-
-	/**
-	 * 查询某一银行卡信息
-	 * 
-	 * @throws Exception
-	 */
-	public void idQuery() throws Exception {
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setContentType("application/json;charset=utf-8");
-		JSONWriter writer = new JSONWriter(response.getWriter());
-
-		String json = getStrResponse.getStrResponse();
-		if (!json.equals("")) {
-			JSONObject jsonRequest = JSONObject.fromObject(json);
-			id = jsonRequest.getInt("id");
-		}
-		List cards = cardService.queryById(id);
-
-		writer.writeObject(cards);
-		writer.flush();
-		writer.close();
-	}
+    /**
+     * 查询某一银行卡信息
+     *
+     * @throws Exception
+     */
+    public void idQuery() throws Exception {
+        String json = getStrResponse.getStrResponse();
+        if (!json.equals("")) {
+            JSONObject jsonRequest = JSONObject.fromObject(json);
+            id = jsonRequest.getInt("id");
+        }
+        getStrResponse.writer(cardService.queryById(id));
+    }
 }
