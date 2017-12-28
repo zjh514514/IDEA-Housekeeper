@@ -1,16 +1,13 @@
 package housekeeper.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import housekeeper.dao.AccountDao;
+import housekeeper.entities.Account;
+import housekeeper.service.AccountService;
 import housekeeper.service.OperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import housekeeper.dao.AccountDao;
-import housekeeper.entities.Account;
-import housekeeper.service.AccountService;
+import java.util.List;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -20,7 +17,7 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private OperatorService operatorService;
 
-    @Resource
+    @Autowired
     private Account account;
 
     @Override
@@ -31,13 +28,13 @@ public class AccountServiceImpl implements AccountService {
             if (accountDao.queryByName(name).size() == 0) {
                 account.setAccountName(name);
                 accountDao.save(account);
-                return "SUCCESS";
+                return "200";
             } else {
-                return "FAILED";
+                return "201";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "ERROR";
+            return "202";
         }
     }
 
@@ -49,30 +46,23 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public String updateAccount(Integer id, String name) {
         try {
-            if (name == null)
-                name = "";
-            if (id != null) {
+            if (id != null && name != null) {
                 account.setAccountId(id);
                 account.setAccountName(name);
                 accountDao.update(account);
-                return "SUCCESS";
+                return "200";
             } else {
-                return "FAILED";
+                return "201";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "ERROR";
+            return "202";
         }
     }
 
     @Override
     public List query() {
-        List accounts = accountDao.getAll();
-        if (accounts.size() != 0)
-            return accounts;
-        else {
-            return null;
-        }
+        return accountDao.getAll();
     }
 
 }

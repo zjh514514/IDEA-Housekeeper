@@ -5,6 +5,8 @@ import housekeeper.service.OperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -27,16 +29,12 @@ public class OperatorServiceImpl implements OperatorService {
     @Autowired
     private AccountDao accountDao;
 
-    public List getList(Integer id, List list) {
-        if (id != null) {
-            if (list.size() != 0) {
-
-                return list;
-            } else {
-                return null;
-            }
+    public List getList(List list, Integer... id) {
+        System.out.println(id);
+        if (id != null && list.size() != 0) {
+            return list;
         } else {
-            return null;
+            return new ArrayList();
         }
     }
 

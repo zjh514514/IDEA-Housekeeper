@@ -20,25 +20,8 @@ public interface CashInAndCashOutService {
      * @param accountId
      * @return
      */
-    String addCashIn(String time, String site, String people, Double money, String remark, Integer memberId,
-                     Integer itemId, Integer subItemId, Integer accountId);
-
-    /**
-     * 增加一条支出记录
-     *
-     * @param time
-     * @param site
-     * @param people
-     * @param money
-     * @param remark
-     * @param memberId
-     * @param itemId
-     * @param subItemId
-     * @param accountId
-     * @return
-     */
-    String addCashOut(String time, String site, String people, Double money, String remark, Integer memberId,
-                      Integer itemId, Integer subItemId, Integer accountId);
+    String add(String time, String site, String people, Double money, String remark, Integer memberId,
+               Integer itemId, Integer subItemId, Integer accountId, String which);
 
     /**
      * 删除某一收支记录
@@ -46,7 +29,7 @@ public interface CashInAndCashOutService {
      * @param id
      * @return
      */
-    String delete(Integer id,String which);
+    String delete(Integer id, String which);
 
     /**
      * 修改某一收入记录信息
@@ -62,25 +45,8 @@ public interface CashInAndCashOutService {
      * @param accountId
      * @return
      */
-    String updateCashIn(String time, String site, String people, Double money, String remark, Integer itemId,
-                        Integer subItemId, Integer id, Integer accountId);
-
-    /**
-     * 修改某一支出记录信息
-     *
-     * @param time
-     * @param site
-     * @param people
-     * @param money
-     * @param remark
-     * @param itemId
-     * @param subItemId
-     * @param id
-     * @param accountId
-     * @return
-     */
-    String updateCashOut(String time, String site, String people, Double money, String remark, Integer itemId,
-                         Integer subItemId, Integer id, Integer accountId);
+    String update(String time, String site, String people, Double money, String remark, Integer itemId,
+                  Integer subItemId, Integer id, Integer accountId, String which);
 
     /**
      * 查询某一成员下所有的收入信息

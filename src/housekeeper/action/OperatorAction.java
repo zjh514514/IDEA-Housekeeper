@@ -53,7 +53,6 @@ public class OperatorAction {
             which = jsonRequest.getString("which");
             id = jsonRequest.getInt("id");
         }
-
         switch (which) {
             case "a":
                 result = accountService.delete(id);

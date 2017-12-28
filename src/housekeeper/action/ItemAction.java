@@ -1,15 +1,13 @@
 package housekeeper.action;
 
-import com.alibaba.fastjson.JSONWriter;
 import com.opensymphony.xwork2.ActionSupport;
 import housekeeper.service.ItemsService;
 import net.sf.json.JSONObject;
-import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,16 +21,15 @@ public class ItemAction extends ActionSupport {
      */
     private static final long serialVersionUID = 260340696080751436L;
 
-    @Resource
+    @Autowired
     private ItemsService itemsService;
-    @Resource
+    @Autowired
     private GetStrResponse getStrResponse;
 
     private Integer type;
     private Integer id;
     private String itemName;
     private String subItemName;
-    private Integer itemId;
     private String which;
 
     public void setType(Integer type) {
@@ -67,14 +64,6 @@ public class ItemAction extends ActionSupport {
         this.id = id;
     }
 
-    public Integer getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(Integer itemId) {
-        this.itemId = itemId;
-    }
-
     public String getWhich() {
         return which;
     }
@@ -88,34 +77,28 @@ public class ItemAction extends ActionSupport {
      *
      * @throws Exception
      */
-    public void get() throws Exception {
+    public void query() throws Exception {
+        List list = new ArrayList();
+        Map results = new HashMap();
         String json = getStrResponse.getStrResponse();
-        JSONObject jsonRequest;
         if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
-            System.out.println(jsonRequest);
+            JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
-            System.out.println(which);
-            // which是i时查询父类，否则查询子类
-            if (which.equals("i")) {
-                type = jsonRequest.getInt("type");
-                List items = itemsService.queryItem(type);
-                getStrResponse.writer(items);
-            } else {
-                itemId = jsonRequest.getInt("itemId");
-                List subItems = itemsService.querySubItem(itemId);
-                getStrResponse.writer(subItems);
-            }
-        } else {
-            // which是i时查询父类，否则查询子类
-            if (which.equals("i")) {
-                List items = itemsService.queryItem(type);
-                getStrResponse.writer(items);
-            } else {
-                List subItems = itemsService.querySubItem(itemId);
-                getStrResponse.writer(subItems);
-            }
+            type = jsonRequest.getInt("type");
+            id = jsonRequest.getInt("itemId");
         }
+        switch (which) {
+            case "i":
+                list = itemsService.queryItem(type);
+                break;
+            case "o":
+                list = itemsService.querySubItem(id);
+                break;
+        }
+        results.put("data", list);
+        results.putAll(getStrResponse.setStatus(list.size()));
+        getStrResponse.writer(results);
+
     }
 
     /**
@@ -124,32 +107,25 @@ public class ItemAction extends ActionSupport {
      * @throws Exception
      */
     public void update() throws Exception {
-        String result;
+        String result = "201";
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
-        JSONObject jsonRequest;
         if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
+            JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
-            // which为i时修改父类，否则修改子类
-            if (which.equals("i")) {
-                itemName = jsonRequest.getString("itemName");
-                id = jsonRequest.getInt("id");
-                result = itemsService.updateItem(itemName, id);
-            } else {
-                subItemName = jsonRequest.getString("subItemName");
-                id = jsonRequest.getInt("id");
-                result = itemsService.updateSubItem(subItemName, id);
-            }
-            results.put("result", result);
-        } else {
-            if (which.equals("i")) {
-                result = itemsService.updateItem(itemName, id);
-            } else {
-                result = itemsService.updateSubItem(subItemName, id);
-            }
-            results.put("result", result);
+            itemName = jsonRequest.getString("itemName");
+            subItemName = jsonRequest.getString("subItemName");
+            id = jsonRequest.getInt("id");
         }
+        switch (which) {
+            case "i":
+                result = itemsService.updateItem(itemName, id);
+                break;
+            case "s":
+                result = itemsService.updateSubItem(subItemName, id);
+                break;
+        }
+        results.put("result", result);
         getStrResponse.writer(results);
     }
 
@@ -159,32 +135,26 @@ public class ItemAction extends ActionSupport {
      * @throws Exception
      */
     public void add() throws Exception {
-        String result;
+        String result = "201";
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
-        JSONObject jsonRequest;
         if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
+            JSONObject jsonRequest = JSONObject.fromObject(json);
             which = jsonRequest.getString("which");
-            // which为i时增加父类，否则增加子类
-            if (which.equals("i")) {
-                itemName = jsonRequest.getString("itemName");
-                type = jsonRequest.getInt("type");
-                result = itemsService.addItems(itemName, type);
-            } else {
-                subItemName = jsonRequest.getString("subItemName");
-                itemId = jsonRequest.getInt("itemId");
-                result = itemsService.addSubItems(subItemName, itemId);
-            }
-            results.put("result", result);
-        } else {
-            if (which.equals("i")) {
-                result = itemsService.addItems(itemName, type);
-            } else {
-                result = itemsService.addSubItems(subItemName, itemId);
-            }
-            results.put("result", result);
+            itemName = jsonRequest.getString("itemName");
+            type = jsonRequest.getInt("type");
+            subItemName = jsonRequest.getString("subItemName");
+            id = jsonRequest.getInt("id");
         }
+        switch (which) {
+            case "i":
+                result = itemsService.addItems(itemName, type);
+                break;
+            case "s":
+                result = itemsService.addSubItems(subItemName, id);
+                break;
+        }
+        results.put("status", result);
         getStrResponse.writer(results);
     }
 

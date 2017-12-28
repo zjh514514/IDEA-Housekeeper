@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -30,6 +32,15 @@ public class CardAction extends ActionSupport {
     private String remark;
     private Integer memberId;
     private Integer id;
+    private String which;
+
+    public String getWhich() {
+        return which;
+    }
+
+    public void setWhich(String which) {
+        this.which = which;
+    }
 
     public String getName() {
         return name;
@@ -85,18 +96,17 @@ public class CardAction extends ActionSupport {
      * @throws Exception
      */
     public void save() throws Exception {
+        Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            name = jsonRequest.getString("name");
-            number = jsonRequest.getString("number");
-            money = jsonRequest.getDouble("money");
-            remark = jsonRequest.getString("remark");
-            memberId = jsonRequest.getInt("memberId");
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            name = jsonObject.getString("name");
+            number = jsonObject.getString("number");
+            money = jsonObject.getDouble("money");
+            remark = jsonObject.getString("remark");
+            memberId = jsonObject.getInt("memberId");
         }
-        String result = cardService.addCard(name, number, money, remark, memberId);
-        Map<String, String> results = new HashMap<>();
-        results.put("result", result);
+        results.put("status", cardService.addCard(name, number, money, remark, memberId));
         getStrResponse.writer(results);
     }
 
@@ -106,46 +116,45 @@ public class CardAction extends ActionSupport {
      * @throws Exception
      */
     public void update() throws Exception {
+        Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            name = jsonRequest.getString("name");
-            number = jsonRequest.getString("number");
-            money = jsonRequest.getDouble("money");
-            remark = jsonRequest.getString("remark");
-            id = jsonRequest.getInt("id");
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            name = jsonObject.getString("name");
+            number = jsonObject.getString("number");
+            money = jsonObject.getDouble("money");
+            remark = jsonObject.getString("remark");
+            id = jsonObject.getInt("id");
         }
-        String result = cardService.updateCard(name, number, money, remark, id);
-        Map<String, String> results = new HashMap<>();
-        results.put("result", result);
+        results.put("status", cardService.updateCard(name, number, money, remark, id));
         getStrResponse.writer(results);
     }
 
     /**
-     * 查询某一成员的银行卡
+     * 查询
      *
      * @throws Exception
      */
-    public void memberQuery() throws Exception {
+    public void query() throws Exception {
+        Map<String, Object> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            memberId = jsonRequest.getInt("memberId");
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            memberId = jsonObject.getInt("memberId");
+            id = jsonObject.getInt("id");
+            which = jsonObject.getString("which");
         }
-        getStrResponse.writer(cardService.queryByMember(memberId));
-    }
-
-    /**
-     * 查询某一银行卡信息
-     *
-     * @throws Exception
-     */
-    public void idQuery() throws Exception {
-        String json = getStrResponse.getStrResponse();
-        if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            id = jsonRequest.getInt("id");
+        List list = new ArrayList();
+        switch (which) {
+            case "id":
+                list = cardService.queryById(id);
+                break;
+            case "member":
+                list = cardService.queryByMember(memberId);
+                break;
         }
-        getStrResponse.writer(cardService.queryById(id));
+        results.put("data", list);
+        results.putAll(getStrResponse.setStatus(list.size()));
+        getStrResponse.writer(results);
     }
 }

@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,4 +55,13 @@ public class GetStrResponse {
         writer.close();
     }
 
+    public Map setStatus(Integer size) {
+        Map<String, Integer> results = new HashMap<>();
+        if (size > 0) {
+            results.put("status", 200);
+        } else {
+            results.put("status", 201);
+        }
+        return results;
+    }
 }

@@ -11,6 +11,7 @@ import housekeeper.tools.Sha256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -71,14 +72,13 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
                 family.setPassword(Sha256.getSHA256StrJava(password));
                 family.setFamilyName(familyName);
                 familyDao.save(family);
-                return "SUCCESS";
+                return "200";
             } else {
-                // 用户名已被注册
-                return "FAILED";
+                return "201";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "ERROR";
+            return "202";
         }
 
     }
@@ -106,14 +106,14 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
                 member.setBalance(0.0);
                 member.setFamily(family);
                 memberDao.save(member);
-                return "SUCCESS";
+                return "200";
             } else {
                 // 用户名已被注册
-                return "FAILED";
+                return "201";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "ERROR";
+            return "202";
         }
 
     }
@@ -135,13 +135,13 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
                 family.setPassword(Sha256.getSHA256StrJava(password));
                 family.setFamilyId(id);
                 familyDao.update(family);
-                return "SUCCESS";
+                return "200";
             } else {
-                return "FAILED";
+                return "201";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "ERROR";
+            return "202";
         }
     }
 
@@ -163,38 +163,37 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
                 member.setRole(role);
                 member.setName(name);
                 memberDao.update(member);
-                return "SUCCESS";
+                return "200";
             } else {
-                return "FAILED";
+                return "201";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "ERROR";
+            return "202";
         }
     }
 
     @Override
     public List familyGet(Integer id) {
-        return operatorService.getList(id, familyDao.queryById(id));
+        return operatorService.getList(familyDao.queryById(id), id);
     }
 
     @Override
     public List memberGet(Integer id) {
-        return operatorService.getList(id, memberDao.queryById(id));
+        return operatorService.getList(memberDao.queryById(id), id);
     }
 
     @Override
     public List memberFamilyGet(Integer familyId) {
         if (familyId != null && familyDao.queryById(familyId).size() != 0) {
-            // family.setFamilyId(familyId);
             List members = memberDao.queryByFamily(familyId);
             if (members.size() != 0) {
                 return members;
             } else {
-                return null;
+                return new ArrayList();
             }
         } else {
-            return null;
+            return new ArrayList();
         }
     }
 

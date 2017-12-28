@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller("cashInAndCashOutAction")
+@Controller
 @Scope("prototype")
 public class CashInAndCashOutAction extends ActionSupport {
 
@@ -163,119 +163,25 @@ public class CashInAndCashOutAction extends ActionSupport {
         String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
-        JSONObject jsonRequest;
+        JSONObject jsonObject;
         if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            time = jsonRequest.getString("time");
-            site = jsonRequest.getString("site");
-            people = jsonRequest.getString("people");
-            money = jsonRequest.getDouble("money");
-            remark = jsonRequest.getString("remark");
-            memberId = jsonRequest.getInt("memberId");
-            itemId = jsonRequest.getInt("itemId");
-            subItemId = jsonRequest.getInt("subItemId");
-            accountId = jsonRequest.getInt("accountId");
-            System.out.println(time);
+            jsonObject = JSONObject.fromObject(json);
+            which = jsonObject.getString("which");
+            time = jsonObject.getString("time");
+            site = jsonObject.getString("site");
+            people = jsonObject.getString("people");
+            money = jsonObject.getDouble("money");
+            remark = jsonObject.getString("remark");
+            memberId = jsonObject.getInt("memberId");
+            itemId = jsonObject.getInt("itemId");
+            subItemId = jsonObject.getInt("subItemId");
+            accountId = jsonObject.getInt("accountId");
         }
-//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//		Long date = new Long(time);
-        if (which.equals("i")) {
-            result = cashInAndCashOutService.addCashIn(time, site, people, money, remark,
-                    memberId, itemId, subItemId, accountId);
-        } else {
-            result = cashInAndCashOutService.addCashOut(time, site, people, money, remark,
-                    memberId, itemId, subItemId, accountId);
-        }
-        results.put("result", result);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Long date = new Long(time);
+        result = cashInAndCashOutService.add(format.format(date * 1000L), site, people, money, remark, memberId, itemId, subItemId, accountId, which);
+        results.put("status", result);
         getStrResponse.writer(results);
-    }
-
-    /**
-     * 查询某一成员收支记录
-     *
-     * @throws Exception
-     */
-    public void memberQuery() throws Exception {
-        String json = getStrResponse.getStrResponse();
-        JSONObject jsonRequest;
-        if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            memberId = jsonRequest.getInt("memberId");
-        }
-        if (which.equals("i")) {
-            List cashIns = cashInAndCashOutService.queryCashInByMember(memberId);
-            getStrResponse.writer(cashIns);
-        } else {
-            List cashOuts = cashInAndCashOutService.queryCashOutByMember(memberId);
-            getStrResponse.writer(cashOuts);
-        }
-    }
-
-    /**
-     * 查询某一条收支记录
-     *
-     * @throws Exception
-     */
-    public void idQuery() throws Exception {
-        String json = getStrResponse.getStrResponse();
-        if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            id = jsonRequest.getInt("id");
-        }
-        if (which.equals("i")) {
-            List cashIns = cashInAndCashOutService.queryCashInById(id);
-            getStrResponse.writer(cashIns);
-        } else {
-            List cashOuts = cashInAndCashOutService.queryCashOutById(id);
-            getStrResponse.writer(cashOuts);
-        }
-    }
-
-    /**
-     * 查询某一成员某一父类收支记录
-     *
-     * @throws Exception
-     */
-    public void itemQuery() throws Exception {
-        String json = getStrResponse.getStrResponse();
-        if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            itemId = jsonRequest.getInt("itemId");
-            memberId = jsonRequest.getInt("memberId");
-        }
-        if (which.equals("i")) {
-            List cashIns = cashInAndCashOutService.queryCashInByItem(itemId, memberId);
-            getStrResponse.writer(cashIns);
-        } else {
-            List cashOuts = cashInAndCashOutService.queryCashOutByItem(itemId, memberId);
-            getStrResponse.writer(cashOuts);
-        }
-    }
-
-    /**
-     * 查询某一成员某一子类收支记录
-     *
-     * @throws Exception
-     */
-    public void subItemQuery() throws Exception {
-        String json = getStrResponse.getStrResponse();
-        if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            subItemId = jsonRequest.getInt("subItemId");
-            memberId = jsonRequest.getInt("memberId");
-        }
-        if (which.equals("i")) {
-            List cashIns = cashInAndCashOutService.queryCashInBySubItem(subItemId, memberId);
-            getStrResponse.writer(cashIns);
-        } else {
-            List cashOuts = cashInAndCashOutService.queryCashOutBySubItem(subItemId, memberId);
-            getStrResponse.writer(cashOuts);
-        }
     }
 
     /**
@@ -287,51 +193,24 @@ public class CashInAndCashOutAction extends ActionSupport {
         String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
-        JSONObject jsonRequest;
         if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            time = jsonRequest.getString("time");
-            site = jsonRequest.getString("site");
-            people = jsonRequest.getString("people");
-            money = jsonRequest.getDouble("money");
-            remark = jsonRequest.getString("remark");
-            memberId = jsonRequest.getInt("memberId");
-            itemId = jsonRequest.getInt("itemId");
-            subItemId = jsonRequest.getInt("subItemId");
-            accountId = jsonRequest.getInt("accountId");
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            which = jsonObject.getString("which");
+            time = jsonObject.getString("time");
+            site = jsonObject.getString("site");
+            people = jsonObject.getString("people");
+            money = jsonObject.getDouble("money");
+            remark = jsonObject.getString("remark");
+            memberId = jsonObject.getInt("memberId");
+            itemId = jsonObject.getInt("itemId");
+            subItemId = jsonObject.getInt("subItemId");
+            accountId = jsonObject.getInt("accountId");
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Long date = new Long(time);
-        if (which.equals("i")) {
-            result = cashInAndCashOutService.updateCashIn(format.format(date * 1000L), site, people, money, remark,
-                    itemId, subItemId, id, accountId);
-        } else {
-            result = cashInAndCashOutService.updateCashOut(format.format(date * 1000L), site, people, money, remark,
-                    itemId, subItemId, id, accountId);
-        }
-        results.put("result", result);
+        result = cashInAndCashOutService.update(format.format(date * 1000L), site, people, money, remark, itemId, subItemId, id, accountId, which);
+        results.put("status", result);
         getStrResponse.writer(results);
-    }
-
-    /**
-     * 查询某一成员下某一账户收支记录
-     *
-     * @throws Exception
-     */
-    public void accountQuery() throws Exception {
-        String json = getStrResponse.getStrResponse();
-        if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            accountId = jsonRequest.getInt("accountId");
-            memberId = jsonRequest.getInt("memberId");
-        }
-        if (which.equals("i")) {
-            getStrResponse.writer(cashInAndCashOutService.queryCashInByAccount(accountId, memberId));
-        } else {
-            getStrResponse.writer(cashInAndCashOutService.queryCashOutByAccount(accountId, memberId));
-        }
     }
 
     /**
@@ -343,11 +222,11 @@ public class CashInAndCashOutAction extends ActionSupport {
         String json = getStrResponse.getStrResponse();
         List<Object> results = new ArrayList<>();
         if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            memberId = jsonRequest.getInt("memberId");
-            startTime = jsonRequest.getString("startTime");
-            endTime = jsonRequest.getString("endTime");
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            which = jsonObject.getString("which");
+            memberId = jsonObject.getInt("memberId");
+            startTime = jsonObject.getString("startTime");
+            endTime = jsonObject.getString("endTime");
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Long date = new Long(startTime);
@@ -362,19 +241,76 @@ public class CashInAndCashOutAction extends ActionSupport {
         getStrResponse.writer(results);
     }
 
+    public void query() throws Exception {
+        List list = new ArrayList();
+        String json = getStrResponse.getStrResponse();
+        Map results = new HashMap();
+        if (!json.equals("")) {
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            which = jsonObject.getString("which");
+            memberId = jsonObject.getInt("memberId");
+            startTime = jsonObject.getString("startTime");
+            endTime = jsonObject.getString("endTime");
+            accountId = jsonObject.getInt("accountId");
+            subItemId = jsonObject.getInt("subItemId");
+            itemId = jsonObject.getInt("itemId");
+            id = jsonObject.getInt("id");
+        }
+        switch (which) {
+            case "mi":
+                list = cashInAndCashOutService.queryCashInByMember(memberId);
+                break;
+            case "mo":
+                list = cashInAndCashOutService.queryCashOutByMember(memberId);
+                break;
+            case "ii":
+                list = cashInAndCashOutService.queryCashInById(id);
+                break;
+            case "io":
+                list = cashInAndCashOutService.queryCashOutById(id);
+                break;
+            case "ti":
+                list = cashInAndCashOutService.queryCashInByItem(itemId, memberId);
+                break;
+            case "to":
+                list = cashInAndCashOutService.queryCashOutByItem(itemId, memberId);
+                break;
+            case "si":
+                list = cashInAndCashOutService.queryCashInBySubItem(subItemId, memberId);
+                break;
+            case "so":
+                list = cashInAndCashOutService.queryCashOutBySubItem(subItemId, memberId);
+                break;
+            case "ai":
+                list = cashInAndCashOutService.queryCashInByAccount(accountId, memberId);
+                break;
+            case "ao":
+                list = cashInAndCashOutService.queryCashOutByAccount(accountId, memberId);
+                break;
+
+        }
+        results.put("data", list);
+        results.putAll(getStrResponse.setStatus(list.size()));
+        getStrResponse.writer(results);
+    }
+
     /**
      * 获取某一年每个月的收支总和
      *
      * @throws Exception
      */
     public void yearSum() throws Exception {
+        Map results = new HashMap();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            memberId = jsonRequest.getInt("memberId");
-            year = jsonRequest.getString("year");
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            which = jsonObject.getString("which");
+            memberId = jsonObject.getInt("memberId");
+            year = jsonObject.getString("year");
         }
-        getStrResponse.writer(cashInAndCashOutService.yearSum(memberId, year, which));
+        Map map = cashInAndCashOutService.yearSum(memberId, year, which);
+        results.put("date", map);
+        results.putAll(getStrResponse.setStatus(map.size()));
+        getStrResponse.writer(results);
     }
 }

@@ -9,10 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
@@ -43,9 +40,8 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
     @Autowired
     private SubItem subItem;
 
-    @Override
-    public String addCashIn(String time, String site, String people, Double money, String remark, Integer memberId,
-                            Integer itemId, Integer subItemId, Integer accountId) {
+    public String add(String time, String site, String people, Double money, String remark, Integer memberId,
+                      Integer itemId, Integer subItemId, Integer accountId, String which) {
         try {
             Date date;
             if (time == null || time.equals("")) {
@@ -68,70 +64,42 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
                 subItem.setSubItemId(subItemId);
                 member.setMemberId(memberId);
                 account.setAccountId(accountId);
-                cashIn.setMoney(money);
-                cashIn.setPeople(people);
-                cashIn.setRemark(remark);
-                cashIn.setSite(site);
-                cashIn.setTime(date);
-                cashIn.setAccount(account);
-                cashIn.setItem(item);
-                cashIn.setMember(member);
-                cashIn.setSubItem(subItem);
-                cashInDao.save(cashIn);
-                return "SUCCESS";
+                switch (which) {
+                    case "i":
+                        cashIn.setMoney(money);
+                        cashIn.setPeople(people);
+                        cashIn.setRemark(remark);
+                        cashIn.setSite(site);
+                        cashIn.setTime(date);
+                        cashIn.setAccount(account);
+                        cashIn.setItem(item);
+                        cashIn.setMember(member);
+                        cashIn.setSubItem(subItem);
+                        cashInDao.save(cashIn);
+                        break;
+                    case "o":
+                        cashOut.setMoney(money);
+                        cashOut.setPeople(people);
+                        cashOut.setRemark(remark);
+                        cashOut.setSite(site);
+                        cashOut.setTime(date);
+                        cashOut.setAccount(account);
+                        cashOut.setItem(item);
+                        cashOut.setMember(member);
+                        cashOut.setSubItem(subItem);
+                        cashOutDao.save(cashOut);
+                        break;
+                }
+                return "200";
             } else {
-                return "FAILED";
+                return "201";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "ERROR";
+            return "202";
         }
     }
 
-    @Override
-    public String addCashOut(String time, String site, String people, Double money, String remark, Integer memberId,
-                             Integer itemId, Integer subItemId, Integer accountId) {
-        try {
-            Date date;
-            if (time == null) {
-                date = new Date();
-            } else {
-                date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time);
-            }
-            if (site == null)
-                site = "";
-            if (people == null)
-                people = "";
-            if (money == null)
-                money = 0.0;
-            if (remark == null)
-                remark = "";
-            if (memberId != null && itemId != null && subItemId != null && accountId != null
-                    && memberDao.queryById(memberId).size() != 0 && itemDao.queryById(itemId).size() != 0
-                    && subItemDao.queryById(subItemId).size() != 0) {
-                item.setItemId(itemId);
-                subItem.setSubItemId(subItemId);
-                member.setMemberId(memberId);
-                account.setAccountId(accountId);
-                cashOut.setMoney(money);
-                cashOut.setPeople(people);
-                cashOut.setRemark(remark);
-                cashOut.setSite(site);
-                cashOut.setTime(date);
-                cashOut.setAccount(account);
-                cashOut.setItem(item);
-                cashOut.setMember(member);
-                cashOut.setSubItem(subItem);
-                cashOutDao.save(cashOut);
-                return "SUCCESS";
-            } else {
-                return "FAILED";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "ERROR";
-        }
-    }
 
     @Override
     public String delete(Integer id, String which) {
@@ -139,10 +107,11 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
     }
 
     @Override
-    public String updateCashIn(String time, String site, String people, Double money, String remark, Integer itemId,
-                               Integer subItemId, Integer id, Integer accountId) {
+    public String update(String time, String site, String people, Double money, String remark, Integer itemId,
+                         Integer subItemId, Integer id, Integer accountId, String which) {
         try {
-            if (id != null) {
+            if (id != null && itemId != null && subItemId != null && accountId != null && cashInDao.queryById(id).size() != 0
+                    && itemDao.queryById(itemId).size() != 0 && subItemDao.queryById(subItemId).size() != 0) {
                 if (site == null)
                     site = "";
                 if (people == null)
@@ -152,238 +121,120 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
                 if (remark == null)
                     remark = "";
                 Date date;
-                if (time == null) {
+                if (time == null || time.equals("")) {
                     date = new Date();
                 } else {
                     date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time);
                 }
-                if (itemId != null && subItemId != null && accountId != null && cashInDao.queryById(id).size() != 0
-                        && itemDao.queryById(itemId).size() != 0 && subItemDao.queryById(subItemId).size() != 0) {
-                    item.setItemId(itemId);
-                    subItem.setSubItemId(subItemId);
-                    account.setAccountId(accountId);
-                    cashIn.setCashInId(id);
-                    cashIn.setMoney(money);
-                    cashIn.setPeople(people);
-                    cashIn.setRemark(remark);
-                    cashIn.setSite(site);
-                    cashIn.setTime(date);
-                    cashIn.setAccount(account);
-                    cashIn.setItem(item);
-                    cashIn.setSubItem(subItem);
-                    cashInDao.update(cashIn);
-                    return "SUCCESS";
-                } else {
-                    return "FAILED";
+                item.setItemId(itemId);
+                subItem.setSubItemId(subItemId);
+                account.setAccountId(accountId);
+                switch (which) {
+                    case "i":
+                        cashIn.setCashInId(id);
+                        cashIn.setMoney(money);
+                        cashIn.setPeople(people);
+                        cashIn.setRemark(remark);
+                        cashIn.setSite(site);
+                        cashIn.setTime(date);
+                        cashIn.setAccount(account);
+                        cashIn.setItem(item);
+                        cashIn.setSubItem(subItem);
+                        cashInDao.update(cashIn);
+                    case "o":
+                        cashOut.setCashOutId(id);
+                        cashOut.setMoney(money);
+                        cashOut.setPeople(people);
+                        cashOut.setRemark(remark);
+                        cashOut.setSite(site);
+                        cashOut.setTime(date);
+                        cashOut.setAccount(account);
+                        cashOut.setItem(item);
+                        cashOut.setSubItem(subItem);
+                        cashOutDao.update(cashOut);
                 }
-            } else {
-                return "FAILED";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "ERROR";
-        }
-    }
+                return "200";
 
-    @Override
-    public String updateCashOut(String time, String site, String people, Double money, String remark, Integer itemId,
-                                Integer subItemId, Integer id, Integer accountId) {
-        try {
-            if (id != null) {
-                if (site == null)
-                    site = "";
-                if (people == null)
-                    people = "";
-                if (money == null)
-                    money = 0.0;
-                if (remark == null)
-                    remark = "";
-                Date date;
-                if (time == null) {
-                    date = new Date();
-                } else {
-                    date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time);
-                }
-                if (itemId != null && subItemId != null && accountId != null & cashOutDao.queryById(id).size() != 0
-                        && itemDao.queryById(itemId).size() != 0 && subItemDao.queryById(subItemId).size() != 0) {
-                    item.setItemId(itemId);
-                    subItem.setSubItemId(subItemId);
-                    account.setAccountId(accountId);
-                    cashOut.setCashOutId(id);
-                    cashOut.setMoney(money);
-                    cashOut.setPeople(people);
-                    cashOut.setRemark(remark);
-                    cashOut.setSite(site);
-                    cashOut.setTime(date);
-                    cashOut.setAccount(account);
-                    cashOut.setItem(item);
-                    cashOut.setSubItem(subItem);
-                    cashOutDao.update(cashOut);
-                    return "SUCCESS";
-                } else {
-                    return "FAILED";
-                }
             } else {
-                return "FAILED";
+                return "201";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "ERROR";
+            return "202";
         }
     }
 
     @Override
     public List queryCashInByMember(Integer memberId) {
-        if (memberId != null && memberDao.queryById(memberId).size() != 0) {
-            // member.setMemberId(memberId);
-            List cashIns = cashInDao.queryByMember(memberId);
-            if (cashIns.size() != 0) {
-                return cashIns;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return operatorService.getList(cashInDao.queryByMember(memberId), memberId);
     }
 
     @Override
     public List queryCashOutByMember(Integer memberId) {
-        if (memberId != null && memberDao.queryById(memberId).size() != 0) {
-            // member.setMemberId(memberId);
-            List cashOuts = cashOutDao.queryByMember(memberId);
-            if (cashOuts.size() != 0) {
-                return cashOuts;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return operatorService.getList(cashOutDao.queryByMember(memberId), memberId);
     }
+
 
     @Override
     public List queryCashInByItem(Integer itemId, Integer memberId) {
-        if (itemId != null && memberId != null) {
-            // item.setItemId(itemId);
-            // member.setMemberId(memberId);
-            List cashIns = cashInDao.queryByItem(itemId, memberId);
-            if (cashIns.size() != 0) {
-                return cashIns;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return operatorService.getList(cashInDao.queryByItem(itemId, memberId), itemId, memberId);
     }
 
     @Override
     public List queryCashOutByItem(Integer itemId, Integer memberId) {
-        if (itemId != null && memberId != null) {
-            // item.setItemId(itemId);
-            // member.setMemberId(memberId);
-            List cashOuts = cashOutDao.queryByItem(itemId, memberId);
-            if (cashOuts.size() != 0) {
-                return cashOuts;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return operatorService.getList(cashOutDao.queryByItem(itemId, memberId), itemId, memberId);
     }
 
     @Override
     public List queryCashInBySubItem(Integer subItemId, Integer memberId) {
         if (subItemId != null && memberId != null) {
-            subItem.setSubItemId(subItemId);
-            member.setMemberId(memberId);
-            List cashIns = cashInDao.queryBySubItem(subItemId, memberId);
-            if (cashIns.size() != 0) {
-                return cashIns;
-            } else {
-                return null;
-            }
+            return cashInDao.queryBySubItem(subItemId, memberId);
         } else {
-            return null;
+            return new ArrayList();
         }
     }
 
     @Override
     public List queryCashOutBySubItem(Integer subItemId, Integer memberId) {
         if (subItemId != null && memberId != null) {
-            // subItem.setSubItemId(subItemId);
-            // member.setMemberId(memberId);
-            List cashOuts = cashOutDao.queryBySubItem(subItemId, memberId);
-            if (cashOuts.size() != 0) {
-                return cashOuts;
-            } else {
-                return null;
-            }
+            return cashOutDao.queryBySubItem(subItemId, memberId);
         } else {
-            return null;
+            return new ArrayList();
         }
     }
 
     @Override
     public List queryCashInById(Integer id) {
-        return operatorService.getList(id, cashInDao.queryById(id));
+        return operatorService.getList(cashInDao.queryById(id), id);
     }
 
     @Override
     public List queryCashOutById(Integer id) {
-        return operatorService.getList(id, cashOutDao.queryById(id));
+        return operatorService.getList(cashOutDao.queryById(id), id);
     }
 
     @Override
     public List queryCashInByAccount(Integer accountId, Integer memberId) {
-        if (accountId != null && memberId != null) {
-            List cashIns = cashInDao.queryByAccount(accountId, memberId);
-            if (cashIns.size() != 0) {
-                return cashIns;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return operatorService.getList(cashInDao.queryByAccount(accountId, memberId), accountId, memberId);
     }
 
     @Override
     public List queryCashOutByAccount(Integer accountId, Integer memberId) {
-        if (accountId != null && memberId != null) {
-            List cashOuts = cashOutDao.queryByAccount(accountId, memberId);
-            if (cashOuts.size() != 0) {
-                return cashOuts;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return operatorService.getList(cashOutDao.queryByAccount(accountId, memberId), accountId, memberId);
     }
 
     @Override
     public List queryByTime(Integer memberId, Date startTime, Date endTime, String which) {
         if (memberId != null && startTime != null && endTime != null && which != null) {
-            if (which.equals("i")) {
-                List cashIns = cashInDao.queryByTime(memberId, startTime, endTime);
-                if (cashIns.size() != 0) {
-                    return cashIns;
-                } else {
-                    return null;
-                }
-            } else {
-                List cashOuts = cashOutDao.queryByTime(memberId, startTime, endTime);
-                if (cashOuts.size() != 0) {
-                    return cashOuts;
-                } else {
-                    return null;
-                }
+            switch (which) {
+                case "i":
+                    return cashInDao.queryByTime(memberId, startTime, endTime);
+                case "o":
+                    return cashOutDao.queryByTime(memberId, startTime, endTime);
             }
+            return new ArrayList();
         } else {
-            return null;
+            return new ArrayList();
         }
     }
 
@@ -417,7 +268,6 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
             for (Integer month = 1; month < 13; month++) {
                 String startTime = year + "-" + month + "-01 00:00";
                 String endTime = year + "-" + month + "-31 23:59";
-                System.out.println(startTime + "," + endTime);
                 try {
                     switch (which) {
                         case "i":
@@ -437,12 +287,12 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    return null;
+                    return map;
                 }
             }
             return map;
         } else {
-            return null;
+            return map;
         }
     }
 

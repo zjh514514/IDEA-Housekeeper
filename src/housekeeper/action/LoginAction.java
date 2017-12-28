@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,18 +108,18 @@ public class LoginAction extends ActionSupport {
         Map<String, Object> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            username = jsonRequest.getString("username");
-            password = jsonRequest.getString("password");
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            which = jsonObject.getString("which");
+            username = jsonObject.getString("username");
+            password = jsonObject.getString("password");
         }
-        results.put("data", familyAndMemberService.login(username, password, which) == null ? "" : familyAndMemberService.login(username, password, which));
+        Object object = familyAndMemberService.login(username, password, which);
+        results.put("data", object == null ? "" : object);
         if (results.get("data") != "") {
             results.put("status", 200);
         } else {
             results.put("status", 201);
         }
-        System.out.println(results);
         getStrResponse.writer(results);
     }
 
@@ -128,35 +129,28 @@ public class LoginAction extends ActionSupport {
      * @throws Exception
      */
     public void sign() throws Exception {
-        String result;
-        JSONObject jsonRequest;
+        String result = "201";
+        Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            if (which.equals("m")) {
-                username = jsonRequest.getString("username");
-                password = jsonRequest.getString("password");
-                name = jsonRequest.getString("name");
-                role = jsonRequest.getString("role");
-                id = jsonRequest.getInt("id");
-                result = familyAndMemberService.memberSign(username, password, name, role, id);
-            } else {
-                username = jsonRequest.getString("username");
-                password = jsonRequest.getString("password");
-                familyName = jsonRequest.getString("familyName");
-                result = familyAndMemberService.familySign(username, password, familyName);
-            }
-        } else {
-            if (which.equals("m")) {
-                result = familyAndMemberService.memberSign(username, password, name, role, id);
-            } else {
-                result = familyAndMemberService.familySign(username, password, familyName);
-            }
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            which = jsonObject.getString("which");
+            username = jsonObject.getString("username");
+            password = jsonObject.getString("password");
+            name = jsonObject.getString("name");
+            role = jsonObject.getString("role");
+            id = jsonObject.getInt("id");
+            familyName = jsonObject.getString("familyName");
         }
-
-        Map<String, String> results = new HashMap<>();
-        results.put("result", result);
+        switch (which) {
+            case "m":
+                result = familyAndMemberService.memberSign(username, password, name, role, id);
+                break;
+            case "f":
+                result = familyAndMemberService.familySign(username, password, familyName);
+                break;
+        }
+        results.put("status", result);
         getStrResponse.writer(results);
     }
 
@@ -166,70 +160,53 @@ public class LoginAction extends ActionSupport {
      * @throws Exception
      */
     public void update() throws Exception {
-        String result;
-        String json = getStrResponse.getStrResponse();
-        JSONObject jsonRequest;
-        if (!json.equals("")) {
-            jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            if (which.equals("m")) {
-                password = jsonRequest.getString("password");
-                role = jsonRequest.getString("role");
-                balance = jsonRequest.getDouble("balance");
-                id = jsonRequest.getInt("id");
-                name = jsonRequest.getString("name");
-                result = familyAndMemberService.memberUpdate(password, role, balance, id, name);
-            } else {
-                password = jsonRequest.getString("password");
-                familyName = jsonRequest.getString("familyName");
-                id = jsonRequest.getInt("id");
-                result = familyAndMemberService.familyUpdate(password, familyName, id);
-            }
-        } else {
-            if (which.equals("m")) {
-                result = familyAndMemberService.memberUpdate(password, role, balance, id, name);
-            } else {
-                result = familyAndMemberService.familyUpdate(password, familyName, id);
-            }
-        }
+        String result = "201";
         Map<String, String> results = new HashMap<>();
+        String json = getStrResponse.getStrResponse();
+        if (!json.equals("")) {
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            which = jsonObject.getString("which");
+            password = jsonObject.getString("password");
+            role = jsonObject.getString("role");
+            balance = jsonObject.getDouble("balance");
+            id = jsonObject.getInt("id");
+            name = jsonObject.getString("name");
+            familyName = jsonObject.getString("familyName");
+        }
+        switch (which) {
+            case "m":
+                result = familyAndMemberService.memberUpdate(password, role, balance, id, name);
+                break;
+            case "f":
+                result = familyAndMemberService.familyUpdate(password, familyName, id);
+                break;
+        }
         results.put("result", result);
         getStrResponse.writer(results);
     }
 
-    /**
-     * 获取成员或家庭信息
-     *
-     * @throws Exception
-     */
-    public void idGet() throws Exception {
+    public void query() throws Exception {
+        List list = new ArrayList();
+        Map<String, Object> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            which = jsonRequest.getString("which");
-            id = jsonRequest.getInt("id");
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            which = jsonObject.getString("which");
+            id = jsonObject.getInt("id");
         }
-        if (which.equals("m")) {
-            List members = familyAndMemberService.memberGet(id);
-            getStrResponse.writer(members);
-        } else {
-            List families = familyAndMemberService.familyGet(id);
-            getStrResponse.writer(families);
+        switch (which) {
+            case "m":
+                list = familyAndMemberService.memberGet(id);
+                break;
+            case "f":
+                list = familyAndMemberService.familyGet(id);
+                break;
+            case "fm":
+                list = familyAndMemberService.memberFamilyGet(id);
+                break;
         }
-    }
-
-    /**
-     * 获取某一家庭成员信息
-     *
-     * @throws Exception
-     */
-    public void familyGet() throws Exception {
-        String json = getStrResponse.getStrResponse();
-        if (!json.equals("")) {
-            JSONObject jsonRequest = JSONObject.fromObject(json);
-            id = jsonRequest.getInt("id");
-        }
-        List members = familyAndMemberService.memberFamilyGet(id);
-        getStrResponse.writer(members);
+        results.put("data", list);
+        results.putAll(getStrResponse.setStatus(list.size()));
+        getStrResponse.writer(results);
     }
 }

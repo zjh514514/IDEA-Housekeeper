@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -50,14 +50,14 @@ public class AccountAction extends ActionSupport {
      * @throws Exception
      */
     public void add() throws Exception {
+        Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
             accountName = jsonRequest.getString("accountName");
         }
         String result = accountService.addAccount(accountName);
-        Map<String, String> results = new HashMap<>();
-        results.put("result", result);
+        results.put("status", result);
         getStrResponse.writer(results);
     }
 
@@ -67,6 +67,7 @@ public class AccountAction extends ActionSupport {
      * @throws Exception
      */
     public void update() throws Exception {
+        Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
             JSONObject jsonRequest = JSONObject.fromObject(json);
@@ -74,8 +75,7 @@ public class AccountAction extends ActionSupport {
             accountName = jsonRequest.getString("accountName");
         }
         String result = accountService.updateAccount(id, accountName);
-        Map<String, String> results = new HashMap<>();
-        results.put("result", result);
+        results.put("status", result);
         getStrResponse.writer(results);
     }
 
@@ -85,6 +85,10 @@ public class AccountAction extends ActionSupport {
      * @throws Exception
      */
     public void query() throws Exception {
-        getStrResponse.writer(accountService.query());
+        Map<String, Object> results = new HashMap<>();
+        List accounts = accountService.query();
+        results.put("data", accounts);
+        results.putAll(getStrResponse.setStatus(accounts.size()));
+        getStrResponse.writer(results);
     }
 }
