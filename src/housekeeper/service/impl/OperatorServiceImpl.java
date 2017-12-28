@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -30,7 +29,6 @@ public class OperatorServiceImpl implements OperatorService {
     private AccountDao accountDao;
 
     public List getList(List list, Integer... id) {
-        System.out.println(id);
         if (id != null && list.size() != 0) {
             return list;
         } else {

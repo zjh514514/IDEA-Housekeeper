@@ -3,34 +3,26 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 
-
 <struts>
 
     <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
     <constant name="struts.devMode" value="true"/>
 
-
     <package name="default" extends="struts-default">
 
         <global-allowed-methods>regex:.*</global-allowed-methods>
 
-        <action name="cash-*" class="cashInAndCashOutAction"
-                method="{1}"/>
+        <action name="cash-*" class="cashInAndCashOutAction" method="{1}"/>
 
-        <action name="item-*" class="itemAction"
-                method="{1}"/>
+        <action name="item-*" class="itemAction" method="{1}"/>
 
-        <action name="login-*" class="loginAction"
-                method="{1}"/>
+        <action name="login-*" class="loginAction" method="{1}"/>
 
-        <action name="card-*" class="cardAction"
-                method="{1}"/>
+        <action name="card-*" class="cardAction" method="{1}"/>
 
-        <action name="account-*" class="accountAction"
-                method="{1}"/>
+        <action name="account-*" class="accountAction" method="{1}"/>
 
-        <action name="operator-*" class="operatorAction"
-                method="{1}"/>
+        <action name="operator-*" class="operatorAction" method="{1}"/>
 
     </package>
 
