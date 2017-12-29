@@ -287,10 +287,10 @@ public class CashInAndCashOutAction extends ActionSupport {
             case "ao":
                 list = cashInAndCashOutService.queryCashOutByAccount(accountId, memberId);
                 break;
-
         }
         results.put("data", list);
         results.putAll(getStrResponse.setStatus(list.size()));
+        System.out.println(results);
         getStrResponse.writer(results);
     }
 

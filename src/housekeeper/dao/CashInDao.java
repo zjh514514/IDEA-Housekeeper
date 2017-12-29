@@ -89,5 +89,5 @@ public interface CashInDao {
      * @param endTime
      * @return
      */
-    double sumCashIn(Integer memberId, Date startTime, Date endTime);
+    Double sumCashIn(Integer memberId, Date startTime, Date endTime);
 }

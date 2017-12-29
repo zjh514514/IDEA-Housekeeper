@@ -28,9 +28,9 @@ public class OperatorServiceImpl implements OperatorService {
     @Autowired
     private AccountDao accountDao;
 
-    public List getList(List list, Integer... id) {
-        if (id != null && list.size() != 0) {
-            return list;
+    public Object getList(Object object, Object... id) {
+        if (id != null) {
+            return object;
         } else {
             return new ArrayList();
         }

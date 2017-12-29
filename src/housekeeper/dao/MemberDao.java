@@ -49,7 +49,7 @@ public interface MemberDao {
      * @param id
      * @return
      */
-    List queryById(Integer id);
+    MemberQuery queryById(Integer id);
 
     /**
      * 查询某一家庭下的所有成员

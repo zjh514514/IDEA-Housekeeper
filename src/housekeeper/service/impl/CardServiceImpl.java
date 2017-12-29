@@ -34,7 +34,7 @@ public class CardServiceImpl implements CardService {
                 remark = "";
             if (money == null)
                 money = 0.0;
-            if (name != null && number != null && memberId != null && memberDao.queryById(memberId).size() != 0) {
+            if (name != null && number != null && memberId != null && memberDao.queryById(memberId) != null) {
                 member.setMemberId(memberId);
                 card.setCardName(name);
                 card.setCardNumber(number);

@@ -74,6 +74,6 @@ public class CashOutDaoImpl extends HibernateTools implements CashOutDao {
     @Override
     public Double sumCashOut(Integer memberId, Date startTime, Date endTime) {
         hql = "SELECT SUM(c.id.money) FROM CashOutQuery c WHERE c.id.memberId = ? AND c.id.time BETWEEN ? AND ?";
-        return (double) getSession().createQuery(hql).setParameter(0, memberId).setParameter(1, startTime).setParameter(2, endTime).list().get(0);
+        return (Double) getSession().createQuery(hql).setParameter(0, memberId).setParameter(1, startTime).setParameter(2, endTime).getSingleResult();
     }
 }

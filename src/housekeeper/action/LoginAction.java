@@ -196,7 +196,7 @@ public class LoginAction extends ActionSupport {
         }
         switch (which) {
             case "m":
-                list = familyAndMemberService.memberGet(id);
+                list = (List) familyAndMemberService.memberGet(id);
                 break;
             case "f":
                 list = familyAndMemberService.familyGet(id);

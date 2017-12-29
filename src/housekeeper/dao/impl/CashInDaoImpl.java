@@ -72,9 +72,9 @@ public class CashInDaoImpl extends HibernateTools implements CashInDao {
     }
 
     @Override
-    public double sumCashIn(Integer memberId, Date startTime, Date endTime) {
+    public Double sumCashIn(Integer memberId, Date startTime, Date endTime) {
         hql = "SELECT SUM(c.id.money) FROM CashInQuery c WHERE c.id.memberId = ? AND c.id.time BETWEEN ? AND ?";
-        return (double) getSession().createQuery(hql).setParameter(0, memberId).setParameter(1, startTime).setParameter(2, endTime).list().get(0);
+        return (Double) getSession().createQuery(hql).setParameter(0, memberId).setParameter(1, startTime).setParameter(2, endTime).getSingleResult();
     }
 
 }

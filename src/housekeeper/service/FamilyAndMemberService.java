@@ -1,5 +1,6 @@
 package housekeeper.service;
 
+import housekeeper.entities.Member;
 import housekeeper.entities.MemberQuery;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public interface FamilyAndMemberService<E> {
      * @param id
      * @return
      */
-    String delete(Integer id,String which);
+    String delete(Integer id, String which);
 
     /**
      * 修改某一家庭信息
@@ -89,6 +90,6 @@ public interface FamilyAndMemberService<E> {
      * @param id
      * @return
      */
-    List memberGet(Integer id);
+    Member memberGet(Integer id);
 
 }

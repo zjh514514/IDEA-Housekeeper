@@ -45,9 +45,9 @@ public class MemberDaoImpl extends HibernateTools implements MemberDao {
     }
 
     @Override
-    public List queryById(Integer id) {
+    public MemberQuery queryById(Integer id) {
         hql = "FROM MemberQuery m WHERE m.id.memberId = ?";
-        return getSession().createQuery(hql).setParameter(0, id).list();
+        return (MemberQuery) getSession().createQuery(hql).setParameter(0, id).getSingleResult();
     }
 
     @Override

@@ -58,7 +58,7 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
             if (remark == null)
                 remark = "";
             if (memberId != null && itemId != null && subItemId != null && accountId != null
-                    && memberDao.queryById(memberId).size() != 0 && itemDao.queryById(itemId).size() != 0
+                    && memberDao.queryById(memberId) != null && itemDao.queryById(itemId).size() != 0
                     && subItemDao.queryById(subItemId).size() != 0) {
                 item.setItemId(itemId);
                 subItem.setSubItemId(subItemId);
@@ -99,7 +99,6 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
             return "202";
         }
     }
-
 
     @Override
     public String delete(Integer id, String which) {
@@ -166,76 +165,140 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
 
     @Override
     public List queryCashInByMember(Integer memberId) {
-        return operatorService.getList(cashInDao.queryByMember(memberId), memberId);
+        try {
+            List list = (List) operatorService.getList(cashInDao.queryByMember(memberId), memberId);
+            List cashList = new ArrayList();
+            MemberQuery member = memberDao.queryById(memberId);
+            for (Object aList : list) {
+                CashInQuery cashInQuery = (CashInQuery) aList;
+                Cash cash = new Cash();
+                cash.setTime(cashInQuery.getId().getTime());
+                cash.setMoney(cashInQuery.getId().getMoney());
+                cash.setSite(cashInQuery.getId().getSite());
+                cash.setAccount(cashInQuery.getId().getAccountName());
+                cash.setItem(cashInQuery.getId().getItemName());
+                cash.setSubItem(cashInQuery.getId().getSubitemName());
+                cash.setRemark(cashInQuery.getId().getRemark());
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                Date startTime = simpleDateFormat.parse("1601-01-01 00:00");
+                Date endTime = cashInQuery.getId().getTime();
+                Double cashIn = cashInDao.sumCashIn(memberId, startTime, endTime);
+                cashIn = cashIn == null ? 0 : cashIn;
+                Double cashOut = cashOutDao.sumCashOut(memberId, startTime, endTime);
+                cashOut = cashOut == null ? 0 : cashOut;
+                cash.setBalance(member.getId().getBalance() + cashIn - cashOut);
+                cashList.add(cash);
+            }
+            cashList.sort((Comparator<Cash>) (o1, o2) -> Integer.compare(0, o1.getTime().compareTo(o2.getTime())));
+            return cashList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList();
+        }
     }
 
     @Override
     public List queryCashOutByMember(Integer memberId) {
-        return operatorService.getList(cashOutDao.queryByMember(memberId), memberId);
+        try {
+            List list = (List) operatorService.getList(cashOutDao.queryByMember(memberId), memberId);
+            System.out.println(list);
+            List cashList = new ArrayList();
+            MemberQuery member = memberDao.queryById(memberId);
+            for (Object aList : list) {
+                CashOutQuery cashOutQuery = (CashOutQuery) aList;
+                Cash cash = new Cash();
+                cash.setTime(cashOutQuery.getId().getTime());
+                cash.setMoney(cashOutQuery.getId().getMoney());
+                cash.setSite(cashOutQuery.getId().getSite());
+                cash.setAccount(cashOutQuery.getId().getAccountName());
+                cash.setItem(cashOutQuery.getId().getItemName());
+                cash.setSubItem(cashOutQuery.getId().getSubitemName());
+                cash.setRemark(cashOutQuery.getId().getRemark());
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                Date startTime = simpleDateFormat.parse("1601-01-01 00:00");
+                Date endTime = cashOutQuery.getId().getTime();
+                System.out.println(startTime + "," + endTime);
+                Double cashIn = cashInDao.sumCashIn(memberId, startTime, endTime);
+                cashIn = cashIn == null ? 0 : cashIn;
+                Double cashOut = cashOutDao.sumCashOut(memberId, startTime, endTime);
+                cashOut = cashOut == null ? 0 : cashOut;
+                cash.setBalance(member.getId().getBalance() + cashIn - cashOut);
+                cashList.add(cash);
+            }
+            cashList.sort((Comparator<Cash>) (o1, o2) -> Integer.compare(0, o1.getTime().compareTo(o2.getTime())));
+            return cashList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList();
+        }
     }
-
 
     @Override
     public List queryCashInByItem(Integer itemId, Integer memberId) {
-        return operatorService.getList(cashInDao.queryByItem(itemId, memberId), itemId, memberId);
+        List list = (List) operatorService.getList(cashInDao.queryByItem(itemId, memberId), itemId, memberId);
+        list.sort((Comparator<CashInQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
+        return list;
     }
 
     @Override
     public List queryCashOutByItem(Integer itemId, Integer memberId) {
-        return operatorService.getList(cashOutDao.queryByItem(itemId, memberId), itemId, memberId);
+        List list = (List) operatorService.getList(cashOutDao.queryByItem(itemId, memberId), itemId, memberId);
+        list.sort((Comparator<CashOutQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
+        return list;
     }
 
     @Override
     public List queryCashInBySubItem(Integer subItemId, Integer memberId) {
-        if (subItemId != null && memberId != null) {
-            return cashInDao.queryBySubItem(subItemId, memberId);
-        } else {
-            return new ArrayList();
-        }
+        List list = (List) operatorService.getList(cashInDao.queryBySubItem(subItemId, memberId), subItemId, memberId);
+        list.sort((Comparator<CashInQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
+        return list;
     }
 
     @Override
     public List queryCashOutBySubItem(Integer subItemId, Integer memberId) {
-        if (subItemId != null && memberId != null) {
-            return cashOutDao.queryBySubItem(subItemId, memberId);
-        } else {
-            return new ArrayList();
-        }
+        List list = (List) operatorService.getList(cashOutDao.queryBySubItem(subItemId, memberId), subItemId, memberId);
+        list.sort((Comparator<CashOutQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
+        return list;
     }
 
     @Override
     public List queryCashInById(Integer id) {
-        return operatorService.getList(cashInDao.queryById(id), id);
+        return (List) operatorService.getList(cashInDao.queryById(id), id);
     }
 
     @Override
     public List queryCashOutById(Integer id) {
-        return operatorService.getList(cashOutDao.queryById(id), id);
+        return (List) operatorService.getList(cashOutDao.queryById(id), id);
     }
 
     @Override
     public List queryCashInByAccount(Integer accountId, Integer memberId) {
-        return operatorService.getList(cashInDao.queryByAccount(accountId, memberId), accountId, memberId);
+        List list = (List) operatorService.getList(cashInDao.queryByAccount(accountId, memberId), accountId, memberId);
+        list.sort((Comparator<CashInQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
+        return list;
     }
 
     @Override
     public List queryCashOutByAccount(Integer accountId, Integer memberId) {
-        return operatorService.getList(cashOutDao.queryByAccount(accountId, memberId), accountId, memberId);
+        List list = (List) operatorService.getList(cashOutDao.queryByAccount(accountId, memberId), accountId, memberId);
+        list.sort((Comparator<CashOutQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
+        return list;
     }
 
     @Override
     public List queryByTime(Integer memberId, Date startTime, Date endTime, String which) {
-        if (memberId != null && startTime != null && endTime != null && which != null) {
-            switch (which) {
-                case "i":
-                    return cashInDao.queryByTime(memberId, startTime, endTime);
-                case "o":
-                    return cashOutDao.queryByTime(memberId, startTime, endTime);
-            }
-            return new ArrayList();
-        } else {
-            return new ArrayList();
+        List list = new ArrayList();
+        switch (which) {
+            case "i":
+                list = (List) operatorService.getList(cashInDao.queryByTime(memberId, startTime, endTime), memberId, startTime, endTime);
+                list.sort((Comparator<CashInQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
+                return list;
+            case "o":
+                list = (List) operatorService.getList(cashOutDao.queryByTime(memberId, startTime, endTime), memberId, startTime, endTime);
+                list.sort((Comparator<CashOutQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
+                return list;
         }
+        return list;
     }
 
     @Override

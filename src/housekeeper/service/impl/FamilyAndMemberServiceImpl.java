@@ -120,7 +120,7 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
 
     @Override
     public String delete(Integer id, String which) {
-        return operatorService.delete(id, memberDao.queryById(id).size(), which);
+        return operatorService.delete(id, 1, which);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
                 name = "";
             if (balance == null)
                 balance = 0.0;
-            if (!password.equals("") && !role.equals("") && id != null && !name.equals("") && memberDao.queryById(id).size() != 0) {
+            if (!password.equals("") && !role.equals("") && id != null && !name.equals("") && memberDao.queryById(id) != null) {
                 member.setMemberId(id);
                 member.setBalance(balance);
                 member.setPassword(Sha256.getSHA256StrJava(password));
@@ -175,12 +175,12 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
 
     @Override
     public List familyGet(Integer id) {
-        return operatorService.getList(familyDao.queryById(id), id);
+        return (List) operatorService.getList(familyDao.queryById(id), id);
     }
 
     @Override
-    public List memberGet(Integer id) {
-        return operatorService.getList(memberDao.queryById(id), id);
+    public Member memberGet(Integer id) {
+        return (Member) operatorService.getList(memberDao.queryById(id), id);
     }
 
     @Override
