@@ -7,7 +7,6 @@ import housekeeper.service.OperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -165,100 +164,38 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
 
     @Override
     public List queryCashInByMember(Integer memberId) {
-        try {
-            List list = (List) operatorService.getList(cashInDao.queryByMember(memberId), memberId);
-            List cashList = new ArrayList();
-            MemberQuery member = memberDao.queryById(memberId);
-            for (Object aList : list) {
-                CashInQuery cashInQuery = (CashInQuery) aList;
-                Cash cash = new Cash();
-                cash.setTime(cashInQuery.getId().getTime());
-                cash.setMoney(cashInQuery.getId().getMoney());
-                cash.setSite(cashInQuery.getId().getSite());
-                cash.setAccount(cashInQuery.getId().getAccountName());
-                cash.setItem(cashInQuery.getId().getItemName());
-                cash.setSubItem(cashInQuery.getId().getSubitemName());
-                cash.setRemark(cashInQuery.getId().getRemark());
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-                Date startTime = simpleDateFormat.parse("1601-01-01 00:00");
-                Date endTime = cashInQuery.getId().getTime();
-                Double cashIn = cashInDao.sumCashIn(memberId, startTime, endTime);
-                cashIn = cashIn == null ? 0 : cashIn;
-                Double cashOut = cashOutDao.sumCashOut(memberId, startTime, endTime);
-                cashOut = cashOut == null ? 0 : cashOut;
-                cash.setBalance(member.getId().getBalance() + cashIn - cashOut);
-                cashList.add(cash);
-            }
-            cashList.sort((Comparator<Cash>) (o1, o2) -> Integer.compare(0, o1.getTime().compareTo(o2.getTime())));
-            return cashList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList();
-        }
+        List list = (List) operatorService.getList(cashInDao.queryByMember(memberId), memberId);
+        return operatorService.CashIn(memberId, list);
     }
 
     @Override
     public List queryCashOutByMember(Integer memberId) {
-        try {
-            List list = (List) operatorService.getList(cashOutDao.queryByMember(memberId), memberId);
-            System.out.println(list);
-            List cashList = new ArrayList();
-            MemberQuery member = memberDao.queryById(memberId);
-            for (Object aList : list) {
-                CashOutQuery cashOutQuery = (CashOutQuery) aList;
-                Cash cash = new Cash();
-                cash.setTime(cashOutQuery.getId().getTime());
-                cash.setMoney(cashOutQuery.getId().getMoney());
-                cash.setSite(cashOutQuery.getId().getSite());
-                cash.setAccount(cashOutQuery.getId().getAccountName());
-                cash.setItem(cashOutQuery.getId().getItemName());
-                cash.setSubItem(cashOutQuery.getId().getSubitemName());
-                cash.setRemark(cashOutQuery.getId().getRemark());
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-                Date startTime = simpleDateFormat.parse("1601-01-01 00:00");
-                Date endTime = cashOutQuery.getId().getTime();
-                System.out.println(startTime + "," + endTime);
-                Double cashIn = cashInDao.sumCashIn(memberId, startTime, endTime);
-                cashIn = cashIn == null ? 0 : cashIn;
-                Double cashOut = cashOutDao.sumCashOut(memberId, startTime, endTime);
-                cashOut = cashOut == null ? 0 : cashOut;
-                cash.setBalance(member.getId().getBalance() + cashIn - cashOut);
-                cashList.add(cash);
-            }
-            cashList.sort((Comparator<Cash>) (o1, o2) -> Integer.compare(0, o1.getTime().compareTo(o2.getTime())));
-            return cashList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList();
-        }
+        List list = (List) operatorService.getList(cashOutDao.queryByMember(memberId), memberId);
+        return operatorService.CashOut(memberId, list);
     }
 
     @Override
     public List queryCashInByItem(Integer itemId, Integer memberId) {
         List list = (List) operatorService.getList(cashInDao.queryByItem(itemId, memberId), itemId, memberId);
-        list.sort((Comparator<CashInQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
-        return list;
+        return operatorService.CashIn(memberId, list);
     }
 
     @Override
     public List queryCashOutByItem(Integer itemId, Integer memberId) {
         List list = (List) operatorService.getList(cashOutDao.queryByItem(itemId, memberId), itemId, memberId);
-        list.sort((Comparator<CashOutQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
-        return list;
+        return operatorService.CashOut(memberId, list);
     }
 
     @Override
     public List queryCashInBySubItem(Integer subItemId, Integer memberId) {
         List list = (List) operatorService.getList(cashInDao.queryBySubItem(subItemId, memberId), subItemId, memberId);
-        list.sort((Comparator<CashInQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
-        return list;
+        return operatorService.CashIn(memberId, list);
     }
 
     @Override
     public List queryCashOutBySubItem(Integer subItemId, Integer memberId) {
         List list = (List) operatorService.getList(cashOutDao.queryBySubItem(subItemId, memberId), subItemId, memberId);
-        list.sort((Comparator<CashOutQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
-        return list;
+        return operatorService.CashOut(memberId, list);
     }
 
     @Override
@@ -274,15 +211,13 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
     @Override
     public List queryCashInByAccount(Integer accountId, Integer memberId) {
         List list = (List) operatorService.getList(cashInDao.queryByAccount(accountId, memberId), accountId, memberId);
-        list.sort((Comparator<CashInQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
-        return list;
+        return operatorService.CashIn(memberId, list);
     }
 
     @Override
     public List queryCashOutByAccount(Integer accountId, Integer memberId) {
         List list = (List) operatorService.getList(cashOutDao.queryByAccount(accountId, memberId), accountId, memberId);
-        list.sort((Comparator<CashOutQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
-        return list;
+        return operatorService.CashOut(memberId, list);
     }
 
     @Override
@@ -292,11 +227,11 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
             case "i":
                 list = (List) operatorService.getList(cashInDao.queryByTime(memberId, startTime, endTime), memberId, startTime, endTime);
                 list.sort((Comparator<CashInQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
-                return list;
+                break;
             case "o":
                 list = (List) operatorService.getList(cashOutDao.queryByTime(memberId, startTime, endTime), memberId, startTime, endTime);
                 list.sort((Comparator<CashOutQuery>) (o1, o2) -> Integer.compare(0, o1.getId().getTime().compareTo(o2.getId().getTime())));
-                return list;
+                break;
         }
         return list;
     }
@@ -308,19 +243,16 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
                 case "i":
                     if (cashInDao.queryByTime(memberId, startTime, endTime).size() != 0) {
                         return cashInDao.sumCashIn(memberId, startTime, endTime);
-                    } else {
-                        return 0;
                     }
-                default:
+                    break;
+                case "o":
                     if (cashOutDao.queryByTime(memberId, startTime, endTime).size() != 0) {
                         return cashOutDao.sumCashOut(memberId, startTime, endTime);
-                    } else {
-                        return 0;
                     }
+                    break;
             }
-        } else {
-            return 0;
         }
+        return 0;
     }
 
     @Override
@@ -335,28 +267,25 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
                     switch (which) {
                         case "i":
                             if (cashInDao.queryByTime(memberId, f.parse(startTime), f.parse(endTime)).size() != 0) {
-                                map.put(month.toString(), Double.toString(cashInDao.sumCashIn(memberId, f.parse(startTime), f.parse(endTime))));
+                                map.put(month, cashInDao.sumCashIn(memberId, f.parse(startTime), f.parse(endTime)));
                             } else {
-                                map.put(month.toString(), "0");
+                                map.put(month, 0);
                             }
                             break;
-                        default:
+                        case "o":
                             if (cashOutDao.queryByTime(memberId, f.parse(startTime), f.parse(endTime)).size() != 0) {
-                                map.put(month.toString(), Double.toString(cashOutDao.sumCashOut(memberId, f.parse(startTime), f.parse(endTime))));
+                                map.put(month, cashOutDao.sumCashOut(memberId, f.parse(startTime), f.parse(endTime)));
                             } else {
-                                map.put(month.toString(), "0");
+                                map.put(month, 0);
                             }
                             break;
                     }
-                } catch (ParseException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     return map;
                 }
             }
-            return map;
-        } else {
-            return map;
         }
+        return map;
     }
-
 }
