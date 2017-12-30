@@ -23,139 +23,58 @@
 ### 3.API
 
 > #### item部分
-- 增加：
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/item-add
-接口参数：
-{
-    which//String，i为增加父类，否则增加子类
-    itemName//String，父类名称，若增加子类则为空
-    type//int，父类类型，0为收入，1为支出，如增加子类则为空
-    subItemName//String，子类名称，若增加父类则为空
-    itemId//int，子类属于的父类的id，若父类则为空
-}
-返回结果：
-{
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
-}
-```
-- 删除
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/item-delete
-接口参数:
-{
-    which//String，i为删除父类，否则删除子类
-    id//int，父类或子类的id
-}
-返回结果：
-{
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
-}
-```
-
-- 修改
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/item-update
-接口参数：
-{
-    which//String，i为修改父类，否则修改子类
-    id//int，父类或子类的id
-    itemName//String，父类修改的名称，若修改子类则为空
-    subItemName//String，子类修改的名称，若修改父类则为空
-}
-返回结果：
-{
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
-}
-```
 - 查询
 
 ```
-url:zjh.hduzjh.cn/HouseKeeper/item-get
+url:zjh.hduzjh.cn/HouseKeeper/item-query
 接口参数：
 {
-    which//String，i为查询父类，否则查询子类
+    which//String，i为查询父类，o查询子类
     type//int，0为查询收入类，1为查询支出类，若查询子类则为空
-    itemId//int，所属的父类id，若查询父类则为空
+    id//int，子类所属的父类id
 }
 返回结果：
 //查询父类：
-[
-    {
-        itemId//父类id
-        itemName//父类名字
-        type//父类属性
-    }
-]
-//查询子类：
-[
-    {
-        "id": {
-            itemId//所属父类id
-            subitemId//子类id
-            subitemName//子类名字
+{
+    "data": [
+        {
+            "itemId": 15,
+            "itemName": "职业收入",
+            "type": 0
         }
-    }
-]
+    ],
+    "status": 200
+}
+//查询子类：
+{
+    "data": [
+        {
+            "id": {
+                "itemId": 13,
+                "subitemId": 46,
+                "subitemName": "银行手续"
+            }
+        }
+    ],
+    "status": 200
+}
 ```
 > #### account部分
 - 查询
 
 ```
 url:zjh.hduzjh.cn/HouseKeeper/account-query
-接口参数：无
 返回结果：
 {
-    accountId//int，账户id
-    accountName//String，账户名字
+    "data": [
+        {
+            "accountId": 1,
+            "accountName": "现金"
+        }
+    ],
+    "status": 200
 }
 ```
-- 增加
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/account-add
-接口参数：
-{
-    accountName//String，账户名字
-}
-返回结果：
-{
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
-}
-```
-- 修改
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/account-update
-接口参数：
-{
-    id//int，修改的账户id
-    accountName//String，账户名字
-}
-返回结果：
-{
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
-}
-```
-- 删除
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/account-delete
-接口参数：
-{
-    id//int，删除的账户id
-}
-返回结果：
-{
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
-}
-```
-
-
-
 > #### cash部分
 - 增加
 
@@ -163,7 +82,7 @@ url:zjh.hduzjh.cn/HouseKeeper/account-delete
 url:zjh.hduzjh.cn/HouseKeeper/cash-save
 接口参数：
 {
-    which//String，i为保存收入，否则保存支出
+    which//String，i为保存收入，o保存支出
     time//String，时间戳
     site//String，位置
     people//String，有关人员
@@ -176,21 +95,21 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-save
 }
 返回结果：
 {
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
+    "status":200
 }
 ```
 - 删除某条记录
 
 ```
-url:zjh.hduzjh.cn/HouseKeeper/cash-delete
+url:zjh.hduzjh.cn/HouseKeeper/operator-delete
 接口参数：
 {
-    which//String，i为删除收入，否则删除支出
+    which//String，ci为删除收入，co删除支出
     id//int，删除的记录的id
 }
 返回结果：
 {
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
+    "status":200
 }
 ```
 - 修改某条记录
@@ -199,7 +118,7 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-delete
 url:zjh.hduzjh.cn/HouseKeeper/cash-update
 接口参数：
 {
-    which//String，i为保存收入，否则保存支出
+    which//String，i修改收入，o修改支出
     time//String，时间戳
     site//String，位置
     people//String，有关人员
@@ -212,268 +131,183 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-update
 }
 返回结果：
 {
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
+    "status":200
 }
 ```
 
 - 查询某一成员收支记录
 
 ```
-url:zjh.hduzjh.cn/HouseKeeper/cash-memberQuery
+url:zjh.hduzjh.cn/HouseKeeper/cash-query
 接口参数：
 {
-    which//String，i为查询收入，否则查询支出
-    memberId//int，查询的成员id
+    which//mi查询收入，mo查询支出
+    memberId//用户id
 }
 返回结果：
-//收入查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashinId//收入id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
-        }
-    }
-]
-//支出查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashoutId//支出id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
-        }
-    }
-]
-```
-- 查询某条收支记录
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/cash-idQuery
-接口参数：
 {
-    which//String，i为查询收入，否则查询支出
-    id//int，收支的id
+    "data": [
+        {
+            "account": "现金",
+            "balance": 48495.54,
+            "item": "衣服饰品",
+            "itemId": 1,
+            "money": 123.45,
+            "remark": "wwwww",
+            "site": "wwww",
+            "subItem": "衣服裤子",
+            "subItemId": 12,
+            "time": 1513613220000
+        }
+    ],
+    "status": 200
 }
-返回结果：
-//收入查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashinId//收入id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
-        }
-    }
-]
-//支出查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashoutId//支出id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
-        }
-    }
-]
 ```
 - 查询某一成员父类收支
 
 ```
-url:zjh.hduzjh.cn/HouseKeeper/cash-itemQuery
+url:zjh.hduzjh.cn/HouseKeeper/cash-query
 接口参数：
 {
-    which//String，i为查询收入，否则查询支出
+    which//String，ti为查询收入，to查询支出
     itemId//int，父类id
     memberId//int，成员id
 }
 返回结果：
-//收入查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashinId//收入id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
+{
+    "data": [
+        {
+            "account": "现金",
+            "balance": 48495.54,
+            "item": "衣服饰品",
+            "itemId": 1,
+            "money": 123.45,
+            "remark": "wwwww",
+            "site": "wwww",
+            "subItem": "衣服裤子",
+            "subItemId": 12,
+            "time": 1513613220000
         }
-    }
-]
-//支出查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashoutId//支出id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
-        }
-    }
-]
+    ],
+    "status": 200
+}
 ```
 - 查询某一成员子类收支
 
 ```
-url:zjh.hduzjh.cn/HouseKeeper/cash-subItemQuery
+url:zjh.hduzjh.cn/HouseKeeper/cash-query
 接口参数：
 {
-    which//String，i为查询收入，否则查询支出
+    which//String，si为查询收入，so查询支出
     subItemId//int，父类id
     memberId//int，成员id
 }
 返回结果：
-//收入查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashinId//收入id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
+{
+    "data": [
+        {
+            "account": "现金",
+            "balance": 48495.54,
+            "item": "衣服饰品",
+            "itemId": 1,
+            "money": 123.45,
+            "remark": "wwwww",
+            "site": "wwww",
+            "subItem": "衣服裤子",
+            "subItemId": 12,
+            "time": 1513613220000
         }
-    }
-]
-//支出查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashoutId//支出id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
-        }
-    }
-]
+    ],
+    "status": 200
+}
 ```
 - 查询某一成员账户收支查询
 
 ```
-url:zjh.hduzjh.cn/HouseKeeper/cash-accountQuery
+url:zjh.hduzjh.cn/HouseKeeper/cash-query
 接口参数：
 {
-    which//String，i为查询收入，否则查询支出
+    which//String，ai为查询收入，ao查询支出
     accountId//int，账户id
     memberId//int，成员id
 }
 返回结果：
-//收入查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashinId//收入id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
+{
+    "data": [
+        {
+            "account": "现金",
+            "balance": 48495.54,
+            "item": "衣服饰品",
+            "itemId": 1,
+            "money": 123.45,
+            "remark": "wwwww",
+            "site": "wwww",
+            "subItem": "衣服裤子",
+            "subItemId": 12,
+            "time": 1513613220000
         }
-    }
-]
-//支出查询
-[
-    {
-        "id": {
-            accountId//账户id
-            accountName//账户名称
-            cashoutId//支出id
-            itemId//父类id
-            itemName//父类名称
-            memberId//成员id
-            money//金额
-            people//有关人员
-            remark//备注
-            site//地点
-            subitemId//子类id
-            subitemName//子类名称
-            time//时间，时间戳
-        }
-    }
-]
+    ],
+    "status": 200
+}
 ```
+- 查询个人收支总览
+```
+url:zjh.hduzjh.cn/HouseKeeper/cash-yearSum
+接口参数：
+{
+    memberId//成员id
+    year//年份
+}
+返回结果：
+{
+    "date": {
+        "i": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0,
+            "8": 0,
+            "9": 0,
+            "10": 22,
+            "11": 0,
+            "12": 15010
+        },
+        "o": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0,
+            "8": 0,
+            "9": 0,
+            "10": 1156.56,
+            "11": 0,
+            "12": 379.9
+        },
+        "sum": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0,
+            "8": 0,
+            "9": 0,
+            "10": -1134.56,
+            "11": 0,
+            "12": 14630.1
+        }
+    },
+    "status": 200
+}
+```
+
 > #### 家庭成员部分
 - 登陆
 
@@ -486,6 +320,7 @@ url:zjh.hduzjh.cn/HouseKeeper/login-login
     password//String，密码
 }
 返回结果：
+家庭：
 {
     "data":
         {   
@@ -496,112 +331,50 @@ url:zjh.hduzjh.cn/HouseKeeper/login-login
         },
     "status":200
 }
-```
-- 注册
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/login-sign
-接口参数：
+成员：
 {
-    which//String，m为成员注册，f为家庭注册
-    username//String，用户名
-    password//String，密码
-    role//String，成员角色，家庭注册则为空
-    id//int，若成员注册则为家庭id，家庭注册则为空
-    familyName//String，家庭名称，成员注册则为空
-}
-返回结果：
-{
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
-}
-```
-- 删除
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/login-delete
-接口参数：
-{
-    which//String，m为成员删除，f为家庭删除
-    id//int，删除的成员或家庭id
-}
-返回结果：
-{
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
-}
-```
-- 修改
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/login-update
-接口参数：
-{
-    which//String，m为成员修改，f为家庭修改
-    password//String，修改后的密码
-    id//int，修改的成员或家庭id
-    role//String，修改后成员角色，家庭修改则为空
-    balance//double，修改后成员余额，家庭修改则为空
-    name//String，修改后的成员姓名，家庭修改则为空
-    familyName//String，修改后的家庭名称，成员修改则为空
-}
-返回结果：
-{
-    result//成功为SUCCESS，失败为FAILED，参数错误为ERROR
+    "data": {
+        "id": {
+            "balance": 50000,
+            "familyId": 1,
+            "familyName": "老张家",
+            "memberId": 3,
+            "name": "张家豪",
+            "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+            "power": 1,
+            "role": "爸爸",
+            "username": "zjh"
+        }
+    },
+    "status": 200
 }
 ```
 - 获取某一家庭或成员信息
 
 ```
-url:zjh.hduzjh.cn/HouseKeeper/login-idGet
+url:zjh.hduzjh.cn/HouseKeeper/login-query
 接口参数：
 {
-    which//String，m为成员信息获取，f为家庭信息获取
+    which//String，f获取家庭信息，m获取成员信息，fm获取家庭中的成员
     id//int，获取的成员或家庭id
 }
 返回结果：
-//获取成员信息
-[
-    {
-        "id": {
-            memberId//成员id
-            name//成员名字
-            username//成员用户名
-            password//成员密码
-            balance//账户余额
-            role//成员角色
-            familyId//所属家庭id
-            familyName//所属家庭名称
-        }
-    }
-]
-//获取家庭信息
 {
-    familyId//家庭id
-    familyName//家庭名称
-    username//用户名
-    password//密码
-}
-```
-- 获取某家庭所有成员
-
-```
-url:zjh.hduzjh.cn/HouseKeeper/login-familyGet
-接口参数：
-{
-    id//所属家庭id
-}
-返回结果：
-[
-    {
-        "id": {
-            memberId//成员id
-            name//成员名字
-            username//成员用户名
-            password//成员密码
-            balance//账户余额
-            role//成员角色
-            familyId//所属家庭id
-            familyName//所属家庭名称
+    "data": [
+        {
+            "id": {
+                "balance": 354321.06,
+                "familyId": 1,
+                "familyName": "老张家",
+                "memberId": 1,
+                "name": "俞有成",
+                "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+                "power": 0,
+                "role": "叔叔",
+                "username": "yyc"
+            }
         }
-    }
-]
+    ],
+    "status": 200
+}
 ```

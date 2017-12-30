@@ -162,5 +162,5 @@ public interface CashInAndCashOutService {
      * @param year
      * @return
      */
-    Map yearSum(Integer memberId, String year, String which);
+    Map yearSum(Integer memberId, String year);
 }

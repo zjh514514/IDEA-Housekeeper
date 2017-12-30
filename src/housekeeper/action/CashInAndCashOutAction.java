@@ -304,11 +304,10 @@ public class CashInAndCashOutAction extends ActionSupport {
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
             JSONObject jsonObject = JSONObject.fromObject(json);
-            which = jsonObject.getString("which");
             memberId = jsonObject.getInt("memberId");
             year = jsonObject.getString("year");
         }
-        Map map = cashInAndCashOutService.yearSum(memberId, year, which);
+        Map map = cashInAndCashOutService.yearSum(memberId, year);
         results.put("date", map);
         results.putAll(getStrResponse.setStatus(map.size()));
         getStrResponse.writer(results);

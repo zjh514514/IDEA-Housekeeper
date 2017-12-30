@@ -96,6 +96,8 @@ public class OperatorServiceImpl implements OperatorService {
                 cash.setItem(cashInQuery.getId().getItemName());
                 cash.setSubItem(cashInQuery.getId().getSubitemName());
                 cash.setRemark(cashInQuery.getId().getRemark());
+                cash.setItemId(cashInQuery.getId().getItemId());
+                cash.setSubItemId(cashInQuery.getId().getSubitemId());
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
                 Date startTime = simpleDateFormat.parse("1601-01-01 00:00");
                 Date endTime = cashInQuery.getId().getTime();
@@ -128,6 +130,8 @@ public class OperatorServiceImpl implements OperatorService {
                 cash.setItem(cashOutQuery.getId().getItemName());
                 cash.setSubItem(cashOutQuery.getId().getSubitemName());
                 cash.setRemark(cashOutQuery.getId().getRemark());
+                cash.setItemId(cashOutQuery.getId().getItemId());
+                cash.setSubItemId(cashOutQuery.getId().getSubitemId());
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
                 Date startTime = simpleDateFormat.parse("1601-01-01 00:00");
                 Date endTime = cashOutQuery.getId().getTime();

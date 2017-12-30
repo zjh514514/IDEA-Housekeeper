@@ -7,7 +7,6 @@ import housekeeper.service.OperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -257,7 +256,7 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
     }
 
     @Override
-    public Map yearSum(Integer memberId, String year, String which) {
+    public Map yearSum(Integer memberId, String year) {
         Map map1 = new HashMap();
         Map map2 = new HashMap();
         Map map3 = new HashMap();

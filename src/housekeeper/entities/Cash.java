@@ -15,6 +15,8 @@ public class Cash {
     private String item;
     private String subItem;
     private String remark;
+    private Integer itemId;
+    private Integer subItemId;
 
     public Date getTime() {
         return time;
@@ -80,6 +82,22 @@ public class Cash {
         this.remark = remark;
     }
 
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    public Integer getSubItemId() {
+        return subItemId;
+    }
+
+    public void setSubItemId(Integer subItemId) {
+        this.subItemId = subItemId;
+    }
+
     @Override
     public String toString() {
         return "Cash{" +
@@ -91,6 +109,8 @@ public class Cash {
                 ", item='" + item + '\'' +
                 ", subItem='" + subItem + '\'' +
                 ", remark='" + remark + '\'' +
+                ", itemId=" + itemId +
+                ", subItemId=" + subItemId +
                 '}';
     }
 }
