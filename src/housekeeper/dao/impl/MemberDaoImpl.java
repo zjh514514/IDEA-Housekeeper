@@ -56,4 +56,10 @@ public class MemberDaoImpl extends HibernateTools implements MemberDao {
         return getSession().createQuery(hql).setParameter(0, familyId).list();
     }
 
+    @Override
+    public void setBalance(Integer id, Double balance) {
+        hql = "UPDATE Member m SET m.balance = ? WHERE m.memberId = ?";
+        getSession().createQuery(hql).setParameter(0, balance).setParameter(1, id).executeUpdate();
+    }
+
 }

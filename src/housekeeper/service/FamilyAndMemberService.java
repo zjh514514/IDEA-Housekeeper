@@ -92,4 +92,5 @@ public interface FamilyAndMemberService<E> {
      */
     Member memberGet(Integer id);
 
+    String setBalance(Integer id, Double balance);
 }

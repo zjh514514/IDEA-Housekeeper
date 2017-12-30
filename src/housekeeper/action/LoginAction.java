@@ -181,7 +181,7 @@ public class LoginAction extends ActionSupport {
                 result = familyAndMemberService.familyUpdate(password, familyName, id);
                 break;
         }
-        results.put("result", result);
+        results.put("status", result);
         getStrResponse.writer(results);
     }
 
@@ -207,6 +207,18 @@ public class LoginAction extends ActionSupport {
         }
         results.put("data", list);
         results.putAll(getStrResponse.setStatus(list.size()));
+        getStrResponse.writer(results);
+    }
+
+    public void setBalance() throws Exception {
+        Map<String, String> results = new HashMap<>();
+        String json = getStrResponse.getStrResponse();
+        if (!json.equals("")) {
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            balance = jsonObject.getDouble("balance");
+            id = jsonObject.getInt("id");
+        }
+        results.put("status", familyAndMemberService.setBalance(id, balance));
         getStrResponse.writer(results);
     }
 }

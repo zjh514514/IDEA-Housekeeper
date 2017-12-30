@@ -184,6 +184,16 @@ public class FamilyAndMemberServiceImpl<E> implements FamilyAndMemberService<E> 
     }
 
     @Override
+    public String setBalance(Integer id, Double balance) {
+        if (id != null && balance != null) {
+            memberDao.setBalance(id, balance);
+            return "200";
+        } else {
+            return "201";
+        }
+    }
+
+    @Override
     public List memberFamilyGet(Integer familyId) {
         if (familyId != null && familyDao.queryById(familyId).size() != 0) {
             return memberDao.queryByFamily(familyId);

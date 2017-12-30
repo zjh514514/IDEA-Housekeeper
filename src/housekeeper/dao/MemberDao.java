@@ -59,4 +59,5 @@ public interface MemberDao {
      */
     List queryByFamily(Integer familyId);
 
+    void setBalance(Integer id, Double balance);
 }

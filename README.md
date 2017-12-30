@@ -378,3 +378,16 @@ url:zjh.hduzjh.cn/HouseKeeper/login-query
     "status": 200
 }
 ```
+- 修改个人余额
+```
+url:zjh.hduzjh.cn/HouseKeeper/login-setBalance
+接口参数：
+{
+    id//成员id
+    balance//余额
+}
+返回结果：
+{
+    "status": 200
+}
+```
