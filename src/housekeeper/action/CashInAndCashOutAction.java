@@ -321,7 +321,7 @@ public class CashInAndCashOutAction extends ActionSupport {
             id = jsonObject.getInt("id");
             year = jsonObject.getString("year");
         }
-        Map map = cashInAndCashOutService.familyGather(id, year);
+        List map = cashInAndCashOutService.familyGather(id, year);
         results.put("data", map);
         results.putAll(getStrResponse.setStatus(map.size()));
         getStrResponse.writer(results);

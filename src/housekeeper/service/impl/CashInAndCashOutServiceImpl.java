@@ -289,14 +289,14 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
         return map2;
     }
 
-    public Map familyGather(Integer id, String year) {
-        Map map1 = new HashMap();
+    public List familyGather(Integer id, String year) {
+        List list = new ArrayList();
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         if (id != null && year != null) {
             List members = memberDao.queryByFamily(id);
             for (Object member1 : members) {
-                MemberQuery memberQuery = (MemberQuery) member1;
                 Map map = new HashMap();
+                MemberQuery memberQuery = (MemberQuery) member1;
                 for (Integer month = 1; month < 13; month++) {
                     Double sum = 0.0;
                     String startTime = year + "-" + month + "-01 00:00";
@@ -309,14 +309,16 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
                         Double moneyOut = money2 == null ? 0 : money2;
                         sum -= moneyOut;
                         map.put(month.toString(), sum);
+                        map.put("name", memberQuery.getId().getName());
                     } catch (Exception e) {
                         e.printStackTrace();
-                        return map1;
+                        return list;
                     }
+
                 }
-                map1.put(memberQuery.getId().getName(), map);
+                list.add(map);
             }
         }
-        return map1;
+        return list;
     }
 }
