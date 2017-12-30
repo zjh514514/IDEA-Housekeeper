@@ -313,13 +313,17 @@ public class CashInAndCashOutAction extends ActionSupport {
         getStrResponse.writer(results);
     }
 
-    public void rate() throws Exception {
+    public void familyGather() throws Exception {
         Map results = new HashMap();
         String json = getStrResponse.getStrResponse();
-        if (!json.equals("")){
-            JSONObject jsonObject=JSONObject.fromObject(json);
-            id=jsonObject.getInt("id");
+        if (!json.equals("")) {
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            id = jsonObject.getInt("id");
+            year = jsonObject.getString("year");
         }
-
+        Map map = cashInAndCashOutService.familyGather(id, year);
+        results.put("data", map);
+        results.putAll(getStrResponse.setStatus(map.size()));
+        getStrResponse.writer(results);
     }
 }

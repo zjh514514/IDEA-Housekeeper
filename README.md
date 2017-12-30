@@ -307,7 +307,35 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-yearSum
     "status": 200
 }
 ```
-
+- 家庭总览
+```
+url:zjh.hduzjh.cn/HouseKeeper/cash-familyGather
+接口参数：
+{
+    id//家庭id
+    year//年份
+}
+返回结果：
+{
+    "data": {
+        "俞有成": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0,
+            "8": 0,
+            "9": 0,
+            "10": -1213,
+            "11": 0,
+            "12": -112
+        }
+    },
+    "status": 200
+}
+```
 > #### 家庭成员部分
 - 登陆
 

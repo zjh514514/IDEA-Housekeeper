@@ -163,4 +163,6 @@ public interface CashInAndCashOutService {
      * @return
      */
     Map yearSum(Integer memberId, String year);
+
+    Map familyGather(Integer id, String year);
 }

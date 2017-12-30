@@ -289,23 +289,34 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
         return map2;
     }
 
-    public Map memberRate(Integer id, String year) {
-        Map map = new HashMap();
-        Map sum = new HashMap();
-        List members = memberDao.queryByFamily(id);
+    public Map familyGather(Integer id, String year) {
+        Map map1 = new HashMap();
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        for (Object member1 : members) {
-            MemberQuery member = (MemberQuery) member1;
-            Integer memberId = member.getId().getMemberId();
-            String startTime = year + "-01-01 00:00";
-            String endTime = year + "-12-31 23:59";
-            try {
-                Double sumCashOut = cashOutDao.sumCashOut(memberId, f.parse(startTime), f.parse(endTime));
-                sum.put(memberId, sumCashOut);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (id != null && year != null) {
+            List members = memberDao.queryByFamily(id);
+            for (Object member1 : members) {
+                MemberQuery memberQuery = (MemberQuery) member1;
+                Map map = new HashMap();
+                for (Integer month = 1; month < 13; month++) {
+                    Double sum = 0.0;
+                    String startTime = year + "-" + month + "-01 00:00";
+                    String endTime = year + "-" + month + "-31 23:59";
+                    try {
+                        Double money = cashInDao.sumCashIn(memberQuery.getId().getMemberId(), f.parse(startTime), f.parse(endTime));
+                        Double moneyIn = money == null ? 0 : money;
+                        sum += moneyIn;
+                        Double money2 = cashOutDao.sumCashOut(memberQuery.getId().getMemberId(), f.parse(startTime), f.parse(endTime));
+                        Double moneyOut = money2 == null ? 0 : money2;
+                        sum -= moneyOut;
+                        map.put(month.toString(), sum);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return map1;
+                    }
+                }
+                map1.put(memberQuery.getId().getName(), map);
             }
         }
-        return map;
+        return map1;
     }
 }
