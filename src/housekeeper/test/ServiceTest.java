@@ -230,6 +230,6 @@ public class ServiceTest {
 
     @Test
     public void testYearSum() {
-        System.out.println(cashInAndCashOutServoice.yearSum(3, "2017", "o"));
+        System.out.println(cashInAndCashOutServoice.yearSum(3, "2017"));
     }
 }
