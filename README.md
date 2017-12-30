@@ -336,6 +336,33 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-familyGather
     "status": 200
 }
 ```
+- 成员消费分布
+```
+url:zjh.hduzjh.cn/HouseKeeper/cash-analyse
+接口参数：
+{
+    id//家庭id
+    year//年份
+}
+返回结果:
+{
+    "data": [
+        {
+            "name": "俞有成",
+            "rate": "2.11"
+        },
+        {
+            "name": "吴伟伟",
+            "rate": "0.16"
+        },
+        {
+            "name": "张家豪",
+            "rate": "97.73"
+        }
+    ],
+    "status": 200
+}
+```
 > #### 家庭成员部分
 - 登陆
 

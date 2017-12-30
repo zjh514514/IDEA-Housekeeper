@@ -7,6 +7,8 @@ import housekeeper.service.OperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -314,11 +316,48 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
                         e.printStackTrace();
                         return list;
                     }
-
                 }
                 list.add(map);
             }
         }
         return list;
+    }
+
+    public List analyse(Integer id, String year) {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        List money2 = new ArrayList();
+        if (id != null && year != null) {
+            List members = memberDao.queryByFamily(id);
+            Double sum2 = 0.0;
+            List list = new ArrayList();
+            for (Object member1 : members) {
+                MemberQuery memberQuery = (MemberQuery) member1;
+                Double sum = 0.0;
+                for (Integer month = 1; month < 13; month++) {
+                    String startTime = year + "-" + month + "-01 00:00";
+                    String endTime = year + "-" + month + "-31 23:59";
+                    try {
+                        Double money = cashOutDao.sumCashOut(memberQuery.getId().getMemberId(), f.parse(startTime), f.parse(endTime));
+                        Double moneyOut = money == null ? 0 : money;
+                        sum += moneyOut;
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                list.add(sum);
+                sum2 += sum;
+            }
+            for (Integer size = 0; size < members.size(); size++) {
+                Map map = new HashMap();
+                MemberQuery memberQuery = (MemberQuery) members.get(size);
+                DecimalFormat df = new DecimalFormat("#0.00");
+                Double money = (Double) list.get(size);
+                String rate = df.format(money * 100 / sum2);
+                map.put("rate", rate);
+                map.put("name", memberQuery.getId().getName());
+                money2.add(map);
+            }
+        }
+        return money2;
     }
 }

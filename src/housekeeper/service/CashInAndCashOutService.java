@@ -165,4 +165,6 @@ public interface CashInAndCashOutService {
     Map yearSum(Integer memberId, String year);
 
     List familyGather(Integer id, String year);
+
+    List analyse(Integer id, String year);
 }

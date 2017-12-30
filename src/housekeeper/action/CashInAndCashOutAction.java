@@ -326,4 +326,18 @@ public class CashInAndCashOutAction extends ActionSupport {
         results.putAll(getStrResponse.setStatus(map.size()));
         getStrResponse.writer(results);
     }
+
+    public void analyse() throws Exception {
+        Map results = new HashMap();
+        String json = getStrResponse.getStrResponse();
+        if (!json.equals("")) {
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            id = jsonObject.getInt("id");
+            year = jsonObject.getString("year");
+        }
+        List list = cashInAndCashOutService.analyse(id, year);
+        results.put("data", list);
+        results.putAll(getStrResponse.setStatus(list.size()));
+        getStrResponse.writer(results);
+    }
 }
