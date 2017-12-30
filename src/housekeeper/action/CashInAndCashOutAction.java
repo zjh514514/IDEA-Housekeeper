@@ -313,4 +313,14 @@ public class CashInAndCashOutAction extends ActionSupport {
         results.putAll(getStrResponse.setStatus(map.size()));
         getStrResponse.writer(results);
     }
+
+    public void rate() throws Exception {
+        Map results = new HashMap();
+        String json = getStrResponse.getStrResponse();
+        if (!json.equals("")){
+            JSONObject jsonObject=JSONObject.fromObject(json);
+            id=jsonObject.getInt("id");
+        }
+
+    }
 }

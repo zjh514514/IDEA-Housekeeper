@@ -30,6 +30,10 @@
 			<column name="ROLE" />
 		</property>
 
+		<property name="power" type="java.lang.Integer">
+			<column name="POWER" />
+		</property>
+
 		<many-to-one name="family" class="housekeeper.entities.Family"
 			lazy="false">
 			<column name="FAMILY_ID" />

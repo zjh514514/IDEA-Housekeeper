@@ -39,7 +39,7 @@ public class OperatorServiceImpl implements OperatorService {
         if (id != null) {
             return object;
         } else {
-            return new ArrayList();
+            return new Object();
         }
     }
 

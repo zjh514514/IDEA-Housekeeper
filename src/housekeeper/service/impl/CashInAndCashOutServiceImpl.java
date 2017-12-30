@@ -7,6 +7,7 @@ import housekeeper.service.OperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -256,34 +257,54 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
     }
 
     @Override
-    public Map<Object, Object> yearSum(Integer memberId, String year, String which) {
-        Map<Object, Object> map = new HashMap<>();
+    public Map yearSum(Integer memberId, String year, String which) {
+        Map map1 = new HashMap();
+        Map map2 = new HashMap();
+        Map map3 = new HashMap();
+        Map map4 = new HashMap();
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         if (memberId != null && year != null) {
             for (Integer month = 1; month < 13; month++) {
+                Double sum = 0.0;
                 String startTime = year + "-" + month + "-01 00:00";
                 String endTime = year + "-" + month + "-31 23:59";
                 try {
-                    switch (which) {
-                        case "i":
-                            if (cashInDao.queryByTime(memberId, f.parse(startTime), f.parse(endTime)).size() != 0) {
-                                map.put(month, cashInDao.sumCashIn(memberId, f.parse(startTime), f.parse(endTime)));
-                            } else {
-                                map.put(month, 0);
-                            }
-                            break;
-                        case "o":
-                            if (cashOutDao.queryByTime(memberId, f.parse(startTime), f.parse(endTime)).size() != 0) {
-                                map.put(month, cashOutDao.sumCashOut(memberId, f.parse(startTime), f.parse(endTime)));
-                            } else {
-                                map.put(month, 0);
-                            }
-                            break;
-                    }
+                    Double money = cashInDao.sumCashIn(memberId, f.parse(startTime), f.parse(endTime));
+                    Double moneyIn = money == null ? 0 : money;
+                    sum += moneyIn;
+                    map1.put(month.toString(), moneyIn);
+                    map2.put("i", map1);
+                    Double money2 = cashOutDao.sumCashOut(memberId, f.parse(startTime), f.parse(endTime));
+                    Double moneyOut = money2 == null ? 0 : money2;
+                    sum -= moneyOut;
+                    map3.put(month.toString(), moneyOut);
+                    map2.put("o", map3);
+                    map4.put(month.toString(), sum);
+                    map2.put("sum", map4);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return map;
+                    return map2;
                 }
+            }
+        }
+        return map2;
+    }
+
+    public Map memberRate(Integer id, String year) {
+        Map map = new HashMap();
+        Map sum = new HashMap();
+        List members = memberDao.queryByFamily(id);
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        for (Object member1 : members) {
+            MemberQuery member = (MemberQuery) member1;
+            Integer memberId = member.getId().getMemberId();
+            String startTime = year + "-01-01 00:00";
+            String endTime = year + "-12-31 23:59";
+            try {
+                Double sumCashOut = cashOutDao.sumCashOut(memberId, f.parse(startTime), f.parse(endTime));
+                sum.put(memberId, sumCashOut);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return map;
