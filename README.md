@@ -148,6 +148,7 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-query
 {
     "data": [
         {
+            "id":1,
             "account": "现金",
             "balance": 48495.54,
             "item": "衣服饰品",
@@ -177,6 +178,7 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-query
 {
     "data": [
         {
+            "id":1,
             "account": "现金",
             "balance": 48495.54,
             "item": "衣服饰品",
@@ -206,6 +208,7 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-query
 {
     "data": [
         {
+            "id":1,
             "account": "现金",
             "balance": 48495.54,
             "item": "衣服饰品",
@@ -235,6 +238,7 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-query
 {
     "data": [
         {
+            "id":1,
             "account": "现金",
             "balance": 48495.54,
             "item": "衣服饰品",
@@ -317,8 +321,8 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-familyGather
 }
 返回结果：
 {
-    "data": {
-        "俞有成": {
+    "data": [
+        {
             "1": 0,
             "2": 0,
             "3": 0,
@@ -328,11 +332,42 @@ url:zjh.hduzjh.cn/HouseKeeper/cash-familyGather
             "7": 0,
             "8": 0,
             "9": 0,
-            "10": -1213,
-            "11": 0,
-            "12": -112
+            "10": 8220,
+            "11": 9370,
+            "12": 0,
+            "name": "俞有成"
+        },
+        {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0,
+            "8": 0,
+            "9": 0,
+            "10": -912,
+            "11": 788,
+            "12": 0,
+            "name": "吴伟伟"
+        },
+        {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0,
+            "8": 0,
+            "9": 15000,
+            "10": 14785,
+            "11": 11056,
+            "12": 0,
+            "name": "张家豪"
         }
-    },
+    ],
     "status": 200
 }
 ```

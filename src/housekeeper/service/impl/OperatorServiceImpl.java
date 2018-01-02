@@ -89,6 +89,7 @@ public class OperatorServiceImpl implements OperatorService {
             for (Object aList : list) {
                 CashInQuery cashInQuery = (CashInQuery) aList;
                 Cash cash = new Cash();
+                cash.setId(cashInQuery.getId().getCashinId());
                 cash.setTime(cashInQuery.getId().getTime());
                 cash.setMoney(cashInQuery.getId().getMoney());
                 cash.setSite(cashInQuery.getId().getSite());
@@ -123,6 +124,7 @@ public class OperatorServiceImpl implements OperatorService {
             for (Object aList : list) {
                 CashOutQuery cashOutQuery = (CashOutQuery) aList;
                 Cash cash = new Cash();
+                cash.setId(cashOutQuery.getId().getCashoutId());
                 cash.setTime(cashOutQuery.getId().getTime());
                 cash.setMoney(cashOutQuery.getId().getMoney());
                 cash.setSite(cashOutQuery.getId().getSite());

@@ -7,6 +7,7 @@ import java.util.Date;
 @Component
 public class Cash {
 
+    private Integer id;
     private Date time;
     private Double money;
     private String site;
@@ -17,6 +18,14 @@ public class Cash {
     private String remark;
     private Integer itemId;
     private Integer subItemId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Date getTime() {
         return time;
@@ -101,7 +110,8 @@ public class Cash {
     @Override
     public String toString() {
         return "Cash{" +
-                "time=" + time +
+                "id=" + id +
+                ", time=" + time +
                 ", money=" + money +
                 ", site='" + site + '\'' +
                 ", account='" + account + '\'' +
