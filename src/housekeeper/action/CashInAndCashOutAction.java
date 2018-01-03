@@ -160,6 +160,7 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void save() throws Exception {
+        getStrResponse.header();
         String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
@@ -190,6 +191,7 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void update() throws Exception {
+        getStrResponse.header();
         String result;
         Map<String, String> results = new HashMap<>();
         String json = getStrResponse.getStrResponse();
@@ -219,6 +221,7 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void timeQuery() throws Exception {
+        getStrResponse.header();
         String json = getStrResponse.getStrResponse();
         List<Object> results = new ArrayList<>();
         if (!json.equals("")) {
@@ -242,6 +245,7 @@ public class CashInAndCashOutAction extends ActionSupport {
     }
 
     public void query() throws Exception {
+        getStrResponse.header();
         List list = new ArrayList();
         String json = getStrResponse.getStrResponse();
         Map results = new HashMap();
@@ -287,6 +291,10 @@ public class CashInAndCashOutAction extends ActionSupport {
             case "ao":
                 list = cashInAndCashOutService.queryCashOutByAccount(accountId, memberId);
                 break;
+            case "fi":
+                break;
+            case "fo":
+                break;
         }
         results.put("data", list);
         results.putAll(getStrResponse.setStatus(list.size()));
@@ -300,6 +308,7 @@ public class CashInAndCashOutAction extends ActionSupport {
      * @throws Exception
      */
     public void yearSum() throws Exception {
+        getStrResponse.header();
         Map results = new HashMap();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
@@ -314,6 +323,7 @@ public class CashInAndCashOutAction extends ActionSupport {
     }
 
     public void familyGather() throws Exception {
+        getStrResponse.header();
         Map results = new HashMap();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {
@@ -328,6 +338,7 @@ public class CashInAndCashOutAction extends ActionSupport {
     }
 
     public void analyse() throws Exception {
+        getStrResponse.header();
         Map results = new HashMap();
         String json = getStrResponse.getStrResponse();
         if (!json.equals("")) {

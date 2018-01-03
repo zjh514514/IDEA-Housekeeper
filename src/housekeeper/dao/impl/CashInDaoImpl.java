@@ -77,4 +77,11 @@ public class CashInDaoImpl extends HibernateTools implements CashInDao {
         return (Double) getSession().createQuery(hql).setParameter(0, memberId).setParameter(1, startTime).setParameter(2, endTime).getSingleResult();
     }
 
+    @Override
+    public List queryByFamily(Integer familyId, Date startTime, Date endTime) {
+//        hql="FROM CashInQuery c WHERE c.id."
+        return null;
+//                getSession().createQuery(hql).setParameter(0,familyId).setParameter(1, startTime).setParameter(2, endTime).list();
+    }
+
 }

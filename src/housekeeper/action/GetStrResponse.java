@@ -45,6 +45,12 @@ public class GetStrResponse {
         return strResponse.toString();
     }
 
+    public void header() {
+        HttpServletResponse response = ServletActionContext.getResponse();
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setContentType("application/json;charset=utf-8");
+    }
+
     public void writer(Object results) throws Exception {
         HttpServletResponse response = ServletActionContext.getResponse();
         response.setHeader("Access-Control-Allow-Origin", "*");

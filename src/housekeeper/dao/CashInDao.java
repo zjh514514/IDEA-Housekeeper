@@ -90,4 +90,6 @@ public interface CashInDao {
      * @return
      */
     Double sumCashIn(Integer memberId, Date startTime, Date endTime);
+
+    List queryByFamily(Integer familyId, Date startTime, Date endTime);
 }

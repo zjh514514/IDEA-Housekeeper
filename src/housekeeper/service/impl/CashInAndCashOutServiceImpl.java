@@ -103,7 +103,10 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
 
     @Override
     public String delete(Integer id, String which) {
-        return operatorService.delete(id, cashInDao.queryById(id).size(), which);
+        if (which.equals("ci"))
+            return operatorService.delete(id, cashInDao.queryById(id).size(), which);
+        else
+            return operatorService.delete(id, cashOutDao.queryById(id).size(), which);
     }
 
     @Override
@@ -312,6 +315,7 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
                         sum -= moneyOut;
                         map.put(month.toString(), sum);
                         map.put("name", memberQuery.getId().getName());
+                        map.put("id", memberQuery.getId().getMemberId());
                     } catch (Exception e) {
                         e.printStackTrace();
                         return list;
@@ -359,5 +363,16 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
             }
         }
         return money2;
+    }
+
+    @Override
+    public List familyCashIn(Integer id, String year) {
+
+        return null;
+    }
+
+    @Override
+    public List familyCashOut(Integer id, String year) {
+        return null;
     }
 }
