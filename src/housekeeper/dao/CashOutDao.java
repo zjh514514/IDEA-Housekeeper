@@ -87,4 +87,6 @@ public interface CashOutDao {
      * @return
      */
     Double sumCashOut(Integer memberId, Date startTime, Date endTime);
+
+    List queryByFamily(Integer familyId, Date startTime, Date endTime);
 }

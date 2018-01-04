@@ -79,9 +79,7 @@ public class CashInDaoImpl extends HibernateTools implements CashInDao {
 
     @Override
     public List queryByFamily(Integer familyId, Date startTime, Date endTime) {
-//        hql="FROM CashInQuery c WHERE c.id."
-        return null;
-//                getSession().createQuery(hql).setParameter(0,familyId).setParameter(1, startTime).setParameter(2, endTime).list();
+        hql = "SELECT * FROM CashInQuery WHERE TIME BETWEEN ? AND ? AND MEMBER_ID IN ( SELECT MEMBER_ID FROM MEMBER WHERE FAMILY_ID IN ( SELECT FAMILY_ID FROM FAMILY WHERE FAMILY_ID = ? ) )";
+        return getSession().createSQLQuery(hql).setParameter(0, startTime).setParameter(1, endTime).setParameter(2, familyId).list();
     }
-
 }

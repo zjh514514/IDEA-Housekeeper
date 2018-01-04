@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import housekeeper.entities.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,14 +24,6 @@ import housekeeper.dao.FamilyDao;
 import housekeeper.dao.ItemDao;
 import housekeeper.dao.MemberDao;
 import housekeeper.dao.SubItemDao;
-import housekeeper.entities.Account;
-import housekeeper.entities.Card;
-import housekeeper.entities.CashIn;
-import housekeeper.entities.CashOut;
-import housekeeper.entities.Family;
-import housekeeper.entities.Item;
-import housekeeper.entities.Member;
-import housekeeper.entities.SubItem;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
@@ -375,6 +368,38 @@ public class DaoTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testCashInQueryById() {
         System.out.println(cashInDao.queryById(4));
+    }
+
+    @Test
+    public void testQueryByFamily() throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dstr = "2017-01-01";
+        Date time1 = sdf.parse(dstr);
+        dstr="2017-12-31";
+        Date time2=sdf.parse(dstr);
+        List list = cashInDao.queryByFamily(1, time1, time2);
+        List cash = new ArrayList();
+        for (Object aList : list) {
+            CashInQuery cashInQuery = new CashInQuery();
+            Object[] obj = (Object[]) aList;
+            CashInQueryId cashInQueryId = new CashInQueryId();
+            cashInQueryId.setCashinId((Integer) obj[0]);
+            cashInQueryId.setTime((Date) obj[1]);
+            cashInQueryId.setSite((String) obj[2]);
+            cashInQueryId.setPeople((String) obj[3]);
+            cashInQueryId.setMoney((Double) obj[4]);
+            cashInQueryId.setRemark((String) obj[5]);
+            cashInQueryId.setMemberId((Integer) obj[6]);
+            cashInQueryId.setItemId((Integer) obj[7]);
+            cashInQueryId.setSubitemId((Integer) obj[8]);
+            cashInQueryId.setAccountId((Integer) obj[9]);
+            cashInQueryId.setItemName((String) obj[10]);
+            cashInQueryId.setSubitemName((String) obj[11]);
+            cashInQueryId.setAccountName((String) obj[12]);
+            cashInQuery.setId(cashInQueryId);
+            cash.add(cashInQuery);
+        }
+        System.out.println(JSON.toJSONString(cash));
     }
 
     /**
