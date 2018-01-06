@@ -98,12 +98,12 @@ public class ServiceTest {
 
     @Test
     public void testMemberDelete() {
-        System.out.println(familyAndMemberService.delete(2,"m"));
+        System.out.println(familyAndMemberService.delete(2, "m"));
     }
 
     @Test
     public void testFamilyDelete() {
-        System.out.println(familyAndMemberService.delete(1,"f"));
+        System.out.println(familyAndMemberService.delete(1, "f"));
     }
 
     /**
@@ -121,7 +121,7 @@ public class ServiceTest {
 
     @Test
     public void testDeleteItem() {
-        System.out.println(itemsService.delete(18,"i"));
+        System.out.println(itemsService.delete(18, "i"));
     }
 
 
@@ -179,17 +179,17 @@ public class ServiceTest {
      */
     @Test
     public void testAddCashIn() {
-        System.out.println(cashInAndCashOutServoice.add("", "", "", 846.05, "", 6, 1, 13, 1,""));
+        System.out.println(cashInAndCashOutServoice.add("", "", "", 846.05, "", 6, 1, 13, 1, ""));
     }
 
     @Test
     public void testDeleteCashIn() {
-        System.out.println(cashInAndCashOutServoice.delete(6,"ci"));
+        System.out.println(cashInAndCashOutServoice.delete(6, "ci"));
     }
 
     @Test
     public void testUpdateCashIn() {
-        System.out.println(cashInAndCashOutServoice.update(null, "ee", "ee", 987.05, "ee", null, 1, 8, 8,""));
+        System.out.println(cashInAndCashOutServoice.update(null, "ee", "ee", 987.05, "ee", null, 1, 8, 8, ""));
     }
 
     @Test
@@ -231,5 +231,15 @@ public class ServiceTest {
     @Test
     public void testYearSum() {
         System.out.println(cashInAndCashOutServoice.yearSum(3, "2017"));
+    }
+
+    @Test
+    public void testFamilyCashIn() {
+        System.out.println(cashInAndCashOutServoice.familyCashIn(1));
+    }
+
+    @Test
+    public void testFamilyCashOut() {
+        System.out.println(cashInAndCashOutServoice.familyCashOut(1));
     }
 }

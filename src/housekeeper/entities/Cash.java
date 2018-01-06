@@ -18,6 +18,15 @@ public class Cash {
     private String remark;
     private Integer itemId;
     private Integer subItemId;
+    private String member;
+
+    public String getMember() {
+        return member;
+    }
+
+    public void setMember(String member) {
+        this.member = member;
+    }
 
     public Integer getId() {
         return id;
@@ -121,6 +130,7 @@ public class Cash {
                 ", remark='" + remark + '\'' +
                 ", itemId=" + itemId +
                 ", subItemId=" + subItemId +
+                ", member='" + member + '\'' +
                 '}';
     }
 }

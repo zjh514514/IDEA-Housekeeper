@@ -51,4 +51,10 @@ public class CashInQuery implements java.io.Serializable {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return "CashInQuery{" +
+				"id=" + id +
+				'}';
+	}
 }

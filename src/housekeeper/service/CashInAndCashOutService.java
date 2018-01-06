@@ -168,7 +168,7 @@ public interface CashInAndCashOutService {
 
     List analyse(Integer id, String year);
 
-    List familyCashIn(Integer id,String year);
+    List familyCashIn(Integer id);
 
-    List familyCashOut(Integer id,String year);
+    List familyCashOut(Integer id);
 }

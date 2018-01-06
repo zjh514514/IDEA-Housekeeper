@@ -366,13 +366,64 @@ public class CashInAndCashOutServiceImpl implements CashInAndCashOutService {
     }
 
     @Override
-    public List familyCashIn(Integer id, String year) {
-
-        return null;
+    public List familyCashIn(Integer id) {
+        List cash = new ArrayList();
+        if (id != null) {
+            List members = memberDao.queryByFamily(id);
+            for (Object object : members) {
+                MemberQuery memberQuery = (MemberQuery) object;
+                List list = cashInDao.queryByMember(memberQuery.getId().getMemberId());
+                for (Object aList : list) {
+                    CashInQuery cashInQuery = (CashInQuery) aList;
+                    Cash cash1 = new Cash();
+                    cash1.setId(cashInQuery.getId().getCashinId());
+                    cash1.setTime(cashInQuery.getId().getTime());
+                    cash1.setSubItemId(cashInQuery.getId().getSubitemId());
+                    cash1.setSubItem(cashInQuery.getId().getSubitemName());
+                    cash1.setItemId(cashInQuery.getId().getItemId());
+                    cash1.setItem(cashInQuery.getId().getItemName());
+                    cash1.setMoney(cashInQuery.getId().getMoney());
+                    cash1.setSite(cashInQuery.getId().getSite());
+                    cash1.setAccount(cashInQuery.getId().getAccountName());
+                    cash1.setRemark(cashInQuery.getId().getRemark());
+                    MemberQuery memberQuery1 = memberDao.queryById(cashInQuery.getId().getMemberId());
+                    cash1.setMember(memberQuery1.getId().getName());
+                    cash.add(cash1);
+                }
+            }
+            cash.sort((Comparator<Cash>) (o1, o2) -> Integer.compare(0, o1.getTime().compareTo(o2.getTime())));
+        }
+        return cash;
     }
 
     @Override
-    public List familyCashOut(Integer id, String year) {
-        return null;
+    public List familyCashOut(Integer id) {
+        List cash = new ArrayList();
+        if (id != null) {
+            List members = memberDao.queryByFamily(id);
+            for (Object object : members) {
+                MemberQuery memberQuery = (MemberQuery) object;
+                List list = cashOutDao.queryByMember(memberQuery.getId().getMemberId());
+                for (Object aList : list) {
+                    CashOutQuery cashOutQuery = (CashOutQuery) aList;
+                    Cash cash1 = new Cash();
+                    cash1.setId(cashOutQuery.getId().getCashoutId());
+                    cash1.setTime(cashOutQuery.getId().getTime());
+                    cash1.setSubItemId(cashOutQuery.getId().getSubitemId());
+                    cash1.setSubItem(cashOutQuery.getId().getSubitemName());
+                    cash1.setItemId(cashOutQuery.getId().getItemId());
+                    cash1.setItem(cashOutQuery.getId().getItemName());
+                    cash1.setMoney(cashOutQuery.getId().getMoney());
+                    cash1.setSite(cashOutQuery.getId().getSite());
+                    cash1.setAccount(cashOutQuery.getId().getAccountName());
+                    cash1.setRemark(cashOutQuery.getId().getRemark());
+                    MemberQuery memberQuery1 = memberDao.queryById(cashOutQuery.getId().getMemberId());
+                    cash1.setMember(memberQuery1.getId().getName());
+                    cash.add(cash1);
+                }
+            }
+            cash.sort((Comparator<Cash>) (o1, o2) -> Integer.compare(0, o1.getTime().compareTo(o2.getTime())));
+        }
+        return cash;
     }
 }

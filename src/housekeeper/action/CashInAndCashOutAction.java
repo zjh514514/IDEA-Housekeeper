@@ -292,8 +292,10 @@ public class CashInAndCashOutAction extends ActionSupport {
                 list = cashInAndCashOutService.queryCashOutByAccount(accountId, memberId);
                 break;
             case "fi":
+                list = cashInAndCashOutService.familyCashIn(id);
                 break;
             case "fo":
+                list = cashInAndCashOutService.familyCashOut(id);
                 break;
         }
         results.put("data", list);
