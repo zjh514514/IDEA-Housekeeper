@@ -63,10 +63,4 @@
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
 	</aop:config>
 
-	<aop:config>
-		<aop:pointcut expression="execution(* housekeeper.dao.impl.*.*(..))"
-			id="txPointcutImpl" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcutImpl" />
-	</aop:config>
-
 </beans>
